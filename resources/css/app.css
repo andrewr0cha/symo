@@ -1,3 +1,6 @@
+/*import da fonte vem aqui*/
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.material-icons.md-36 { font-size: 36px; }

@@ -28,4 +28,16 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('/layout', function () {
+    return Inertia::render('LayoutSideBar');
+})->name('layout');
+
+Route::get('/consultas/{id}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
+
+Route::post('/adicionar', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
+
+/*function () {
+    return Inertia::render('Consultas');
+}*/
+
+require __DIR__ . '/auth.php';
