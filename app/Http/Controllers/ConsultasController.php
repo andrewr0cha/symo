@@ -20,16 +20,16 @@ class ConsultasController extends Controller
         if ($saidas == null) $saidas = 0;
 
         $categorias = Categoria::where('id_usuario', null)->orWhere('id_usuario', '=', $id)->get();
-        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'categorias' => $categorias]);
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'categorias' => $categorias, 'id' => $id]);
     }
 
-    public function adicionarEntrada(Request $req)
+    public function adicionarEntrada(Request $req, $id)
     {
         $entrada = new Entrada();
         $entrada->nome = $req->nome;
         $entrada->valor = $req->valor;
         $entrada->descricao = $req->descricao;
-        $entrada->id_usuario = $req->id_usuario;
+        $entrada->id_usuario = $id;
         $entrada->id_categoria = $req->id_categoria;
         $entrada->data = date("Y-m-d");
         dd($entrada);

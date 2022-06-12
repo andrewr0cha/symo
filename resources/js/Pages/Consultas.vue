@@ -62,7 +62,6 @@
         </div>
       </div>
     </div>
-    <form method="post" action="{{route('adicionar.entrada')}}">
       <q-dialog
         v-model="modalEntradas"
         persistent
@@ -77,12 +76,12 @@
           </q-card-section>
           <q-card-section>
             <div class="tw-w-7/12 sm:tw-w-5/12 tw-mx-auto">
-              <input type="hidden" v-model="formEntrada.id_usuario" />
               <input
                 type="text"
                 v-model="formEntrada.nome"
                 placeholder="Título*"
                 class="bordaCompleta tw-p-2 tw-mb-2"
+                @click="mudarStatus"
               />
               <input
                 type="number"
@@ -91,12 +90,14 @@
                 step="0.01"
                 placeholder="Valor*"
                 class="bordaCompleta tw-p-2 tw-mb-2"
+                @click="mudarStatus"
               />
               <input
                 list="categorias"
                 v-model="formEntrada.id_categoria"
                 placeholder="Categoria*"
                 class="bordaCompleta tw-p-2 tw-mb-2"
+                @click="mudarStatus"
               />
               <datalist id="categorias">
                 <option v-for="categoria in categorias" :key="categoria.id">
@@ -108,6 +109,7 @@
                 v-model="formEntrada.descricao"
                 placeholder="Descrição"
                 class="bordaCompleta tw-p-2 tw-mb-2"
+                @click="mudarStatus"
               />
             </div>
           </q-card-section>
@@ -116,13 +118,14 @@
           </button>
         </q-card>
       </q-dialog>
-    </form>
+      <DialogBaixo v-if="formNulo==true" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'"></DialogBaixo>
   </BreezeAuthenticatedLayout>
 </template>
 
 <script setup>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import Head from "@inertiajs/inertia-vue3";
+import DialogBaixo from "@/Components/DialogBaixo.vue";
 import { ref } from "vue";
 const modalEntradas = ref(false);
 defineExpose({ modalEntradas });
@@ -135,6 +138,7 @@ export default {
     entradas: Object,
     saidas: Object,
     categorias: Object,
+    id: Object,
   },
 
   methods: {
@@ -148,19 +152,28 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
 
+    mudarStatus(){
+      this.formNulo=null;
+    },
+
     lancarEntrada() {
-      this.formEntrada.post(route("adicionar.entrada"));
+      if(this.formEntrada.nome==""||this.formEntrada.valor==""||this.formEntrada.id_categoria==""){
+        this.formNulo=true;
+      }
+      else{
+        }
+        //this.formEntrada.post(route("adicionar.entrada", {id:this.id}));
     },
   },
   data() {
     return {
       formEntrada: this.$inertia.form({
-        id_usuario: null,
-        nome: null,
-        id_categoria: null,
-        valor: null,
-        descricao: null,
+        nome: "",
+        id_categoria: "",
+        valor: "",
+        descricao: "",
       }),
+      formNulo: Boolean,
     };
   },
 };
