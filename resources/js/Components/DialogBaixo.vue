@@ -1,11 +1,12 @@
 <template>
 <q-dialog v-model="dialog" :position="position">
       <q-card style="width: 350px">
-        <q-card-section class="row items-center no-wrap">
-          <div>
+        <q-card-section class="row items-center no-wrap flex inline-flex">
+          <div class="width-3/12 q-mr-sm">
             <q-icon v-if="icon" class="material-icons" size="md">{{ icon }}</q-icon>
-            <span v-if="value" class="q-ml-sm">{{ value }}</span>
           </div>
+          <div class="width-9/12">
+          <span v-if="value">{{ value }}</span></div>
         </q-card-section>
       </q-card>
     </q-dialog>
