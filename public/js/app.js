@@ -23886,6 +23886,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_q_card_section = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("q-card-section");
 
+  var _component_q_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("q-input");
+
   var _component_q_dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("q-dialog");
 
   var _directive_close_popup = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("close-popup");
@@ -23944,7 +23946,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* KEYED_FRAGMENT */
       )), _hoisted_23])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_q_dialog, {
         modelValue: $setup.modalEntradas,
-        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
           return $setup.modalEntradas = $event;
         }),
         persistent: "",
@@ -23972,40 +23974,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_q_card_section, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-                    type: "text",
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_q_input, {
+                    rounded: "",
+                    outlined: "",
+                    modelValue: $data.formEntrada.nome,
                     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                      return $data.formEntrada.nome = $event;
+                    }),
+                    label: "Título*"
+                  }, null, 8
+                  /* PROPS */
+                  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "text",
+                    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
                       return $data.formEntrada.nome = $event;
                     }),
                     placeholder: "Título*",
                     "class": "bordaCompleta tw-p-2 tw-mb-2",
-                    onClick: _cache[2] || (_cache[2] = function () {
+                    onClick: _cache[3] || (_cache[3] = function () {
                       return $options.mudarStatus && $options.mudarStatus.apply($options, arguments);
                     })
                   }, null, 512
                   /* NEED_PATCH */
                   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.formEntrada.nome]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                     type: "number",
-                    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                       return $data.formEntrada.valor = $event;
                     }),
                     min: "0.01",
                     step: "0.01",
                     placeholder: "Valor*",
                     "class": "bordaCompleta tw-p-2 tw-mb-2",
-                    onClick: _cache[4] || (_cache[4] = function () {
+                    onClick: _cache[5] || (_cache[5] = function () {
                       return $options.mudarStatus && $options.mudarStatus.apply($options, arguments);
                     })
                   }, null, 512
                   /* NEED_PATCH */
                   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.formEntrada.valor]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                     list: "categorias",
-                    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
                       return $data.formEntrada.id_categoria = $event;
                     }),
                     placeholder: "Categoria*",
                     "class": "bordaCompleta tw-p-2 tw-mb-2",
-                    onClick: _cache[6] || (_cache[6] = function () {
+                    onClick: _cache[7] || (_cache[7] = function () {
                       return $options.mudarStatus && $options.mudarStatus.apply($options, arguments);
                     })
                   }, null, 512
@@ -24020,12 +24032,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   /* KEYED_FRAGMENT */
                   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                     type: "text",
-                    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+                    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
                       return $data.formEntrada.descricao = $event;
                     }),
                     placeholder: "Descrição",
                     "class": "bordaCompleta tw-p-2 tw-mb-2",
-                    onClick: _cache[8] || (_cache[8] = function () {
+                    onClick: _cache[9] || (_cache[9] = function () {
                       return $options.mudarStatus && $options.mudarStatus.apply($options, arguments);
                     })
                   }, null, 512
@@ -24037,7 +24049,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
                 type: "button",
-                onClick: _cache[9] || (_cache[9] = function () {
+                onClick: _cache[10] || (_cache[10] = function () {
                   return $options.lancarEntrada && $options.lancarEntrada.apply($options, arguments);
                 })
               }, _hoisted_28)];

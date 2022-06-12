@@ -76,6 +76,7 @@
           </q-card-section>
           <q-card-section>
             <div class="tw-w-7/12 sm:tw-w-5/12 tw-mx-auto">
+              <q-input rounded outlined v-model="formEntrada.nome" label="Título*" />
               <input
                 type="text"
                 v-model="formEntrada.nome"
