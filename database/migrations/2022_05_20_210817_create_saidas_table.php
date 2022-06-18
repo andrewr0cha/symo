@@ -16,7 +16,7 @@ class CreateSaidasTable extends Migration
         Schema::create('saidas', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 100);
-            $table->text('descricao');
+            $table->text('descricao')->nullable();
             $table->double('valor', 9, 2)->default(0.00);
             $table->bigInteger('id_usuario')->unsigned();;
             $table->foreign('id_usuario')->references('id')->on('users');

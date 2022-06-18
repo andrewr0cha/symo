@@ -333,7 +333,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
-  --tw-ring-color: none;
+  --tw-ring-color: #2563eb;
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -446,7 +446,7 @@ select {
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-}rgb(152, 29, 29)
+}
 [type='checkbox']:indeterminate:hover,[type='checkbox']:indeterminate:focus {
   border-color: transparent;
   background-color: currentColor;
@@ -614,11 +614,14 @@ select {
 .tw-h-6 {
   height: 1.5rem;
 }
-.tw-h-screen {
-  height: 100vh;
+.tw-h-96 {
+  height: 24rem;
 }
 .tw-h-full {
   height: 100%;
+}
+.tw-h-screen {
+  height: 100vh;
 }
 .tw-h-32 {
   height: 8rem;
@@ -659,8 +662,8 @@ select {
 .tw-w-2\/6 {
   width: 33.333333%;
 }
-.tw-w-7\/12 {
-  width: 58.333333%;
+.tw-w-9\/12 {
+  width: 75%;
 }
 .tw-w-2\/5 {
   width: 40%;
@@ -873,11 +876,11 @@ select {
 .tw-pl-2 {
   padding-left: 0.5rem;
 }
-.tw-pl-4 {
-  padding-left: 1rem;
-}
 .tw-pl-5 {
   padding-left: 1.25rem;
+}
+.tw-pl-4 {
+  padding-left: 1rem;
 }
 .tw-text-left {
   text-align: left;
@@ -1028,6 +1031,35 @@ select {
 .material-icons.md-24 {
     font-size: 24px;
 }
+[type='text']:focus,
+[type='email']:focus,
+[type='url']:focus,
+[type='password']:focus,
+[type='number']:focus,
+[type='date']:focus,
+[type='datetime-local']:focus,
+[type='month']:focus,
+[type='search']:focus,
+[type='tel']:focus,
+[type='time']:focus,
+[type='week']:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --tw-ring-inset: var(--tw-empty,
+            /*!*/
+            /*!*/
+        );
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: none !important;
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    border-color: #1ed760;
+}
 .hover\:tw-border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -1162,8 +1194,8 @@ select {
   .sm\:tw-w-1\/2 {
     width: 50%;
   }
-  .sm\:tw-w-5\/12 {
-    width: 41.666667%;
+  .sm\:tw-w-9\/12 {
+    width: 75%;
   }
   .sm\:tw-w-full {
     width: 100%;

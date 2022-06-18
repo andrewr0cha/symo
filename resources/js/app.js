@@ -21,7 +21,7 @@ createInertiaApp({
                 },
                 config: {
                     brand: {
-
+                        primary: '#1ed760',
                     },
                 },
             })

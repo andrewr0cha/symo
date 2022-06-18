@@ -34,7 +34,9 @@ Route::get('/layout', function () {
 
 Route::get('/consultas/{id}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
 
-Route::post('/adicionar/{id}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
+Route::post('/adicionar/entrada/{id}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
+
+Route::post('/adicionar/saida/{id}', 'App\Http\Controllers\ConsultasController@adicionarSaida')->name('adicionar.saida');
 
 /*function () {
     return Inertia::render('Consultas');
