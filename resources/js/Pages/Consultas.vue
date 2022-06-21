@@ -117,6 +117,7 @@
       persistent
       transition-show="scale"
       transition-hide="scale"
+      rounded
     >
       <q-card style="width: 500px; max-width: 60vw">
         <q-card-section class="row items-center q-pb-none">
@@ -128,7 +129,7 @@
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
             <div class="q-gutter-y-md">
               <q-input
-                rounded
+                
                 outlined
                 v-model="form.nome"
                 label="Título*"
@@ -150,20 +151,22 @@
                 v-model="form.id_categoria"
                 :options="categoriasEntrada"
                 label="Categoria*"
+                @click="mudarStatus"
               />
               <q-input
                 rounded
                 outlined
                 v-model="form.descricao"
-                label="Descrição*"
+                label="Descrição"
                 @click="mudarStatus"
               />
             </div>
           </div>
         </q-card-section>
-        <button type="button" @click="lancarEntrada">
-          <span class="material-icons md-36">task_alt</span>
-        </button>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <button type="button" @click="lancarEntrada">
+          <span class="material-icons md-36 ">task_alt</span>
+        </button></div>
       </q-card>
     </q-dialog>
     <q-dialog
