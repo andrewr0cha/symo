@@ -14,7 +14,7 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function ($table) {
-            $table->double('saldo', 9, 2)->default(0.00);
+            $table->float('saldo')->default(0.00);
             $table->string('usuario')->unique();
         });
     }

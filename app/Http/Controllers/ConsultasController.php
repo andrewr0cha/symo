@@ -40,6 +40,10 @@ class ConsultasController extends Controller
         $entrada->id_categoria = $categoria->id;
         $entrada->data = date("Y-m-d H:i:s");
         $entrada->save();
+        $user=User::where('id',$id)->first();
+        $user->saldo=$user->saldo+$entrada->valor;
+        $user->save();
+        
         return redirect()->route('consultas', $id);
     }
 
@@ -50,16 +54,44 @@ class ConsultasController extends Controller
             'valor' => 'required',
             'id_categoria' => 'required',
         ]);
-        $entrada = new Saida();
-        $entrada->nome = $req->nome;
-        $entrada->valor = $req->valor;
-        $entrada->descricao = $req->descricao;
-        $entrada->id_usuario = $id;
+        $saida = new Saida();
+        $saida->nome = $req->nome;
+        $saida->valor = $req->valor;
+        $saida->descricao = $req->descricao;
+        $saida->id_usuario = $id;
         $categoria=Categoria::where('nome', 'like', $req->id_categoria)->where('id_usuario','=',$id)->orWhere('id_usuario',null)->first();
-        $entrada->id_categoria = $categoria->id;
-        $entrada->data = date("Y-m-d H:i:s");
-        $entrada->save();
+        $saida->id_categoria = $categoria->id;
+        $saida->data = date("Y-m-d H:i:s");
+        $saida->save();
+        $user=User::where('id',$id)->first();
+        $user->saldo=$user->saldo-$saida->valor;
+        $user->save();
         return redirect()->route('consultas', $id);
+    }
+
+    public function excluirSaida(Request $req){
+        $id_usuario = auth()->user()->id;
+        $user=User::where('id',$id_usuario)->first();
+        foreach($req->listaExclusao as $id){
+            $saida=Saida::where('id', $id)->first(); //sempre finalizar com first, get ou paginate porque senão nçao traz
+            $user->saldo=$user->saldo+$saida->valor;
+            $user->save();
+            $saida->delete();
+        }
+        return redirect()->route('consultas', $id_usuario);
+    }
+
+    public function excluirEntrada(Request $req){
+        
+        $id_usuario = auth()->user()->id;
+        $user=User::where('id',$id_usuario)->first();
+        foreach($req->listaExclusao as $id){
+            $entrada=Entrada::where('id', $id)->first(); //sempre finalizar com first, get ou paginate porque senão nçao traz
+            $user->saldo=$user->saldo-$entrada->valor;
+            $user->save();
+            $entrada->delete();
+        }
+        return redirect()->route('consultas', $id_usuario);
     }
 }
 

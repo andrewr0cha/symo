@@ -614,6 +614,9 @@ select {
 .tw-h-6 {
   height: 1.5rem;
 }
+.tw-h-10 {
+  height: 2.5rem;
+}
 .tw-h-96 {
   height: 24rem;
 }
@@ -625,6 +628,11 @@ select {
 }
 .tw-h-32 {
   height: 8rem;
+}
+.tw-h-max {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
 }
 .tw-max-h-40 {
   max-height: 10rem;
@@ -968,6 +976,10 @@ select {
 .tw-text-green-500 {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
+}
+.tw-text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 .tw-text-green-600 {
   --tw-text-opacity: 1;

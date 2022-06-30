@@ -38,6 +38,10 @@ Route::post('/adicionar/entrada/{id}', 'App\Http\Controllers\ConsultasController
 
 Route::post('/adicionar/saida/{id}', 'App\Http\Controllers\ConsultasController@adicionarSaida')->name('adicionar.saida');
 
+Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->name('excluir.saida');
+
+Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@excluirEntrada')->name('excluir.entrada');
+
 /*function () {
     return Inertia::render('Consultas');
 }*/

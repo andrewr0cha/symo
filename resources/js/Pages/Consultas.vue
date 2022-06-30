@@ -1,11 +1,39 @@
 <template>
   <Head title="Consultas" />
   <BreezeAuthenticatedLayout>
-    <div class="tw-w-11/12 tw-mx-auto tw-bg-red-300 tw-flex tw-mt-4">
-      <div class="tw-w-1/2 sm:tw-w-1/3 tw-bg-gray-900">teste 2</div>
+    <div class="tw-w-11/12 tw-mx-auto tw-flex tw-mt-4">
+      <div
+        class="
+          tw-w-1/2
+          sm:tw-w-1/3
+          tw-bg-black
+          tw-h-max
+          tw-flex
+          tw-flex-col
+          tw-items-center
+          tw-justify-center
+        "
+      >
+        <div
+          class="
+            tw-mt-4 tw-flex tw-inline-flex tw-items-center tw-justify-center
+          "
+        >
+          <span class="tw-text-white">Seu saldo</span>
+          <img src="/images/bolsa.png" class="imagem" />
+        </div>
+        <br />
+        <div class="tw-mb-4">
+          <span class="tw-text-white"
+            >R$ {{ valorFormatado($page.props.auth.user.saldo) }}</span
+          >
+        </div>
+      </div>
+
       <div class="tw-w-1/2 sm:tw-w-2/3 tw-bg-purple-900">teste 3</div>
     </div>
     <div class="tw-w-11/12 tw-mx-auto sm:tw-flex tw-mt-4 tw-text-center">
+      <!--Entradas-->
       <div class="tw-w-11/12 tw-mx-auto sm:tw-w-1/2 sm:tw-pr-4">
         <div class="borda tw-bg-black tw-w-full tw-text-white">Entradas</div>
         <q-scroll-area style="height: 400px">
@@ -16,6 +44,9 @@
               class="tw-mb-2 entrada"
             >
               <q-card class="flex inline-flex">
+                <div v-if="apagarEntrada">
+                  <input type="checkbox" @click="adicionaItem(item.id)" />
+                </div>
                 <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
                   {{ item.nome }}
                 </div>
@@ -54,19 +85,38 @@
           </div>
         </q-scroll-area>
         <div class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
-          <div @click="modalEntradas = true">
-            <span class="material-icons md-36"> add_circle_outline </span>
+          <div
+            v-if="!apagarEntrada"
+            class="tw-text-left tw-mt-2 tw-flex tw-inline-flex"
+          >
+            <span class="material-icons md-36" @click="modalEntradas = true">
+              add_circle_outline
+            </span>
+            <span class="material-icons md-36" @click="apagarentrada">
+              remove_circle_outline
+            </span>
           </div>
-          <span class="material-icons md-36"> remove_circle_outline </span>
+          <div v-else>
+            <button
+              class=""
+              @click="(apagarEntrada = false), (listaExclusao = [])"
+            >
+              Cancelar
+            </button>
+            <button class="" @click="excluirEntrada">Confirmar</button>
+          </div>
         </div>
       </div>
-
+      <!--Saidas-->
       <div class="tw-w-11/12 tw-mx-auto sm:tw-w-1/2 sm:tw-pl-4">
         <div class="borda tw-bg-black tw-w-full tw-text-white">Saídas</div>
         <q-scroll-area style="height: 400px">
           <div v-if="saidas != 0" class="tw-w-full">
             <div v-for="item in saidas" :key="item.id" class="tw-mb-2 entrada">
               <q-card class="flex inline-flex">
+                <div v-if="apagarSaida">
+                  <input type="checkbox" @click="adicionaItem(item.id)" />
+                </div>
                 <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
                   {{ item.nome }}
                 </div>
@@ -86,8 +136,8 @@
                     {{ item.descricao }}
                   </div>
                   <div class="tw-w-2/6">
-                    <div class="tw-text-green-500">
-                      +R$ {{ valorFormatado(item.valor) }}
+                    <div class="tw-text-red-500">
+                      -R$ {{ valorFormatado(item.valor) }}
                     </div>
                     {{ dataFormatada(item.data) }}
                   </div>
@@ -104,14 +154,26 @@
             >
           </div>
         </q-scroll-area>
-        <div class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
+        <div
+          v-if="!apagarSaida"
+          class="tw-text-left tw-mt-2 tw-flex tw-inline-flex"
+        >
           <span class="material-icons md-36" @click="modalSaidas = true">
             add_circle_outline
           </span>
-          <span class="material-icons md-36"> remove_circle_outline </span>
+          <span class="material-icons md-36" @click="apagarsaida">
+            remove_circle_outline
+          </span>
+        </div>
+        <div v-else>
+          <button class="" @click="(apagarSaida = false), (listaExclusao = [])">
+            Cancelar
+          </button>
+          <button class="" @click="excluirSaida">Confirmar</button>
         </div>
       </div>
     </div>
+    <!--modal entradas-->
     <q-dialog
       v-model="modalEntradas"
       persistent
@@ -166,6 +228,7 @@
         </button>
       </q-card>
     </q-dialog>
+    <!--modal saídas-->
     <q-dialog
       v-model="modalSaidas"
       persistent
@@ -220,6 +283,7 @@
         </button>
       </q-card>
     </q-dialog>
+    <!--form nulo-->
     <DialogBaixo
       v-if="formNulo == true"
       :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
@@ -300,6 +364,35 @@ export default {
         });
       }
     },
+
+    apagarsaida() {
+      this.apagarSaida = true;
+    },
+
+    apagarentrada() {
+      this.apagarEntrada = true;
+    },
+
+    adicionaItem(id) {
+      if (this.listaExclusao.includes(id)) {
+        var pos = this.listaExclusao.indexOf(id);
+        this.listaExclusao.splice(pos, 1);
+      } else this.listaExclusao.push(id);
+    },
+
+    excluirSaida() {
+      this.$inertia.visit(route("excluir.saida"), {
+        method: "post",
+        data: { listaExclusao: this.listaExclusao },
+      });
+    },
+
+    excluirEntrada() {
+      this.$inertia.visit(route("excluir.entrada"), {
+        method: "post",
+        data: { listaExclusao: this.listaExclusao },
+      });
+    },
   },
   data() {
     return {
@@ -310,6 +403,9 @@ export default {
         descricao: "",
       }),
       formNulo: false,
+      listaExclusao: [],
+      apagarSaida: false,
+      apagarEntrada: false,
     };
   },
 };
@@ -320,6 +416,12 @@ export default {
   border: 2px solid black;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+}
+
+.imagem {
+  display: inline-block;
+  margin-right: 5px;
+  width: 30px;
 }
 
 .entrada :hover {
