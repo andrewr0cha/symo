@@ -2,12 +2,12 @@
   <Head title="Consultas" />
   <BreezeAuthenticatedLayout>
     <div class="tw-w-11/12 tw-mx-auto tw-flex tw-mt-4">
+      <!--saldo-->
       <div
         class="
-          tw-w-1/2
-          sm:tw-w-1/3
+          tw-w-1/3
           tw-bg-black
-          tw-h-max
+          tw-h-28
           tw-flex
           tw-flex-col
           tw-items-center
@@ -29,14 +29,50 @@
           >
         </div>
       </div>
-
-      <div class="tw-w-1/2 sm:tw-w-2/3 tw-bg-purple-900">teste 3</div>
+      <!--porcentagens por categoria-->
+      <div class="tw-h-28 tw-w-2/3 tw-bg-purple-900">
+        <div class="tw-w-full tw-h-28 tw-flex tw-inline-flex">
+          <div
+            class="
+              tw-w-28
+              sm:tw-w-32
+              tw-ml-2 tw-flex tw-items-center tw-justify-center
+            "
+          >
+            <div
+              class="
+                round
+                tw-w-20 tw-h-20
+                sm:tw-w-24 sm:tw-h-24
+                tw-flex tw-items-center tw-justify-center tw-text-center
+              "
+            >
+              Meus Custos
+            </div>
+          </div>
+          <div class="tw-flex tw-inline-flex tw-overflow-x-auto">
+            <div class="tw-w-60 tw-mr-2 tw-ml-2">
+              {{ porcentagem(porcentagens[0]) }}
+            </div>
+            <div class="tw-w-60 tw-mr-2">
+              {{ porcentagem(porcentagens[1]) }}
+            </div>
+            <div class="tw-w-60 tw-mr-2">
+              {{ porcentagem(porcentagens[2]) }}
+            </div>
+            <div class="tw-w-60 tw-mr-2">
+              {{ porcentagem(porcentagens[3]) }}
+            </div>
+            <div class="tw-w-60">{{ porcentagem(porcentagens[4]) }}</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="tw-w-11/12 tw-mx-auto sm:tw-flex tw-mt-4 tw-text-center">
       <!--Entradas-->
       <div class="tw-w-11/12 tw-mx-auto sm:tw-w-1/2 sm:tw-pr-4">
         <div class="borda tw-bg-black tw-w-full tw-text-white">Entradas</div>
-        <q-scroll-area style="height: 400px">
+        <q-scroll-area style="height: 350px">
           <div v-if="entradas != 0" class="tw-w-full">
             <div
               v-for="item in entradas"
@@ -110,7 +146,7 @@
       <!--Saidas-->
       <div class="tw-w-11/12 tw-mx-auto sm:tw-w-1/2 sm:tw-pl-4">
         <div class="borda tw-bg-black tw-w-full tw-text-white">Saídas</div>
-        <q-scroll-area style="height: 400px">
+        <q-scroll-area style="height: 350px">
           <div v-if="saidas != 0" class="tw-w-full">
             <div v-for="item in saidas" :key="item.id" class="tw-mb-2 entrada">
               <q-card class="flex inline-flex">
@@ -185,13 +221,19 @@
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Lançamento de Entrada</div>
           <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
+          <q-btn
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+            @click="form.reset()"
+          />
         </q-card-section>
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
             <div class="q-gutter-y-md">
               <q-input
-                
                 outlined
                 v-model="form.nome"
                 label="Título*"
@@ -207,14 +249,6 @@
                 step="0.01"
                 @click="mudarStatus"
               />
-              <q-select
-                rounded
-                outlined
-                v-model="form.id_categoria"
-                :options="categoriasEntrada"
-                label="Categoria*"
-                @click="mudarStatus"
-              />
               <q-input
                 rounded
                 outlined
@@ -227,8 +261,9 @@
         </q-card-section>
         <div class="tw-w-full tw-text-center tw-mb-2">
           <button type="button" @click="lancarEntrada">
-          <span class="material-icons md-36 ">task_alt</span>
-        </button></div>
+            <span class="material-icons md-36">task_alt</span>
+          </button>
+        </div>
       </q-card>
     </q-dialog>
     <!--modal saídas-->
@@ -242,7 +277,14 @@
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Lançamento de Saída</div>
           <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
+          <q-btn
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+            @click="form.reset()"
+          />
         </q-card-section>
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
@@ -275,7 +317,7 @@
                 rounded
                 outlined
                 v-model="form.descricao"
-                label="Descrição*"
+                label="Descrição"
                 @click="mudarStatus"
               />
             </div>
@@ -311,7 +353,7 @@ export default {
   props: {
     entradas: Object,
     saidas: Object,
-    categoriasEntrada: Object,
+    porcentagens: Object,
     categoriasSaida: Object,
     id: Object,
   },
@@ -326,16 +368,17 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
 
+    porcentagem(value) {
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString() + "%";
+    },
+
     mudarStatus() {
       this.formNulo = false;
     },
 
     lancarEntrada() {
-      if (
-        this.form.nome == "" ||
-        this.form.valor == "" ||
-        this.form.id_categoria == ""
-      ) {
+      if (this.form.nome == "" || this.form.valor == "") {
         this.formNulo = true;
       } else {
         this.form.post(route("adicionar.entrada", { id: this.id }), {
@@ -419,6 +462,12 @@ export default {
   border: 2px solid black;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+}
+
+.round {
+  border-radius: 100%;
+  color: white;
+  background: black;
 }
 
 .imagem {

@@ -18,8 +18,6 @@ class CreateCategoriasTable extends Migration
             $table->string('nome', 100);
             $table->bigInteger('id_tipo')->unsigned();
             $table->foreign('id_tipo')->references('id')->on('tipos_categorias');
-            $table->bigInteger('id_usuario')->nullable()->unsigned();
-            $table->foreign('id_usuario')->references('id')->on('users');
             $table->timestamps();
         });
     }

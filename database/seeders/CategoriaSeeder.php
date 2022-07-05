@@ -16,15 +16,34 @@ class CategoriaSeeder extends Seeder
     {
         DB::table('categorias')->insert([
             'id' => 1,
-            'nome' => 'entrada',
+            'nome' => 'Essencial',
             'id_tipo' => 1,
-            'id_usuario' => null,
         ]);
         DB::table('categorias')->insert([
             'id' => 2,
-            'nome' => 'saida',
-            'id_tipo' => 2,
-            'id_usuario' => null,
+            'nome' => 'Objetivos',
+            'id_tipo' => 1,
         ]);
+        DB::table('categorias')->insert([
+            'id' => 3,
+            'nome' => 'Aposentadoria',
+            'id_tipo' => 1,
+        ]);
+        DB::table('categorias')->insert([
+            'id' => 4,
+            'nome' => 'Educação',
+            'id_tipo' => 1,
+        ]);
+        DB::table('categorias')->insert([
+            'id' => 5,
+            'nome' => 'A gosto',
+            'id_tipo' => 1,
+        ]);
+        DB::table('categorias')->insert([
+            'id' => 6,
+            'nome' => 'entrada',
+            'id_tipo' => 2,
+        ]);
+        
     }
 }

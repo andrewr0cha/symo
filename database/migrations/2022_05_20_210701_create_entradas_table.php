@@ -20,8 +20,6 @@ class CreateEntradasTable extends Migration
             $table->double('valor', 9, 2)->default(0.00);
             $table->bigInteger('id_usuario')->unsigned();;
             $table->foreign('id_usuario')->references('id')->on('users');
-            $table->bigInteger('id_categoria')->unsigned();;
-            $table->foreign('id_categoria')->references('id')->on('categorias');
             $table->datetime('data');
             $table->timestamps();
         });

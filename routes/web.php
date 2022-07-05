@@ -42,6 +42,8 @@ Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirS
 
 Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@excluirEntrada')->name('excluir.entrada');
 
+Route::get('/dia', 'App\Http\Controllers\ConsultasController@somarCategorias');
+
 /*function () {
     return Inertia::render('Consultas');
 }*/

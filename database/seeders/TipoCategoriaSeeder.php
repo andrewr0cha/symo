@@ -15,11 +15,11 @@ class TipoCategoriaSeeder extends Seeder
     public function run()
     {
         DB::table('tipos_categorias')->insert([
-            'id' => 1,
+            'id' => 2,
             'nome_tipo' => 'entrada',
         ]);
         DB::table('tipos_categorias')->insert(
-        ['id' => 2,
+        ['id' => 1,
         'nome_tipo' => 'saida',
         ]);
     }
