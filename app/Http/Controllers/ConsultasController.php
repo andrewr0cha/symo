@@ -23,7 +23,8 @@ class ConsultasController extends Controller
         $categoriasSaida = Categoria::where('id_tipo',1)->get()->pluck('nome');
         $categoriasSaida=$categoriasSaida->toArray();
         $porcentagens=$this->somarCategorias();
-        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens,'categoriasSaida' => $categoriasSaida, 'id' => $id]);
+        $porcentagensGerais=$this->somarCategoriasGerais();
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida, 'id' => $id]);
     }
 
     public function adicionarEntrada(Request $req, $id)
@@ -95,7 +96,29 @@ class ConsultasController extends Controller
     private function somarCategorias(){
         $ano=date("Y");
         $mes=date("m");
-        $data = Carbon::parse($ano."-".$mes."-01");
+        $data = Carbon::now();
+        $primeiro=$data->startOfMonth()->format('Y-m-d');
+        $ultimo=$data->endOfMonth()->format('Y-m-d');
+        $total=Entrada::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario',auth()->user()->id)->sum('valor');
+        if($total==0) $total=1;
+        $essencial=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',1)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $objetivos=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',2)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $aposentadoria=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',3)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $educacao=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',4)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $gosto=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',5)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $porcentagens=
+            [($essencial/$total)*100,
+            ($objetivos/$total)*100,
+            ($aposentadoria/$total)*100,
+            ($educacao/$total)*100,
+            ($gosto/$total)*100];
+        return $porcentagens;
+    }
+    
+    private function somarCategoriasGerais(){
+        $ano=date("Y");
+        $mes=date("m");
+        $data = Carbon::now();
         $primeiro=$data->startOfMonth()->format('Y-m-d');
         $ultimo=$data->endOfMonth()->format('Y-m-d');
         $total=Entrada::whereBetween('created_at', [$primeiro, $ultimo])->sum('valor');
@@ -112,7 +135,7 @@ class ConsultasController extends Controller
             ($educacao/$total)*100,
             ($gosto/$total)*100];
         return $porcentagens;
-    }
+    }   
 }
 
 

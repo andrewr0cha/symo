@@ -32,6 +32,7 @@
       <!--porcentagens por categoria-->
       <div class="tw-h-28 tw-w-2/3 tw-bg-purple-900">
         <div class="tw-w-full tw-h-28 tw-flex tw-inline-flex">
+          <!--custos-->
           <div
             class="
               tw-w-28
@@ -50,20 +51,73 @@
               Meus Custos
             </div>
           </div>
-          <div class="tw-flex tw-inline-flex tw-overflow-x-auto">
-            <div class="tw-w-60 tw-mr-2 tw-ml-2">
+          <!--categorias-->
+          <div class="tw-flex tw-inline-flex tw-overflow-x-auto scrollbar">
+            <div
+              class="
+                tw-w-60
+                tw-mr-2
+                tw-ml-2
+                tw-flex
+                tw-flex-col
+                tw-items-center
+                tw-justify-center
+                hover:tw-cursor-pointer
+              "
+              @click="modalEssencial = true"
+            >
+              <img src="/images/bolsa.png" class="imagem" />
               {{ porcentagem(porcentagens[0]) }}
             </div>
-            <div class="tw-w-60 tw-mr-2">
+            <div
+              class="
+                tw-w-60
+                tw-mr-2
+                tw-flex
+                tw-flex-col
+                tw-items-center
+                tw-justify-center
+                hover:tw-cursor-pointer
+              "
+            >
+              <img src="/images/bolsa.png" class="imagem" />
               {{ porcentagem(porcentagens[1]) }}
             </div>
-            <div class="tw-w-60 tw-mr-2">
+            <div
+              class="
+                tw-w-60
+                tw-mr-2
+                tw-flex
+                tw-flex-col
+                tw-items-center
+                tw-justify-center
+              "
+            >
+              <img src="/images/bolsa.png" class="imagem" />
               {{ porcentagem(porcentagens[2]) }}
             </div>
-            <div class="tw-w-60 tw-mr-2">
+            <div
+              class="
+                tw-w-60
+                tw-mr-2
+                tw-flex
+                tw-flex-col
+                tw-items-center
+                tw-justify-center
+              "
+            >
+              <img src="/images/bolsa.png" class="imagem" />
               {{ porcentagem(porcentagens[3]) }}
             </div>
-            <div class="tw-w-60">{{ porcentagem(porcentagens[4]) }}</div>
+            <div
+              class="
+                tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
+              "
+            >
+              <img src="/images/bolsa.png" class="imagem" />{{
+                porcentagem(porcentagens[4])
+              }}
+            </div>
           </div>
         </div>
       </div>
@@ -125,10 +179,16 @@
             v-if="!apagarEntrada"
             class="tw-text-left tw-mt-2 tw-flex tw-inline-flex"
           >
-            <span class="material-icons md-36" @click="modalEntradas = true">
+            <span
+              class="material-icons md-36 hover:tw-cursor-pointer"
+              @click="modalEntradas = true"
+            >
               add_circle_outline
             </span>
-            <span class="material-icons md-36" @click="apagarentrada">
+            <span
+              class="material-icons md-36 hover:tw-cursor-pointer"
+              @click="apagarentrada"
+            >
               remove_circle_outline
             </span>
           </div>
@@ -334,6 +394,20 @@
       :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
       :icon="'error'"
     ></DialogBaixo>
+    <!--modal essencial-->
+    <q-dialog v-model="modalEssencial" position="right" rounded>
+      <q-card style="width: 500px; max-width: 60vh">
+        <q-card-section class="row items-center q-pb-none">
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+            <span>{{ porcentagens[0] }} - {{ porcentagensGerais[0] }}</span>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </BreezeAuthenticatedLayout>
 </template>
 
@@ -344,7 +418,8 @@ import DialogBaixo from "@/Components/DialogBaixo.vue";
 import { ref } from "vue";
 const modalEntradas = ref(false);
 const modalSaidas = ref(false);
-defineExpose({ modalEntradas, modalSaidas });
+const modalEssencial = ref(false);
+defineExpose({ modalEntradas, modalSaidas, modalEssencial });
 </script>
 
 <script>
@@ -354,6 +429,7 @@ export default {
     entradas: Object,
     saidas: Object,
     porcentagens: Object,
+    porcentagensGerais: Object,
     categoriasSaida: Object,
     id: Object,
   },
@@ -468,6 +544,26 @@ export default {
   border-radius: 100%;
   color: white;
   background: black;
+}
+
+.scrollbar::-webkit-scrollbar {
+  height: 20px;
+  width: 20px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: red;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: green;
+  border-radius: 100vh;
+  border: 3px solid yellow;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: blue;
 }
 
 .imagem {
