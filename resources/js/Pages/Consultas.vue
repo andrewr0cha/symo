@@ -410,7 +410,7 @@
       :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
       :icon="'error'"
     ></DialogBaixo>
-    <!--modal categorias-->
+    <!--modal categorias--> 
     <q-dialog v-model="modalCategorias" position="right" rounded>
       <q-card style="width: 500px; max-width: 60vh">
         <q-card-section class="row items-center q-pb-none">
