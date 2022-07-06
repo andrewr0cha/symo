@@ -442,7 +442,7 @@
           <Pie :chart-data="chartData" />
         </q-card-section>
       </q-card>
-    </q-dialog>
+    </q-dialog> 
   </BreezeAuthenticatedLayout>
 </template>
 
