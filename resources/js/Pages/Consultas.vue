@@ -38,7 +38,9 @@
               tw-w-28
               sm:tw-w-32
               tw-ml-2 tw-flex tw-items-center tw-justify-center
+              hover:tw-cursor-pointer
             "
+            @click="atualizarDataSetor(porcentagens[0],porcentagens[1],porcentagens[2],porcentagens[3],porcentagens[4],)"
           >
             <div
               class="
@@ -62,11 +64,12 @@
                 tw-flex-col
                 tw-items-center
                 tw-justify-center
-                hover:tw-cursor-pointer
+                hover:tw-cursor-pointer tw-text-center
               "
-              @click="modalEssencial = true"
+              @click="atualizarDataBarra(porcentagens[0],porcentagensGerais[0],'Essencial')"
             >
               <img src="/images/bolsa.png" class="imagem" />
+              Essencial<br>
               {{ porcentagem(porcentagens[0]) }}
             </div>
             <div
@@ -77,10 +80,12 @@
                 tw-flex-col
                 tw-items-center
                 tw-justify-center
-                hover:tw-cursor-pointer
+                hover:tw-cursor-pointer tw-text-center
               "
+              @click="atualizarDataBarra(porcentagens[1],porcentagensGerais[1],'Objetivos')"
             >
               <img src="/images/bolsa.png" class="imagem" />
+              Objetivos<br>
               {{ porcentagem(porcentagens[1]) }}
             </div>
             <div
@@ -91,9 +96,13 @@
                 tw-flex-col
                 tw-items-center
                 tw-justify-center
+                hover:tw-cursor-pointer tw-text-center
               "
+              @click="atualizarDataBarra(porcentagens[2],porcentagensGerais[2],'Aposentadoria')"
+              
             >
               <img src="/images/bolsa.png" class="imagem" />
+              Aposentadoria<br>
               {{ porcentagem(porcentagens[2]) }}
             </div>
             <div
@@ -104,19 +113,26 @@
                 tw-flex-col
                 tw-items-center
                 tw-justify-center
+                hover:tw-cursor-pointer tw-text-center
               "
+              @click="atualizarDataBarra(porcentagens[3],porcentagensGerais[3],'Educação')"
+              
             >
               <img src="/images/bolsa.png" class="imagem" />
+              Educação<br>
               {{ porcentagem(porcentagens[3]) }}
             </div>
             <div
               class="
                 tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
+                hover:tw-cursor-pointer tw-text-center
               "
+              @click="atualizarDataBarra(porcentagens[4],porcentagensGerais[4],'A Gosto')"
+              
             >
-              <img src="/images/bolsa.png" class="imagem" />{{
-                porcentagem(porcentagens[4])
-              }}
+              <img src="/images/bolsa.png" class="imagem" />
+              A Gosto<br>
+              {{porcentagem(porcentagens[4])}}
             </div>
           </div>
         </div>
@@ -134,10 +150,8 @@
               class="tw-mb-2 entrada"
             >
               <q-card class="flex inline-flex">
-                <div v-if="apagarEntrada">
-                  <input type="checkbox" @click="adicionaItem(item.id)" />
-                </div>
-                <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
+                
+                <div class="tw-w-11/12 tw-text-left tw-text-xl tw-pl-2 pb-2">
                   {{ item.nome }}
                 </div>
                 <div
@@ -146,21 +160,24 @@
                     tw-flex
                     tw-inline-flex
                     tw-items-center
-                    tw-justify-center
+                    tw-justify-left
                   "
                 >
-                  <div class="tw-w-1/6">
+                  <div class="tw-w-2/12">
                     {{ item.id }}
                   </div>
-                  <div class="tw-w-3/6">
+                  <div class="tw-w-5/12">
                     {{ item.descricao }}
                   </div>
-                  <div class="tw-w-2/6">
+                  <div class="tw-w-4/12">
                     <div class="tw-text-green-500">
                       +R$ {{ valorFormatado(item.valor) }}
                     </div>
                     {{ dataFormatada(item.data) }}
                   </div>
+                  <div v-if="apagarEntrada" class="tw-w-1/12>">
+                  <input type="checkbox" @click="adicionaItem(item.id)" />
+                </div>
                 </div>
               </q-card>
             </div>
@@ -193,13 +210,8 @@
             </span>
           </div>
           <div v-else>
-            <button
-              class=""
-              @click="(apagarEntrada = false), (listaExclusao = [])"
-            >
-              Cancelar
-            </button>
-            <button class="" @click="excluirEntrada">Confirmar</button>
+          <span class="material-icons md-36 hover:tw-cursor-pointer" @click="(apagarEntrada = false), (listaExclusao = [])">clear</span>
+          <span class="material-icons md-36 hover:tw-cursor-pointer" @click="excluirEntrada">delete_outline</span>
           </div>
         </div>
       </div>
@@ -210,10 +222,7 @@
           <div v-if="saidas != 0" class="tw-w-full">
             <div v-for="item in saidas" :key="item.id" class="tw-mb-2 entrada">
               <q-card class="flex inline-flex">
-                <div v-if="apagarSaida">
-                  <input type="checkbox" @click="adicionaItem(item.id)" />
-                </div>
-                <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
+                <div class="tw-w-11/12 tw-text-left tw-text-xl tw-pl-2 pb-2">
                   {{ item.nome }}
                 </div>
                 <div
@@ -222,21 +231,24 @@
                     tw-flex
                     tw-inline-flex
                     tw-items-center
-                    tw-justify-center
+                    tw-justify-left
                   "
                 >
-                  <div class="tw-w-1/6">
-                    {{ item.id }}
+                  <div class="tw-w-2/12">
+                    {{ categoriasSaida[item.id_categoria-1] }}
                   </div>
-                  <div class="tw-w-3/6">
+                  <div class="tw-w-5/12">
                     {{ item.descricao }}
                   </div>
-                  <div class="tw-w-2/6">
+                  <div class="tw-w-4/12">
                     <div class="tw-text-red-500">
                       -R$ {{ valorFormatado(item.valor) }}
                     </div>
                     {{ dataFormatada(item.data) }}
                   </div>
+                  <div v-if="apagarSaida" class="tw-w-1/12>">
+                  <input type="checkbox" class="hover:tw-cursor-pointer" @click="adicionaItem(item.id)" />
+                </div>
                 </div>
               </q-card>
             </div>
@@ -254,18 +266,16 @@
           v-if="!apagarSaida"
           class="tw-text-left tw-mt-2 tw-flex tw-inline-flex"
         >
-          <span class="material-icons md-36" @click="modalSaidas = true">
+          <span class="material-icons md-36 hover:tw-cursor-pointer" @click="modalSaidas = true">
             add_circle_outline
           </span>
-          <span class="material-icons md-36" @click="apagarsaida">
+          <span class="material-icons md-36 hover:tw-cursor-pointer" @click="apagarsaida">
             remove_circle_outline
           </span>
         </div>
         <div v-else>
-          <button class="" @click="(apagarSaida = false), (listaExclusao = [])">
-            Cancelar
-          </button>
-          <button class="" @click="excluirSaida">Confirmar</button>
+          <span class="material-icons md-36 hover:tw-cursor-pointer" @click="(apagarSaida = false), (listaExclusao = [])">clear</span>
+          <span class="material-icons md-36 hover:tw-cursor-pointer" @click="excluirSaida">delete_outline</span>
         </div>
       </div>
     </div>
@@ -279,16 +289,19 @@
     >
       <q-card style="width: 500px; max-width: 60vw">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Lançamento de Entrada</div>
-          <q-space />
-          <q-btn
+          <div class="tw-w-10/12 sm:tw-w-11/12">
+            <img src="/images/entrada.png" class="tw-mx-auto"/>
+          </div>
+          <div class="tw-w-2/12 sm:tw-w-1/12">
+            <q-btn
             icon="close"
             flat
             round
             dense
             v-close-popup
             @click="form.reset()"
-          />
+            />
+          </div>
         </q-card-section>
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
@@ -335,16 +348,19 @@
     >
       <q-card style="width: 500px; max-width: 60vw">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Lançamento de Saída</div>
-          <q-space />
-          <q-btn
+          <div class="tw-w-10/12 sm:tw-w-11/12">
+            <img src="/images/saida.png" class="tw-mx-auto"/>
+          </div>
+          <div class="tw-w-2/12 sm:tw-w-1/12">
+            <q-btn
             icon="close"
             flat
             round
             dense
             v-close-popup
             @click="form.reset()"
-          />
+            />
+          </div>
         </q-card-section>
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
@@ -394,17 +410,36 @@
       :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
       :icon="'error'"
     ></DialogBaixo>
-    <!--modal essencial-->
-    <q-dialog v-model="modalEssencial" position="right" rounded>
+    <!--modal categorias-->
+    <q-dialog v-model="modalCategorias" position="right" rounded>
       <q-card style="width: 500px; max-width: 60vh">
         <q-card-section class="row items-center q-pb-none">
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
-            <span>{{ porcentagens[0] }} - {{ porcentagensGerais[0] }}</span>
+          <div v-if="diferenca>0" class="tw-mx-auto tw-text-center">
+            O seu gasto com essa categoria é <span class="tw-text-green-500">{{porcentagem(diferenca)}}</span> maior do que a média dos demais usuários.
           </div>
+          <div v-else-if="diferenca<0" class=" tw-mx-auto tw-text-center">
+            O seu gasto com essa categoria é <span class="tw-text-green-500">{{porcentagem(diferenca*(-1))}}</span> menor do que a média dos demais usuários.
+          </div>
+          <div v-else class=" tw-mx-auto tw-text-center">
+            <span>O seu gasto com essa categoria é igual à média dos demais usuários.</span>
+          </div>
+          <Bar :chart-data="chartData" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!--modal custos-->
+    <q-dialog v-model="modalCustos" position="right" rounded>
+      <q-card style="width: 500px; max-width: 60vh">
+        <q-card-section class="row items-center q-pb-none">
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <Pie :chart-data="chartData" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -416,10 +451,15 @@ import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import Head from "@inertiajs/inertia-vue3";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
 import { ref } from "vue";
+import { Bar } from 'vue-chartjs';
+import { Pie } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Legend, ArcElement, Tooltip, BarElement, CategoryScale, LinearScale, Chart } from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, CategoryScale, ArcElement, BarElement, LinearScale);
 const modalEntradas = ref(false);
 const modalSaidas = ref(false);
-const modalEssencial = ref(false);
-defineExpose({ modalEntradas, modalSaidas, modalEssencial });
+const modalCategorias = ref(false);
+const modalCustos = ref(false);
+defineExpose({ modalEntradas, modalSaidas, modalCategorias, modalCustos });
 </script>
 
 <script>
@@ -515,6 +555,27 @@ export default {
         data: { listaExclusao: this.listaExclusao },
       });
     },
+
+    atualizarDataBarra(i,j,c){
+      this.chartData={
+        labels: ['Suas Despesas'],
+        datasets: [{label:'Totais', backgroundColor: ["#59f792"],data: [100]},{ label:c,backgroundColor: ["#ac27e6"],data: [i]}]
+      },
+      this.diferenca=i-j;
+      this.modalCategorias = true;
+    },
+
+    atualizarDataSetor(i,j,k,l,m){
+      this.chartData={
+      labels: ['Essencial', 'Objetivos', 'Aposentadoria', 'Educação', 'A Gosto'],
+      datasets: [
+        {
+          backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#FFFFFF'],
+          data: [i, j, k, l, m]
+        }
+      ]},
+      this.modalCustos = true;
+    }
   },
   data() {
     return {
@@ -528,6 +589,11 @@ export default {
       listaExclusao: [],
       apagarSaida: false,
       apagarEntrada: false,
+      diferenca: null,
+      chartData :{
+        labels: [],
+        datasets: [{backgroundColor: [],data: []}]
+      },
     };
   },
 };
