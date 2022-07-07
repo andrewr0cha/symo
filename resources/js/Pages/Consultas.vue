@@ -1,7 +1,8 @@
 <template>
   <Head title="Consultas" />
   <BreezeAuthenticatedLayout>
-    <div class="tw-w-11/12 tw-mx-auto tw-flex tw-mt-4">
+    <!--saldo e categorias-->
+    <div class="tw-w-11/12 tw-mx-auto tw-flex tw-mt-4 border tw-bg-black">
       <!--saldo-->
       <div
         class="
@@ -12,6 +13,7 @@
           tw-flex-col
           tw-items-center
           tw-justify-center
+          borda-invisivel
         "
       >
         <div
@@ -22,7 +24,6 @@
           <span class="tw-text-white">Seu saldo</span>
           <img src="/images/bolsa.png" class="imagem" />
         </div>
-        <br />
         <div class="tw-mb-4">
           <span class="tw-text-white"
             >R$ {{ valorFormatado($page.props.auth.user.saldo) }}</span
@@ -30,7 +31,7 @@
         </div>
       </div>
       <!--porcentagens por categoria-->
-      <div class="tw-h-28 tw-w-2/3 tw-bg-purple-900">
+      <div class="tw-h-28 tw-w-2/3 tw-bg-white borda-invisivel">
         <div class="tw-w-full tw-h-28 tw-flex tw-inline-flex">
           <!--custos-->
           <div
@@ -125,24 +126,28 @@
             <div
               class="
                 tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
-                hover:tw-cursor-pointer tw-text-center
+                hover:tw-cursor-pointer tw-text-center tw-mr-2
               "
-              @click="atualizarDataBarra(porcentagens[4],porcentagensGerais[4],'A Gosto')"
+              @click="atualizarDataBarra(porcentagens[4],porcentagensGerais[4],'Lazer')"
               
             >
               <img src="/images/bolsa.png" class="imagem" />
-              A Gosto<br>
+              Lazer<br>
               {{porcentagem(porcentagens[4])}}
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!--entradas e saídas-->
     <div class="tw-w-11/12 tw-mx-auto sm:tw-flex tw-mt-4 tw-text-center">
       <!--Entradas-->
       <div class="tw-w-11/12 tw-mx-auto sm:tw-w-1/2 sm:tw-pr-4">
-        <div class="borda tw-bg-black tw-w-full tw-text-white">Entradas</div>
-        <q-scroll-area style="height: 350px">
+          <div class="borda tw-bg-black tw-w-full tw-text-white tw-flex tw-justify-between">
+            <Link :href="route('consultas', { id: $page.props.auth.user.id })"><span class="material-icons md-24 tw-ml-2 hover:tw-cursor-pointer">filter_list_off</span></Link>
+            <span class="tw-text-lg">Entradas</span>
+            <span class="material-icons md-24 tw-mr-2 hover:tw-cursor-pointer" @click="modalFiltroEntrada=true">filter_list</span>
+          </div><q-scroll-area style="height: 350px">
           <div v-if="entradas != 0" class="tw-w-full">
             <div
               v-for="item in entradas"
@@ -217,7 +222,11 @@
       </div>
       <!--Saidas-->
       <div class="tw-w-11/12 tw-mx-auto sm:tw-w-1/2 sm:tw-pl-4">
-        <div class="borda tw-bg-black tw-w-full tw-text-white">Saídas</div>
+        <div class="borda tw-bg-black tw-w-full tw-text-white tw-flex tw-justify-between">
+          <Link :href="route('consultas', { id: $page.props.auth.user.id })"><span class="material-icons md-24 tw-ml-2 hover:tw-cursor-pointer">filter_list_off</span></Link>
+          <span class="tw-text-lg">Saídas</span>
+          <span class="material-icons md-24 tw-mr-2 hover:tw-cursor-pointer" @click="modalFiltroSaida=true">filter_list</span>
+        </div>
         <q-scroll-area style="height: 350px">
           <div v-if="saidas != 0" class="tw-w-full">
             <div v-for="item in saidas" :key="item.id" class="tw-mb-2 entrada">
@@ -290,7 +299,7 @@
       <q-card style="width: 500px; max-width: 60vw">
         <q-card-section class="row items-center q-pb-none">
           <div class="tw-w-10/12 sm:tw-w-11/12">
-            <img src="/images/entrada.png" class="tw-mx-auto"/>
+            <img src="/images/entrada.png" class="tw-mx-auto hover:tw-cursor-pointer" @click="modalInfoEntradas=true"/>
           </div>
           <div class="tw-w-2/12 sm:tw-w-1/12">
             <q-btn
@@ -314,16 +323,14 @@
               />
               <q-input
                 v-model.number="form.valor"
-                type="number"
-                rounded
+                type="number"        
                 outlined
                 label="Valor*"
                 min="0.01"
                 step="0.01"
                 @click="mudarStatus"
               />
-              <q-input
-                rounded
+              <q-input        
                 outlined
                 v-model="form.descricao"
                 label="Descrição"
@@ -349,7 +356,7 @@
       <q-card style="width: 500px; max-width: 60vw">
         <q-card-section class="row items-center q-pb-none">
           <div class="tw-w-10/12 sm:tw-w-11/12">
-            <img src="/images/saida.png" class="tw-mx-auto"/>
+            <img src="/images/saida.png" class="tw-mx-auto hover:tw-cursor-pointer" @click="modalInfoSaidas=true"/>
           </div>
           <div class="tw-w-2/12 sm:tw-w-1/12">
             <q-btn
@@ -365,8 +372,7 @@
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
             <div class="q-gutter-y-md">
-              <q-input
-                rounded
+              <q-input        
                 outlined
                 v-model="form.nome"
                 label="Título*"
@@ -374,23 +380,21 @@
               />
               <q-input
                 v-model.number="form.valor"
-                type="number"
-                rounded
+                type="number"        
                 outlined
                 label="Valor*"
                 min="0.01"
                 step="0.01"
                 @click="mudarStatus"
               />
-              <q-select
-                rounded
+              <q-select        
                 outlined
                 v-model="form.id_categoria"
                 :options="categoriasSaida"
                 label="Categoria*"
+                @click="mudarStatus"
               />
-              <q-input
-                rounded
+              <q-input        
                 outlined
                 v-model="form.descricao"
                 label="Descrição"
@@ -399,9 +403,11 @@
             </div>
           </div>
         </q-card-section>
-        <button type="button" @click="lancarSaida">
-          <span class="material-icons md-36">task_alt</span>
-        </button>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <button type="button" @click="lancarSaida">
+            <span class="material-icons md-36">task_alt</span>
+          </button>
+        </div>
       </q-card>
     </q-dialog>
     <!--form nulo-->
@@ -412,7 +418,7 @@
     ></DialogBaixo>
     <!--modal categorias--> 
     <q-dialog v-model="modalCategorias" position="right" rounded>
-      <q-card style="width: 500px; max-width: 60vh">
+      <q-card style="width: 300px; max-width: 60vh">
         <q-card-section class="row items-center q-pb-none">
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
@@ -433,33 +439,138 @@
     </q-dialog>
     <!--modal custos-->
     <q-dialog v-model="modalCustos" position="right" rounded>
-      <q-card style="width: 500px; max-width: 60vh">
+      <q-card style="width: 300px; max-width: 60vh">
         <q-card-section class="row items-center q-pb-none">
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
+          <div class="tw-text-center  tw-mx-auto"><span>Os seus gastos estão divididos da seguinte forma:</span></div>
           <Pie :chart-data="chartData" />
         </q-card-section>
       </q-card>
+    </q-dialog>
+    <!--modal explicações entrada-->
+    <q-dialog v-model="modalInfoEntradas" position="left" rounded>
+      <q-card style="width: 300px; max-width: 60vh">
+        <q-card-section class="row items-center q-pb-none">
+          <q-btn icon="info" flat round dense />
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <span>Aqui são inseridas as movimentações financeiras que te favoreceram. Serviços prestados, salário, etc. Tudo o que, de alguma forma, 'te fez ganhar dinheiro'.</span>
+          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Título: </span>Campo obrigatório e a principal identificação para aquela movimentação. Poucas palavras que facilitem a lembrança de onde veio aquele dinheiro.</span></div>
+          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Valor: </span>Quanto dinheiro tal movimentação rendeu a você. Campo obrigatório.</span></div>
+          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Descrição: </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a movimentação.</span></div>
+        </q-card-section>
+      </q-card>
     </q-dialog> 
+    <!--modal explicações saida-->
+    <q-dialog v-model="modalInfoSaidas" position="left" rounded>
+      <q-card style="width: 300px; max-width: 60vh">
+        <q-card-section class="row items-center q-pb-none">
+          <q-btn icon="info" flat round dense />
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <span>Aqui são inseridas as movimentações financeiras nas quais você é o pagante.</span>
+          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Título: </span>Campo obrigatório e a principal identificação para aquela movimentação. Poucas palavras que facilitem a lembrança de para onde foi aquele dinheiro.</span></div>
+          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Valor: </span>Quanto dinheiro tal movimentação subtraiu de seu saldo. Campo obrigatório.</span></div>
+          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Categoria: </span>Classificação dada à despesa. Contemplam as despesas consideradas básicas a uma vida saudável financeiramente falando. Campo obrigatório.</span></div>
+          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Descrição: </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a movimentação.</span></div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!--modal filtro entradas-->
+    <q-dialog
+      v-model="modalFiltroEntrada"
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-card style="width: 500px; max-width: 60vw">
+        <q-card-section class="row items-center q-pb-none">
+          <q-btn icon="calendar_today" flat round dense />
+            <q-space />
+            <q-btn
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+            @click="formData.reset()"
+            />
+        </q-card-section>
+        <q-card-section>
+          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+            <div class="q-gutter-y-md">
+              <q-input v-model="formData.dataInicial" filled type="date" hint="Data Inicial*" @click="mudarStatus"/>
+              <q-input v-model="formData.dataFinal" :min="formData.dataInicial" filled type="date" hint="Data Final*" @click="mudarStatus" />
+            </div>
+          </div>
+        </q-card-section>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <button type="button" @click="filtrarEntradas">
+            <span class="material-icons md-36">task_alt</span>
+          </button>
+        </div>
+      </q-card>
+    </q-dialog>
+    <!--modal filtro saidas-->
+    <q-dialog
+      v-model="modalFiltroSaida"
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-card style="width: 500px; max-width: 60vw">
+        <q-card-section class="row items-center q-pb-none">
+          <q-btn icon="calendar_today" flat round dense />
+            <q-space />
+            <q-btn
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+            @click="formData.reset()"
+            />
+        </q-card-section>
+        <q-card-section>
+          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+            <div class="q-gutter-y-md">
+              <q-input v-model="formData.dataInicial" filled type="date" hint="Data Inicial*" @click="mudarStatus"/>
+              <q-input v-model="formData.dataFinal" :min="formData.dataInicial" filled type="date" hint="Data Final*" @click="mudarStatus" />
+            </div>
+          </div>
+        </q-card-section>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <button type="button" @click="filtrarSaidas">
+            <span class="material-icons md-36">task_alt</span>
+          </button>
+        </div>
+      </q-card>
+    </q-dialog>  
   </BreezeAuthenticatedLayout>
 </template>
 
 <script setup>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import Head from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
 import { ref } from "vue";
-import { Bar } from 'vue-chartjs';
-import { Pie } from 'vue-chartjs';
+import { Bar, Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Legend, ArcElement, Tooltip, BarElement, CategoryScale, LinearScale, Chart } from 'chart.js'
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, ArcElement, BarElement, LinearScale);
 const modalEntradas = ref(false);
 const modalSaidas = ref(false);
 const modalCategorias = ref(false);
 const modalCustos = ref(false);
-defineExpose({ modalEntradas, modalSaidas, modalCategorias, modalCustos });
+const modalInfoEntradas = ref(false);
+const modalInfoSaidas = ref(false);
+const modalFiltroEntrada = ref(false);
+const modalFiltroSaida = ref(false);
+defineExpose({ modalEntradas, modalSaidas, modalCategorias, modalCustos, modalInfoEntradas, modalInfoSaidas, modalFiltroEntrada, modalFiltroSaida });
 </script>
 
 <script>
@@ -567,7 +678,7 @@ export default {
 
     atualizarDataSetor(i,j,k,l,m){
       this.chartData={
-      labels: ['Essencial', 'Objetivos', 'Aposentadoria', 'Educação', 'A Gosto'],
+      labels: ['Essencial', 'Objetivos', 'Aposentadoria', 'Educação', 'Lazer'],
       datasets: [
         {
           backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#FFFFFF'],
@@ -575,6 +686,32 @@ export default {
         }
       ]},
       this.modalCustos = true;
+    },
+
+    filtrarEntradas(){
+      if(this.formData.dataInicial==null||this.formData.dataFinal==null)
+        {this.formNulo=true}
+      else{this.formData.post(route("filtrar.entrada"), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalFiltroEntrada = false;
+            this.formData.reset();
+          },
+        });}
+    },
+
+    filtrarSaidas(){
+      if(this.formData.dataInicial==null||this.formData.dataFinal==null)
+        {this.formNulo=true}
+      else{this.formData.post(route("filtrar.saida"), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalFiltroSaida = false;
+            this.formData.reset();
+          },
+        });}
     }
   },
   data() {
@@ -594,6 +731,10 @@ export default {
         labels: [],
         datasets: [{backgroundColor: [],data: []}]
       },
+      formData: this.$inertia.form({
+        dataInicial: null,
+        dataFinal: null,
+      }),
     };
   },
 };
@@ -606,6 +747,16 @@ export default {
   border-top-right-radius: 20px;
 }
 
+.border {
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.borda-invisivel {
+  border: 0px solid;
+  border-radius: 20px;
+}
+
 .round {
   border-radius: 100%;
   color: white;
@@ -613,23 +764,23 @@ export default {
 }
 
 .scrollbar::-webkit-scrollbar {
-  height: 20px;
-  width: 20px;
+  height: 8px;
+  width: 8px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
   border-radius: 100vh;
-  background: red;
+  background: none;
+  width:75%;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: green;
+  background: #59f792;
   border-radius: 100vh;
-  border: 3px solid yellow;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: blue;
+  background: green;
 }
 
 .imagem {

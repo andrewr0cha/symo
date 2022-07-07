@@ -32,7 +32,7 @@ Route::get('/layout', function () {
     return Inertia::render('LayoutSideBar');
 })->name('layout');
 
-Route::get('/consultas/{id}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
+Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
 
 Route::post('/adicionar/entrada/{id}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
 
@@ -42,7 +42,13 @@ Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirS
 
 Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@excluirEntrada')->name('excluir.entrada');
 
-Route::get('/dia', 'App\Http\Controllers\ConsultasController@somarCategorias');
+Route::post('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@filtrarEntrada')->name('filtrar.entrada');
+
+Route::post('/filtrar/saida', 'App\Http\Controllers\ConsultasController@filtrarSaida')->name('filtrar.saida');
+
+Route::get('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@index');
+
+Route::get('/filtrar/saida', 'App\Http\Controllers\ConsultasController@index');
 
 /*function () {
     return Inertia::render('Consultas');

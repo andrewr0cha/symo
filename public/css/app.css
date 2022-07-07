@@ -763,6 +763,9 @@ select {
 .tw-w-1\/12 {
   width: 8.333333%;
 }
+.tw-w-10\/12 {
+  width: 83.333333%;
+}
 .tw-w-9\/12 {
   width: 75%;
 }
@@ -771,9 +774,6 @@ select {
 }
 .tw-w-3\/5 {
   width: 60%;
-}
-.tw-w-10\/12 {
-  width: 83.333333%;
 }
 .tw-max-w-7xl {
   max-width: 80rem;
@@ -999,6 +999,10 @@ select {
 .tw-text-base {
   font-size: 1rem;
   line-height: 1.5rem;
+}
+.tw-text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 .tw-text-xl {
   font-size: 1.25rem;
@@ -1304,17 +1308,17 @@ select:focus {
   .sm\:tw-w-1\/2 {
     width: 50%;
   }
-  .sm\:tw-w-9\/12 {
-    width: 75%;
-  }
-  .sm\:tw-w-full {
-    width: 100%;
-  }
   .sm\:tw-w-11\/12 {
     width: 91.666667%;
   }
   .sm\:tw-w-1\/12 {
     width: 8.333333%;
+  }
+  .sm\:tw-w-9\/12 {
+    width: 75%;
+  }
+  .sm\:tw-w-full {
+    width: 100%;
   }
   .sm\:tw-max-w-md {
     max-width: 28rem;

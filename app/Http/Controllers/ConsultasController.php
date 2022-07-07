@@ -12,8 +12,9 @@ use App\Models\Categoria;
 
 class ConsultasController extends Controller
 {
-    public function index($id)
+    public function index($id=null)
     {
+        if($id==null) $id=auth()->user()->id;
         $entradas = Entrada::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
         $saidas = Saida::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
@@ -81,7 +82,6 @@ class ConsultasController extends Controller
     }
 
     public function excluirEntrada(Request $req){
-        
         $id_usuario = auth()->user()->id;
         $user=User::where('id',$id_usuario)->first();
         foreach($req->listaExclusao as $id){
@@ -91,6 +91,36 @@ class ConsultasController extends Controller
             $entrada->delete();
         }
         return redirect()->route('consultas', $id_usuario);
+    }
+
+    public function filtrarEntrada(Request $req){
+        $id= auth()->user()->id;
+        $entradas = Entrada::where('id_usuario', '=', $id)->whereBetween('data', [$req->dataInicial, $req->dataFinal])->orderBy('data', 'desc')->get();
+        if ($entradas == null) $entradas = 0;
+        $saidas = Saida::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
+        if ($saidas == null) $saidas = 0;
+        /*$categoriasEntrada = Categoria::where('id_tipo',2)->get()->pluck('nome');
+        $categoriasEntrada=$categoriasEntrada->toArray();*/
+        $categoriasSaida = Categoria::where('id_tipo',1)->get()->pluck('nome');
+        $categoriasSaida=$categoriasSaida->toArray();
+        $porcentagens=$this->somarCategorias();
+        $porcentagensGerais=$this->somarCategoriasGerais();
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida, 'id' => $id]);
+    }
+
+    public function filtrarSaida(Request $req){
+        $id= auth()->user()->id;
+        $entradas = Entrada::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
+        if ($entradas == null) $entradas = 0;
+        $saidas = Saida::where('id_usuario', '=', $id)->whereBetween('data', [$req->dataInicial, $req->dataFinal])->orderBy('data', 'desc')->get();
+        if ($saidas == null) $saidas = 0;
+        /*$categoriasEntrada = Categoria::where('id_tipo',2)->get()->pluck('nome');
+        $categoriasEntrada=$categoriasEntrada->toArray();*/
+        $categoriasSaida = Categoria::where('id_tipo',1)->get()->pluck('nome');
+        $categoriasSaida=$categoriasSaida->toArray();
+        $porcentagens=$this->somarCategorias();
+        $porcentagensGerais=$this->somarCategoriasGerais();
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida, 'id' => $id]);
     }
 
     private function somarCategorias(){
