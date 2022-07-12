@@ -28,8 +28,9 @@ class ConsultasController extends Controller
         return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida, 'id' => $id]);
     }
 
-    public function adicionarEntrada(Request $req, $id)
+    public function adicionarEntrada(Request $req, $id=null)
     {
+        if($id==null) $id=auth()->user()->id;
         $req->validate([
             'nome' => 'required|string|max:255',
             'valor' => 'required',
@@ -47,8 +48,9 @@ class ConsultasController extends Controller
         return redirect()->route('consultas', $id);
     }
 
-    public function adicionarSaida(Request $req, $id)
+    public function adicionarSaida(Request $req, $id=null)
     {
+        if($id==null) $id=auth()->user()->id;
         $req->validate([
             'nome' => 'required|string|max:255',
             'valor' => 'required',

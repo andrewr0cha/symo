@@ -1,8 +1,16 @@
 <script setup>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+import { ref } from "vue";
 import BreezeButon from "@/Components/Button.vue";
 import Texto from "@/Components/Text.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import ModalEntrada from "@/Components/ModalEntrada.vue";
+import ModalSaida from "@/Components/ModalSaida.vue";
+import DialogBaixo from "@/Components/DialogBaixo.vue";
+const modalAgendamentos = ref(false);
+const modalData = ref(false);
+const date = ref(null);
+defineExpose({modalAgendamentos, modalData, date});
 </script>
 
 <template>
@@ -20,7 +28,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
           tw-overflow-y-auto
           tw-border-r
         "
-        style="width: 700px !important"
+        style="width: 690px !important"
       >
         <div class="tw-flex tw-flex-col tw-mx-auto">
           <aside>
@@ -74,8 +82,12 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
           <div
             class="calendario tw-hidden sm:tw-inline-flex sm:tw-w-full tw-pl-4"
           >
-            <div class="tempo tw-w-2/5"></div>
-            <div class="topo-calendario tw-w-3/5"></div>
+            <div class="tempo tw-w-2/5">
+              <div v-if="agendamentos==null" class="tw-h-full tw-flex tw-items-center tw-justify-center">
+                <span class="tw-cursor-pointer tw-text-lg tw-text-center" @click="modalAgendamentos=true">Você ainda não tem eventos agendados. Clique aqui para criar um evento.</span>
+              </div>
+            </div>
+            <div class="topo-calendario md:tw-w-3/5"></div>
           </div>
         </div>
 
@@ -97,16 +109,16 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
             >
               <div class="tw-w-1/3 tw-mr-2 tw-min-w-32">
                 <Link :href="route('consultas', { id: $page.props.auth.user.id })">
-                  <Texto class="tw-w-full tw-text-center tw-p-2"
+                  <Texto class="tw-w-full tw-text-center tw-p-2 tw-cursor-pointer"
                     >Consultar</Texto
                   >
                 </Link>
               </div>
               <div class="tw-w-1/3 tw-mr-2 tw-min-w-32">
-                <Texto class="tw-w-full tw-text-center tw-p-2">Despesas</Texto>
+                <Texto class="tw-w-full tw-text-center tw-p-2 tw-cursor-pointer" @click="modalSaidas=true">Despesas</Texto>
               </div>
               <div class="tw-w-1/3 tw-min-w-32">
-                <Texto class="tw-w-full tw-text-center tw-p-2">Entradas</Texto>
+                <Texto class="tw-w-full tw-text-center tw-p-2 tw-cursor-pointer" @click="modalEntradas=true">Entradas</Texto>
               </div>
             </div>
           </div>
@@ -115,17 +127,17 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
         <!--metas-->
         <div class="tw-flex tw-mt-4">
           <div class="tw-inline-flex tw-flex-auto tw-w-full tw-mt-4">
-            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2">
+            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2 tw-cursor-pointer">
               <span class="tw-h-full tw-flex tw-items-center tw-justify-center"
                 >Minhas metas a curto prazo</span
               >
             </div>
-            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2">
+            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2 tw-cursor-pointer">
               <span class="tw-h-full tw-flex tw-items-center tw-justify-center"
                 >Minhas metas a medio prazo</span
               >
             </div>
-            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-p-2">
+            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-p-2 tw-cursor-pointer">
               <span class="tw-h-full tw-flex tw-items-center tw-justify-center"
                 >Minhas metas a longo prazo</span
               >
@@ -133,6 +145,8 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
           </div>
         </div>
 
+      <ModalEntrada v-model="modalEntradas"></ModalEntrada>
+      <ModalSaida v-model="modalSaidas"></ModalSaida>
         <!-- Resumo das categorias 
       <div
         class="
@@ -152,9 +166,128 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
         <img src="/images/carteira.png" class="imagem ml-6" /> 45%
       </div>-->
       </div>
+      <!--adicionar agendamento-->
+      <q-dialog
+      v-model="modalAgendamentos"
+      transition-show="scale"
+      transition-hide="scale"
+      rounded
+    >
+      <q-card style="width: 500px; max-width: 60vw">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="tw-w-10/12 sm:tw-w-11/12">
+            <img src="/images/entrada.png" class="tw-mx-auto hover:tw-cursor-pointer" @click="modalInfoEntradas=true"/>
+          </div>
+          <div class="tw-w-2/12 sm:tw-w-1/12">
+            <!--<q-btn
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+            @click="form.reset()"
+            />-->
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+            <div class="q-gutter-y-md">
+              <q-input
+                outlined
+                v-model="form.nome"
+                label="Título*"
+              />
+              <q-input
+                v-model.number="form.valor"
+                type="number"        
+                outlined
+                label="Valor"
+                min="0.01"
+                step="0.01"
+              />
+              <q-input        
+                outlined
+                v-model="form.descricao"
+                label="Descrição"
+              />
+              <q-btn color="primary" label="Data*" @click="modalData=true" no-caps/>
+            </div>
+          </div>
+        </q-card-section>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <button type="button" @click="lancarAgendamento">
+            <span class="material-icons md-36">task_alt</span>
+          </button>
+        </div>
+      </q-card>
+    </q-dialog>
+    <!--escolher uma data-->
+    <q-dialog
+      v-model="modalData"
+      transition-show="scale"
+      transition-hide="scale"
+      rounded
+    >
+      <q-card style="width: 400px; max-width: 60vw">
+        <q-card-section>
+          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+            <q-date v-model="form.dataAgendamento"  mask="YYYY-MM-DD" :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set','Out','Nov','Dez'], months:['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Novembro','Dezembro'], daysShort:['Dom','Seg','Ter','Qua','Qui','Sex','Sab'], days:['Domingo','Segunda-Feira','Terça-Feira','Quarta-Feira','Quinta-Feira','Sexta-Feira','Sábado'] }"/>
+          </div>
+        </q-card-section>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <q-btn v-close-popup color="primary" label="OK"/>
+        </div>
+      </q-card>
+    </q-dialog>
+    <DialogBaixo
+      v-model="formNulo"
+      :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
+      :icon="'error'"
+    ></DialogBaixo>
     </div>
+    
   </BreezeAuthenticatedLayout>
 </template>
+
+<script>
+export default {
+  props:{
+    agendamentos: null
+  },
+
+  methods:{
+    lancarAgendamento(){
+      //this.form.data=this.date;
+      if (this.form.nome == "" || this.form.dataAgendamento == null) {
+        this.formNulo = true;
+      } else {
+        this.form.post(route("adicionar.agendamento"), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalAgendamentos = false;
+            this.form.reset();
+          },
+        });
+      }
+    },
+  },
+  
+  data() {
+    return {
+      modalEntradas:false,
+      modalSaidas:false,
+      form: this.$inertia.form({
+        nome: "",
+        valor: "",
+        descricao: "",
+        dataAgendamento: "",
+      }),
+      formNulo:null
+    }
+  },
+};
+</script>
 
 <style scoped>
 .fundo {

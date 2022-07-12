@@ -28,15 +28,13 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/layout', function () {
-    return Inertia::render('LayoutSideBar');
-})->name('layout');
-
 Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
 
-Route::post('/adicionar/entrada/{id}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
+Route::post('/adicionar/entrada/{id?}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
 
-Route::post('/adicionar/saida/{id}', 'App\Http\Controllers\ConsultasController@adicionarSaida')->name('adicionar.saida');
+Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@adicionarSaida')->name('adicionar.saida');
+
+Route::post('/adicionar/agendamento', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->name('adicionar.agendamento');
 
 Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->name('excluir.saida');
 

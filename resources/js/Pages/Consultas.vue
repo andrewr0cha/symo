@@ -410,9 +410,9 @@
         </div>
       </q-card>
     </q-dialog>
-    <!--form nulo-->
+    <!--form nulo v-if="formNulo == true"-->
     <DialogBaixo
-      v-if="formNulo == true"
+      v-model="formNulo"
       :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
       :icon="'error'"
     ></DialogBaixo>
