@@ -18,7 +18,8 @@ class CreateMetasTable extends Migration
             $table->string('nome', 100);
             $table->text('descricao');
             $table->double('valor', 9, 2)->default(0.00);
-            $table->enum('status', ['Concluída', 'Pausada', 'Em andamento']);
+            $table->enum('status', ['Concluída', 'Em andamento']);
+            $table->enum('duracao', ['Curto', 'Médio', 'Longo']);
             $table->bigInteger('id_usuario')->unsigned();;
             $table->foreign('id_usuario')->references('id')->on('users');
             $table->timestamps();

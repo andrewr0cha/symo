@@ -24,9 +24,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
 
@@ -36,9 +34,13 @@ Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@
 
 Route::post('/adicionar/agendamento', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->name('adicionar.agendamento');
 
+Route::post('/adicionar/meta', 'App\Http\Controllers\DashboardController@adicionarMeta')->name('adicionar.meta');
+
 Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->name('excluir.saida');
 
 Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@excluirEntrada')->name('excluir.entrada');
+
+Route::post('/excluir/agendamento', 'App\Http\Controllers\DashboardController@excluirAgendamento')->name('excluir.agendamento');
 
 Route::post('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@filtrarEntrada')->name('filtrar.entrada');
 

@@ -147,7 +147,8 @@
             <Link :href="route('consultas', { id: $page.props.auth.user.id })"><span class="material-icons md-24 tw-ml-2 hover:tw-cursor-pointer">filter_list_off</span></Link>
             <span class="tw-text-lg">Entradas</span>
             <span class="material-icons md-24 tw-mr-2 hover:tw-cursor-pointer" @click="modalFiltroEntrada=true">filter_list</span>
-          </div><q-scroll-area style="height: 350px">
+          </div>
+          <q-scroll-area style="height: 350px">
           <div v-if="entradas != 0" class="tw-w-full">
             <div
               v-for="item in entradas"

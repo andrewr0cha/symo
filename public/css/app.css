@@ -772,6 +772,12 @@ select {
 .tw-w-2\/5 {
   width: 40%;
 }
+.tw-w-8\/12 {
+  width: 66.666667%;
+}
+.tw-w-6\/12 {
+  width: 50%;
+}
 .tw-max-w-7xl {
   max-width: 80rem;
 }
@@ -1315,6 +1321,9 @@ select:focus {
   }
   .sm\:tw-w-full {
     width: 100%;
+  }
+  .sm\:tw-w-10\/12 {
+    width: 83.333333%;
   }
   .sm\:tw-max-w-md {
     max-width: 28rem;
