@@ -36,7 +36,7 @@ class CategoriaSeeder extends Seeder
         ]);
         DB::table('categorias')->insert([
             'id' => 5,
-            'nome' => 'A gosto',
+            'nome' => 'Lazer',
             'id_tipo' => 1,
         ]);
         DB::table('categorias')->insert([

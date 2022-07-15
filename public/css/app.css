@@ -625,6 +625,14 @@ select {
   margin-left: auto;
   margin-right: auto;
 }
+.tw-my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.tw-my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
 .tw-mt-2 {
   margin-top: 0.5rem;
 }
@@ -712,6 +720,9 @@ select {
 .tw-h-32 {
   height: 8rem;
 }
+.tw-h-5\/6 {
+  height: 83.333333%;
+}
 .tw-max-h-40 {
   max-height: 10rem;
 }
@@ -778,6 +789,9 @@ select {
 .tw-w-6\/12 {
   width: 50%;
 }
+.tw-w-3\/12 {
+  width: 25%;
+}
 .tw-max-w-7xl {
   max-width: 80rem;
 }
@@ -819,6 +833,9 @@ select {
 }
 .tw-justify-between {
   justify-content: space-between;
+}
+.tw-justify-around {
+  justify-content: space-around;
 }
 .tw-space-x-8 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -954,6 +971,10 @@ select {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
+.tw-px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
 .tw-pt-1 {
   padding-top: 0.25rem;
 }
@@ -983,6 +1004,9 @@ select {
 }
 .tw-pl-4 {
   padding-left: 1rem;
+}
+.tw-pr-2 {
+  padding-right: 0.5rem;
 }
 .tw-text-left {
   text-align: left;

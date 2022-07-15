@@ -42,6 +42,10 @@ Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@exclui
 
 Route::post('/excluir/agendamento', 'App\Http\Controllers\DashboardController@excluirAgendamento')->name('excluir.agendamento');
 
+Route::post('/excluir/meta', 'App\Http\Controllers\DashboardController@excluirMeta')->name('excluir.meta');
+
+Route::post('/meta/concluir', 'App\Http\Controllers\DashboardController@concluirMeta')->name('concluir.meta');
+
 Route::post('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@filtrarEntrada')->name('filtrar.entrada');
 
 Route::post('/filtrar/saida', 'App\Http\Controllers\ConsultasController@filtrarSaida')->name('filtrar.saida');
