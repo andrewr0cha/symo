@@ -7,6 +7,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import ModalEntrada from "@/Components/ModalEntrada.vue";
 import ModalSaida from "@/Components/ModalSaida.vue";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
+import Calendario from "@/Components/Calendario.vue";
 const modalAgendamentos = ref(false);
 const modalData = ref(false);
 const modalMeta = ref(false);
@@ -48,12 +49,12 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                     </Texto>
                   </div>
 
-                  <div class="tw-mt-5">
+                  <!--<div class="tw-mt-5">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-4">
                       <img src="/images/carteira.png" class="imagem" />
                       Despesas
                     </Texto>
-                  </div>
+                  </div>-->
                 </div>
               </div>
             </div>
@@ -76,7 +77,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
           <br />
           <div class="calendario tw-hidden sm:tw-inline-flex sm:tw-w-full tw-pl-4">
             <!--Agendamentos-->
-            <div class="tempo tw-w-2/5">
+            <div class="tempo tw-w-full lg:tw-w-2/5">
               <div v-if="agendamentos == 0" class="tw-h-full tw-flex tw-items-center tw-justify-center">
                 <span class="tw-cursor-pointer tw-text-lg tw-text-center" @click="modalAgendamentos = true">
                   Você ainda não tem eventos agendados. Clique aqui para criar um evento.
@@ -84,7 +85,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
               </div>
               <div v-else>
                 <q-scroll-area style="height: 300px">
-                  <div class="tw-w-8/12 tw-mx-auto">
+                  <div class="tw-w-11/12 tw-mx-auto">
                     <div v-for="item in agendamentos" :key="item.id" class="tw-mb-2 tw-mt-2">
                       <q-card class="flex inline-flex">
                         <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
@@ -123,7 +124,9 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                 </div>
               </div>
             </div>
-            <div class="topo-calendario md:tw-w-3/5"></div>
+            <div class="topo-calendario tw-hidden lg:tw-w-3/5 lg:tw-flex tw-max-h-full tw-overflow-y-auto tw-px-2">
+              <Calendario :atributos="atributosCalendario"></Calendario>
+            </div>
           </div>
         </div>
 
@@ -399,7 +402,8 @@ export default {
     agendamentos: Object,
     curtoPrazo: Object,
     medioPrazo: Object,
-    longoPrazo: Object
+    longoPrazo: Object,
+    atributosCalendario: Object
   },
 
   methods: {
@@ -547,7 +551,7 @@ export default {
   background-color: white;
   text-align: center;
   width: 300px;
-  height: 360px;
+  height: 300px;
   border-radius: 20px;
   padding-right: 5px;
   border: 2px solid black;

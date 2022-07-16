@@ -726,6 +726,9 @@ select {
 .tw-max-h-40 {
   max-height: 10rem;
 }
+.tw-max-h-full {
+  max-height: 100%;
+}
 .tw-min-h-screen {
   min-height: 100vh;
 }
@@ -779,9 +782,6 @@ select {
 }
 .tw-w-1\/12 {
   width: 8.333333%;
-}
-.tw-w-2\/5 {
-  width: 40%;
 }
 .tw-w-8\/12 {
   width: 66.666667%;
@@ -1343,11 +1343,11 @@ select:focus {
   .sm\:tw-w-1\/2 {
     width: 50%;
   }
-  .sm\:tw-w-full {
-    width: 100%;
-  }
   .sm\:tw-w-10\/12 {
     width: 83.333333%;
+  }
+  .sm\:tw-w-full {
+    width: 100%;
   }
   .sm\:tw-max-w-md {
     max-width: 28rem;
@@ -1383,11 +1383,26 @@ select:focus {
   }
 }
 @media (min-width: 768px) {
+  .md\:tw-flex {
+    display: flex;
+  }
+  .md\:tw-w-2\/5 {
+    width: 40%;
+  }
   .md\:tw-w-3\/5 {
     width: 60%;
   }
 }
 @media (min-width: 1024px) {
+  .lg\:tw-flex {
+    display: flex;
+  }
+  .lg\:tw-w-3\/5 {
+    width: 60%;
+  }
+  .lg\:tw-w-2\/5 {
+    width: 40%;
+  }
   .lg\:tw-px-8 {
     padding-left: 2rem;
     padding-right: 2rem;

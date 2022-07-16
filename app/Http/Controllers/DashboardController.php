@@ -6,19 +6,21 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Agendamento;
 use App\Models\Meta;
+use DateTime;
 
 class DashboardController extends Controller
 {
     public function index(){
         $agendamentos=Agendamento::where('id_usuario', auth()->user()->id)->get();
         if($agendamentos==null) $agendamentos=0;
+        else $atributosCalendario=$this->atributosCalendario($agendamentos);
         $curtoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Curto')->get();
         if($curtoPrazo==null) $curtoPrazo=0;
         $medioPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Médio')->get();
         if($medioPrazo==null) $medioPrazo=0;
         $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->get();
         if($longoPrazo==null) $longoPrazo=0;
-        return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo]);
+        return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,'atributosCalendario'=>$atributosCalendario]);
     }
 
     public function adicionarAgendamento(Request $req){
@@ -66,5 +68,16 @@ class DashboardController extends Controller
             $meta->update();
         }
         return redirect()->route('dashboard');
+    }
+
+    private function atributosCalendario($a){
+        $atributos=[];
+       foreach ($a as $j) {
+            $data=new DateTime($j->data);
+            $data=$data->format('Y-m-d');
+            $nome=$j->nome;
+            array_push($atributos,['title'=>$nome, 'date'=>$data]);
+        }
+        return $atributos;
     }
 }
