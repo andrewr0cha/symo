@@ -28,13 +28,21 @@ Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->midd
 
 Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
 
+Route::get('/agendamentos', 'App\Http\Controllers\AgendamentosController@index')->name('agendamentos');
+
+Route::get('/metas', 'App\Http\Controllers\MetasController@index')->name('metas');
+
 Route::post('/adicionar/entrada/{id?}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
 
 Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@adicionarSaida')->name('adicionar.saida');
 
 Route::post('/adicionar/agendamento', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->name('adicionar.agendamento');
 
+Route::post('/adicionar/agendamento', 'App\Http\Controllers\AgendamentosController@adicionarAgendamento')->name('agendamento.adicionar.agendamento');
+
 Route::post('/adicionar/meta', 'App\Http\Controllers\DashboardController@adicionarMeta')->name('adicionar.meta');
+
+Route::post('/adicionar/meta', 'App\Http\Controllers\MetasController@adicionarMeta')->name('meta.adicionar.meta');
 
 Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->name('excluir.saida');
 
@@ -42,9 +50,15 @@ Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@exclui
 
 Route::post('/excluir/agendamento', 'App\Http\Controllers\DashboardController@excluirAgendamento')->name('excluir.agendamento');
 
+Route::post('/excluir/agendamento', 'App\Http\Controllers\AgendamentosController@excluirAgendamento')->name('agendamento.excluir.agendamento');
+
 Route::post('/excluir/meta', 'App\Http\Controllers\DashboardController@excluirMeta')->name('excluir.meta');
 
+Route::post('/excluir/meta', 'App\Http\Controllers\MetasController@excluirMeta')->name('meta.excluir.meta');
+
 Route::post('/meta/concluir', 'App\Http\Controllers\DashboardController@concluirMeta')->name('concluir.meta');
+
+Route::post('/meta/concluir', 'App\Http\Controllers\MetasController@concluirMeta')->name('meta.concluir.meta');
 
 Route::post('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@filtrarEntrada')->name('filtrar.entrada');
 

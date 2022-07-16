@@ -44,17 +44,14 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <hr />
                   <div class="tw-mt-5">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-4">
-                      <!--<img src="/images/carteira.png" />-->
-                      Seu saldo: {{ valorFormatado($page.props.auth.user.saldo) }}
+                      Seu saldo: R${{ valorFormatado($page.props.auth.user.saldo) }}
                     </Texto>
                   </div>
-
-                  <!--<div class="tw-mt-5">
+                  <div class="tw-mt-5">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-4">
-                      <img src="/images/carteira.png" class="imagem" />
-                      Despesas
+                      Seus gastos este mês: R${{ valorFormatado(gastosMensais) }}
                     </Texto>
-                  </div>-->
+                  </div>
                 </div>
               </div>
             </div>
@@ -403,7 +400,8 @@ export default {
     curtoPrazo: Object,
     medioPrazo: Object,
     longoPrazo: Object,
-    atributosCalendario: Object
+    atributosCalendario: Object,
+    gastosMensais: Object,
   },
 
   methods: {
@@ -551,7 +549,7 @@ export default {
   background-color: white;
   text-align: center;
   width: 300px;
-  height: 300px;
+  height: 360px;
   border-radius: 20px;
   padding-right: 5px;
   border: 2px solid black;

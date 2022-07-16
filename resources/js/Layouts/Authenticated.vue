@@ -21,35 +21,25 @@ const showingNavigationDropdown = ref(false);
               <!-- Logo -->
               <div class="tw-shrink-0 tw-flex tw-items-center">
                 <Link :href="route('dashboard')">
-                  <BreezeApplicationLogo class="tw-block tw-h-9 tw-w-auto" />
+                <BreezeApplicationLogo class="tw-block tw-h-9 tw-w-auto" />
                 </Link>
               </div>
 
               <!-- Navigation Links -->
-              <div
-                class="
+              <div class="
                   tw-hidden tw-space-x-8
                   sm:tw-my-px sm:tw-ml-10 sm:tw-flex
-                "
-              >
-                <BreezeNavLink
-                  :href="route('dashboard')"
-                  :active="route().current('dashboard')"
-                >
+                ">
+                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                   Dashboard
                 </BreezeNavLink>
               </div>
-              <div
-                class="
+              <div class="
                   tw-hidden tw-space-x-8
                   sm:tw-my-px sm:tw-ml-10 sm:tw-flex
-                "
-              >
-                <BreezeNavLink
-                  :href="route('dashboard')"
-                  :active="route().current('login')"
-                >
-                  Adicionar despesas
+                ">
+                <BreezeNavLink :href="route('consultas')" :active="route().current('consultas')">
+                  Consultas
                 </BreezeNavLink>
               </div>
             </div>
@@ -60,9 +50,7 @@ const showingNavigationDropdown = ref(false);
                 <BreezeDropdown align="right" width="48">
                   <template #trigger>
                     <span class="tw-inline-flex tw-rounded-md">
-                      <button
-                        type="button"
-                        class="
+                      <button type="button" class="
                           tw-inline-flex
                           tw-items-center
                           tw-px-3
@@ -78,33 +66,22 @@ const showingNavigationDropdown = ref(false);
                           hover:tw-text-gray-700
                           focus:tw-outline-none
                           tw-transition tw-ease-in-out tw-duration-150
-                        "
-                      >
+                        ">
                         {{ $page.props.auth.user.name }}
 
-                        <svg
-                          class="tw-ml-2 tw--mr-0.5 tw-h-4 tw-w-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fill-rule="evenodd"
+                        <svg class="tw-ml-2 tw--mr-0.5 tw-h-4 tw-w-4" xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd"
                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
-                          />
+                            clip-rule="evenodd" />
                         </svg>
                       </button>
                     </span>
                   </template>
 
                   <template #content>
-                    <BreezeDropdownLink
-                      :href="route('logout')"
-                      method="post"
-                      as="button"
-                    >
-                      Log Out
+                    <BreezeDropdownLink :href="route('logout')" method="post" as="button">
+                      Sair
                     </BreezeDropdownLink>
                   </template>
                 </BreezeDropdown>
@@ -113,9 +90,7 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Hamburger -->
             <div class="tw--mr-2 tw-flex tw-items-center sm:tw-hidden">
-              <button
-                @click="showingNavigationDropdown = !showingNavigationDropdown"
-                class="
+              <button @click="showingNavigationDropdown = !showingNavigationDropdown" class="
                   tw-inline-flex
                   tw-items-center
                   tw-justify-center
@@ -127,34 +102,16 @@ const showingNavigationDropdown = ref(false);
                   focus:tw-bg-gray-100
                   focus:tw-text-gray-500
                   tw-transition tw-duration-150 tw-ease-in-out
-                "
-              >
-                <svg
-                  class="tw-h-6 tw-w-6"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    :class="{
-                      hidden: showingNavigationDropdown,
-                      'inline-flex': !showingNavigationDropdown,
-                    }"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                  <path
-                    :class="{
-                      hidden: !showingNavigationDropdown,
-                      'inline-flex': showingNavigationDropdown,
-                    }"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                ">
+                <svg class="tw-h-6 tw-w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                  <path :class="{
+                    hidden: showingNavigationDropdown,
+                    'inline-flex': !showingNavigationDropdown,
+                  }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                  <path :class="{
+                    hidden: !showingNavigationDropdown,
+                    'inline-flex': showingNavigationDropdown,
+                  }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
@@ -162,25 +119,22 @@ const showingNavigationDropdown = ref(false);
         </div>
 
         <!-- Responsive Navigation Menu -->
-        <div
-          :class="{
-            block: showingNavigationDropdown,
-            hidden: !showingNavigationDropdown,
-          }"
-          class="sm:tw-hidden"
-        >
+        <div :class="{
+          block: showingNavigationDropdown,
+          hidden: !showingNavigationDropdown,
+        }" class="sm:tw-hidden">
           <div class="tw-pt-2 tw-pb-3 tw-space-y-1">
-            <BreezeResponsiveNavLink
-              :href="route('dashboard')"
-              :active="route().current('dashboard')"
-            >
+            <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
               Dashboard
             </BreezeResponsiveNavLink>
-            <BreezeResponsiveNavLink
-              :href="route('dashboard')"
-              :active="route().current('login')"
-            >
-              Adicionar despesa
+            <BreezeResponsiveNavLink :href="route('consultas')" :active="route().current('consultas')">
+              Consultas
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink :href="route('agendamentos')" :active="route().current('agendamentos')">
+              Agendamentos
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink :href="route('metas')" :active="route().current('metas')">
+              Metas
             </BreezeResponsiveNavLink>
           </div>
 
@@ -196,12 +150,8 @@ const showingNavigationDropdown = ref(false);
             </div>
 
             <div class="tw-mt-3 tw-space-y-1">
-              <BreezeResponsiveNavLink
-                :href="route('logout')"
-                method="post"
-                as="button"
-              >
-                Log Out
+              <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
+                Sair
               </BreezeResponsiveNavLink>
             </div>
           </div>
@@ -210,9 +160,7 @@ const showingNavigationDropdown = ref(false);
 
       <!-- Page Heading -->
       <header class="tw-bg-white tw-shadow" v-if="$slots.header">
-        <div
-          class="tw-max-w-7xl tw-mx-auto tw-py-6 tw-px-4 sm:tw-px-6 lg:tw-px-8"
-        >
+        <div class="tw-max-w-7xl tw-mx-auto tw-py-6 tw-px-4 sm:tw-px-6 lg:tw-px-8">
           <slot name="header" />
         </div>
       </header>

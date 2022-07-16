@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Agendamento;
 use App\Models\Meta;
+use App\Models\Saida;
 use DateTime;
 
 class DashboardController extends Controller
@@ -20,7 +22,8 @@ class DashboardController extends Controller
         if($medioPrazo==null) $medioPrazo=0;
         $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->get();
         if($longoPrazo==null) $longoPrazo=0;
-        return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,'atributosCalendario'=>$atributosCalendario]);
+        $gastosMensais=$this->somarGastos();
+        return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,'atributosCalendario'=>$atributosCalendario,'gastosMensais' => $gastosMensais, ]);
     }
 
     public function adicionarAgendamento(Request $req){
@@ -79,5 +82,13 @@ class DashboardController extends Controller
             array_push($atributos,['title'=>$nome, 'date'=>$data]);
         }
         return $atributos;
+    }
+
+    private function somarGastos(){
+        $data = Carbon::now();
+        $primeiro=$data->startOfMonth()->format('Y-m-d');
+        $ultimo=$data->endOfMonth()->format('Y-m-d');
+        $gastos=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario',auth()->user()->id)->sum('valor');
+        return $gastos;
     }
 }

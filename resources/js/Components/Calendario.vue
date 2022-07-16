@@ -72,7 +72,7 @@ export default {
         <FullCalendar :options="calendarOptions" />
     </div>
     <q-dialog v-model="modalAgendamentos" transition-show="scale" transition-hide="scale" rounded>
-        <q-card style="width: 500px; max-width: 60vw">
+        <q-card style="width: 500px; max-width: 95w">
             <q-card-section class="row items-center q-pb-none">
                 <div class="tw-w-10/12 sm:tw-w-11/12">
                     <img src="/images/entrada.png" class="tw-mx-auto hover:tw-cursor-pointer"
@@ -89,8 +89,8 @@ export default {
                         <q-input outlined v-model="form.descricao" label="Descrição" />
                         <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-center">
                             <q-btn color="primary" label="Data*" @click="modalData = true" no-caps />
-                            <div v-if="form.dataAgendamento != '' && form.dataAgendamento != null">
-                                <span class="tw-ml-2">Data selecionada: {{ dataFormatada(form.dataAgendamento) }}</span>
+                            <div v-if="form.dataAgendamento != '' && form.dataAgendamento != null" class="tw-ml-2">
+                                <span>Data selecionada: {{ dataFormatada(form.dataAgendamento) }}</span>
                             </div>
                         </div>
                     </div>
@@ -105,9 +105,9 @@ export default {
     </q-dialog>
     <!--escolher uma data-->
     <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded>
-        <q-card style="width: 400px; max-width: 60vw">
+        <q-card style="width: 400px; max-width: 95vw">
             <q-card-section>
-                <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+                <div class="tw-w-full tw-mx-auto tw-text-center">
                     <q-date v-model="form.dataAgendamento" today-btn mask="YYYY-MM-DD"
                         :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro', 'Dezembro'], daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'], days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'] }" />
                 </div>
