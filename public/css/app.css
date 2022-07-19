@@ -1047,6 +1047,10 @@ select {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
+.tw-text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
 .tw-font-semibold {
   font-weight: 600;
 }
@@ -1314,11 +1318,18 @@ select:focus {
     margin-top: 1px;
     margin-bottom: 1px;
   }
+  .sm\:tw-mx-1 {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
   .sm\:tw-ml-10 {
     margin-left: 2.5rem;
   }
   .sm\:tw-ml-6 {
     margin-left: 1.5rem;
+  }
+  .sm\:tw-ml-2 {
+    margin-left: 0.5rem;
   }
   .sm\:tw-block {
     display: block;

@@ -30,14 +30,17 @@ const submit = () => {
 
     <Head title="Login" />
 
-    <BreezeValidationErrors class="tw-mb-4" />
-
     <div v-if="status" class="tw-mb-4 tw-font-medium tw-text-sm tw-text-green-600">
       {{ status }}
     </div>
 
     <form @submit.prevent="submit">
       <!-- <img src="/images/user.png" class="imagem tw-mx-auto" /> -->
+      <div class="sm:tw-flex sm:tw-flex-inline tw-justify-center tw-items-center tw-mb-2">
+        <h1 class="tw-text-xl tw-font-bold tw-text-center">Entre em sua conta</h1>
+        <img src="/images/logo.png" class="imagem tw-ml-2" />
+      </div>
+      <BreezeValidationErrors class="tw-mb-4" />
       <div>
         <BreezeLabel for="email" value="E-mail" />
         <BreezeInput id="email" type="email" class="tw-mt-1 tw-block tw-w-full" v-model="form.email" required autofocus
@@ -59,15 +62,21 @@ const submit = () => {
 
       <div class="tw-text-center tw-mt-4">
         <BreezeButton :class="{ 'tw-opacity-25': form.processing }" :disabled="form.processing">
-          Login
+          Entrar
         </BreezeButton>
-        <br />
-        <Link v-if="canResetPassword" :href="route('password.request')" class="
-            tw-underline tw-text-sm tw-text-gray-600
-            hover:tw-text-gray-900
-          ">
-        Esqueceu a senha?
+      </div>
+      <div class="tw-text-center tw-mt-2">
+        <Link :href="route('register')" class="tw-text-gray-700 tw-underline">
+        Criar uma conta
         </Link>
+        <!-- <div class="tw-mt-2">
+          <Link v-if="canResetPassword" :href="route('password.request')" class="
+            tw-underline tw-text-sm tw-text-gray-600
+            hover:tw-text-gray-900 
+          ">
+          Esqueceu a senha?
+          </Link>
+        </div> -->
       </div>
     </form>
   </BreezeGuestLayout>
@@ -75,6 +84,6 @@ const submit = () => {
 
 <style>
 .imagem {
-  max-width: 200px;
+  max-width: 190px;
 }
 </style>

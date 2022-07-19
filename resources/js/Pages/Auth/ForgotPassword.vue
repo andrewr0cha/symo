@@ -21,18 +21,15 @@ const submit = () => {
 
 <template>
   <BreezeGuestLayout>
-    <Head title="Forgot Password" />
+
+    <Head title="Recuperar Senha" />
 
     <div class="tw-mb-4 tw-text-sm tw-text-gray-600">
-      Forgot your password? No problem. Just let us know your email address and
-      we will email you a password reset link that will allow you to choose a
-      new one.
+      Esqueceu sua senha? Sem problemas. Apenas nos deixe saber seu endereço de
+      email e nós enviaremos a você um link que permitirá a você escolher uma nova senha.
     </div>
 
-    <div
-      v-if="status"
-      class="tw-mb-4 tw-font-medium tw-text-sm tw-text-green-600"
-    >
+    <div v-if="status" class="tw-mb-4 tw-font-medium tw-text-sm tw-text-green-600">
       {{ status }}
     </div>
 
@@ -41,23 +38,13 @@ const submit = () => {
     <form @submit.prevent="submit">
       <div>
         <BreezeLabel for="email" value="Email" />
-        <BreezeInput
-          id="email"
-          type="email"
-          class="tw-mt-1 tw-block tw-w-full"
-          v-model="form.email"
-          required
-          autofocus
-          autocomplete="username"
-        />
+        <BreezeInput id="email" type="email" class="tw-mt-1 tw-block tw-w-full" v-model="form.email" required autofocus
+          autocomplete="username" />
       </div>
 
       <div class="tw-flex tw-items-center tw-justify-end tw-mt-4">
-        <BreezeButton
-          :class="{ 'tw-opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Email Password Reset Link
+        <BreezeButton :class="{ 'tw-opacity-25': form.processing }" :disabled="form.processing">
+          Confirmar
         </BreezeButton>
       </div>
     </form>

@@ -32,15 +32,19 @@ defineProps({
         <Link :href="route('dashboard')" class="tw-mb-2 tw-underline">Trocar de Conta
         </Link>
       </div>
-      <template v-else>
-        <Link :href="route('login')" class="tw-text-sm tw-text-gray-700 tw-underline">
-        Log in
-        </Link>
-
-        <Link v-if="canRegister" :href="route('register')" class="tw-ml-4 tw-text-sm tw-text-gray-700 tw-underline">
-        Register
-        </Link>
-      </template>
+      <div v-else class="tw-flex tw-flex-col tw-items-center">
+        <div class="tw-mb-2"><img src="/images/logo-desenho.png" style="max-width: 250px;" /></div>
+        <div class="tw-mb-2"><img src="/images/user.png" class="image" /></div>
+        <div class="tw-mb-2 tw-text-lg">Já tem uma conta?
+          <Link :href="route('login')" class="tw-text-gray-700 tw-underline">Entrar
+          </Link>
+        </div>
+        <div class="tw-mb-2 tw-text-lg">Não tem uma conta?
+          <Link v-if="canRegister" :href="route('register')" class="tw-text-gray-700 tw-underline">
+          Vamos criar uma!
+          </Link>
+        </div>
+      </div>
     </div>
   </div>
 </template>
