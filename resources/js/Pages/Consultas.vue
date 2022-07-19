@@ -4,7 +4,7 @@
   <BreezeAuthenticatedLayout>
     <!--saldo e categorias-->
     <div class="tw-w-11/12 tw-mx-auto tw-flex tw-mt-4 border tw-bg-black">
-      <!--saldo-->
+      <!--saldo--> 
       <div class="
           tw-w-1/3
           tw-bg-black
