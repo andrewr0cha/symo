@@ -27,42 +27,27 @@ const submit = () => {
 
 <template>
   <BreezeGuestLayout>
+
     <Head title="Login" />
 
     <BreezeValidationErrors class="tw-mb-4" />
 
-    <div
-      v-if="status"
-      class="tw-mb-4 tw-font-medium tw-text-sm tw-text-green-600"
-    >
+    <div v-if="status" class="tw-mb-4 tw-font-medium tw-text-sm tw-text-green-600">
       {{ status }}
     </div>
 
     <form @submit.prevent="submit">
-      <img src="/images/user.png" class="imagem tw-mx-auto" />
+      <!-- <img src="/images/user.png" class="imagem tw-mx-auto" /> -->
       <div>
         <BreezeLabel for="email" value="E-mail" />
-        <BreezeInput
-          id="email"
-          type="email"
-          class="tw-mt-1 tw-block tw-w-full"
-          v-model="form.email"
-          required
-          autofocus
-          autocomplete="username"
-        />
+        <BreezeInput id="email" type="email" class="tw-mt-1 tw-block tw-w-full" v-model="form.email" required autofocus
+          autocomplete="username" />
       </div>
 
       <div class="tw-mt-4">
         <BreezeLabel for="password" value="Senha" />
-        <BreezeInput
-          id="password"
-          type="password"
-          class="tw-mt-1 tw-block tw-w-full"
-          v-model="form.password"
-          required
-          autocomplete="current-password"
-        />
+        <BreezeInput id="password" type="password" class="tw-mt-1 tw-block tw-w-full" v-model="form.password" required
+          autocomplete="current-password" />
       </div>
 
       <!--<div class="block mt-4">
@@ -73,22 +58,15 @@ const submit = () => {
       </div>-->
 
       <div class="tw-text-center tw-mt-4">
-        <BreezeButton
-          :class="{ 'tw-opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
+        <BreezeButton :class="{ 'tw-opacity-25': form.processing }" :disabled="form.processing">
           Login
         </BreezeButton>
         <br />
-        <Link
-          v-if="canResetPassword"
-          :href="route('password.request')"
-          class="
+        <Link v-if="canResetPassword" :href="route('password.request')" class="
             tw-underline tw-text-sm tw-text-gray-600
             hover:tw-text-gray-900
-          "
-        >
-          Esqueceu a senha?
+          ">
+        Esqueceu a senha?
         </Link>
       </div>
     </form>
@@ -97,6 +75,6 @@ const submit = () => {
 
 <style>
 .imagem {
-  max-width: 50%;
+  max-width: 200px;
 }
 </style>

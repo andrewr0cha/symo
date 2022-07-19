@@ -11,7 +11,7 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
 
 <template>
 
-    <Head title="Agendamentos" />
+    <Head title="Metas" />
     <BreezeAuthenticatedLayout>
         <div class="tw-flex tw-items-center tw-mt-4">
             <div class="tw-flex-col  tw-w-full tw-mt-4 tw-px-8">

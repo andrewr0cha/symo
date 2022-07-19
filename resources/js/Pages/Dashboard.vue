@@ -25,8 +25,6 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
       <div class="
           tw-flex
           tw-flex-col
-          tw-h-screen
-          tw-px-4
           tw-py-8
           tw-overflow-y-auto
           tw-border-r
@@ -34,7 +32,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <div class="tw-flex tw-flex-col tw-mx-auto">
           <aside>
             <div class="tw-flex sm:tw-max-w-7xl tw-mx-auto">
-              <div class="fundo tw-flex sm:tw-max-w-2/6 tw-mr-4 tw-pl-5">
+              <div class="fundo tw-flex sm:tw-max-w-2/6 tw-mr-2 tw-pl-5">
                 <div class="topo tw-mx-auto sm:tw-max-w-2/6 tw-pl-2">
                   <img class="
                       tw-rounded tw-max-w-40 tw-max-h-40 tw-mx-auto tw-pt-1
@@ -541,14 +539,14 @@ export default {
 <style scoped>
 .fundo {
   background-color: black;
-  max-width: 310px;
+  max-width: 300px;
   border-radius: 20px;
 }
 
 .topo {
   background-color: white;
   text-align: center;
-  width: 300px;
+  width: 290px;
   height: 360px;
   border-radius: 20px;
   padding-right: 5px;

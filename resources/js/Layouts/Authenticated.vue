@@ -16,12 +16,12 @@ const showingNavigationDropdown = ref(false);
       <nav class="tw-bg-white tw-border-b tw-border-gray-100">
         <!-- Primary Navigation Menu -->
         <div class="tw-max-w-7xl tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8">
-          <div class="tw-flex tw-justify-between tw-h-16">
+          <div class="tw-flex tw-justify-between tw-h-20">
             <div class="tw-flex">
               <!-- Logo -->
               <div class="tw-shrink-0 tw-flex tw-items-center">
                 <Link :href="route('dashboard')">
-                <BreezeApplicationLogo class="tw-block tw-h-9 tw-w-auto" />
+                <BreezeApplicationLogo class="tw-block tw-h-14 tw-w-auto" />
                 </Link>
               </div>
 

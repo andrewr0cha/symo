@@ -26,43 +26,43 @@ Route::get('/', function () {
 
 Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->name('consultas');
+Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->middleware(['auth', 'verified'])->name('consultas');
 
-Route::get('/agendamentos', 'App\Http\Controllers\AgendamentosController@index')->name('agendamentos');
+Route::get('/agendamentos', 'App\Http\Controllers\AgendamentosController@index')->middleware(['auth', 'verified'])->name('agendamentos');
 
-Route::get('/metas', 'App\Http\Controllers\MetasController@index')->name('metas');
+Route::get('/metas', 'App\Http\Controllers\MetasController@index')->middleware(['auth', 'verified'])->name('metas');
 
-Route::post('/adicionar/entrada/{id?}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->name('adicionar.entrada');
+Route::post('/adicionar/entrada/{id?}', 'App\Http\Controllers\ConsultasController@adicionarEntrada')->middleware(['auth', 'verified'])->name('adicionar.entrada');
 
-Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@adicionarSaida')->name('adicionar.saida');
+Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@adicionarSaida')->middleware(['auth', 'verified'])->name('adicionar.saida');
 
-Route::post('/adicionar/agendamento', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->name('adicionar.agendamento');
+Route::post('/adicionar/agendamento', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('adicionar.agendamento');
 
-Route::post('/adicionar/agendamento', 'App\Http\Controllers\AgendamentosController@adicionarAgendamento')->name('agendamento.adicionar.agendamento');
+Route::post('/adicionar/agendamento', 'App\Http\Controllers\AgendamentosController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('agendamento.adicionar.agendamento');
 
-Route::post('/adicionar/meta', 'App\Http\Controllers\DashboardController@adicionarMeta')->name('adicionar.meta');
+Route::post('/adicionar/meta', 'App\Http\Controllers\DashboardController@adicionarMeta')->middleware(['auth', 'verified'])->name('adicionar.meta');
 
-Route::post('/adicionar/meta', 'App\Http\Controllers\MetasController@adicionarMeta')->name('meta.adicionar.meta');
+Route::post('/adicionar/meta', 'App\Http\Controllers\MetasController@adicionarMeta')->middleware(['auth', 'verified'])->name('meta.adicionar.meta');
 
-Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->name('excluir.saida');
+Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->middleware(['auth', 'verified'])->name('excluir.saida');
 
-Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@excluirEntrada')->name('excluir.entrada');
+Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@excluirEntrada')->middleware(['auth', 'verified'])->name('excluir.entrada');
 
-Route::post('/excluir/agendamento', 'App\Http\Controllers\DashboardController@excluirAgendamento')->name('excluir.agendamento');
+Route::post('/excluir/agendamento', 'App\Http\Controllers\DashboardController@excluirAgendamento')->middleware(['auth', 'verified'])->name('excluir.agendamento');
 
-Route::post('/excluir/agendamento', 'App\Http\Controllers\AgendamentosController@excluirAgendamento')->name('agendamento.excluir.agendamento');
+Route::post('/excluir/agendamento', 'App\Http\Controllers\AgendamentosController@excluirAgendamento')->middleware(['auth', 'verified'])->name('agendamento.excluir.agendamento');
 
-Route::post('/excluir/meta', 'App\Http\Controllers\DashboardController@excluirMeta')->name('excluir.meta');
+Route::post('/excluir/meta', 'App\Http\Controllers\DashboardController@excluirMeta')->middleware(['auth', 'verified'])->name('excluir.meta');
 
-Route::post('/excluir/meta', 'App\Http\Controllers\MetasController@excluirMeta')->name('meta.excluir.meta');
+Route::post('/excluir/meta', 'App\Http\Controllers\MetasController@excluirMeta')->middleware(['auth', 'verified'])->name('meta.excluir.meta');
 
-Route::post('/meta/concluir', 'App\Http\Controllers\DashboardController@concluirMeta')->name('concluir.meta');
+Route::post('/meta/concluir', 'App\Http\Controllers\DashboardController@concluirMeta')->middleware(['auth', 'verified'])->name('concluir.meta');
 
-Route::post('/meta/concluir', 'App\Http\Controllers\MetasController@concluirMeta')->name('meta.concluir.meta');
+Route::post('/meta/concluir', 'App\Http\Controllers\MetasController@concluirMeta')->middleware(['auth', 'verified'])->name('meta.concluir.meta');
 
-Route::post('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@filtrarEntrada')->name('filtrar.entrada');
+Route::post('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@filtrarEntrada')->middleware(['auth', 'verified'])->name('filtrar.entrada');
 
-Route::post('/filtrar/saida', 'App\Http\Controllers\ConsultasController@filtrarSaida')->name('filtrar.saida');
+Route::post('/filtrar/saida', 'App\Http\Controllers\ConsultasController@filtrarSaida')->middleware(['auth', 'verified'])->name('filtrar.saida');
 
 Route::get('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@index');
 

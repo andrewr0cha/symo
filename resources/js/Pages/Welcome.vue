@@ -10,46 +10,35 @@ defineProps({
 </script>
 
 <template>
-  <Head title="Welcome" />
 
-  <div
-    class="
+  <Head title="Entrar" />
+  <!--dark:tw-bg-gray-900-->
+  <div class="
       tw-relative
       tw-flex
       tw-items-top
       tw-justify-center
       tw-min-h-screen
       tw-bg-gray-100
-      dark:tw-bg-gray-900
-      sm:tw-items-center sm:tw-pt-0
-    "
-  >
-    <div
-      v-if="canLogin"
-      class="tw-hidden tw-fixed tw-top-0 tw-right-0 tw-px-6 tw-py-4 sm:tw-block"
-    >
-      <Link
-        v-if="$page.props.auth.user"
-        :href="route('dashboard')"
-        class="tw-text-sm tw-text-gray-700 tw-underline"
-      >
-        Dashboard
-      </Link>
-
+      tw-items-center tw-pt-0
+    ">
+    <div v-if="canLogin" class="tw-mx-auto tw-top-0 tw-right-0 tw-px-6 tw-py-4">
+      <div v-if="$page.props.auth.user" class="tw-flex tw-flex-col tw-items-center">
+        <div class="tw-mb-2"><img src="/images/logo-desenho.png" style="max-width: 250px;" /></div>
+        <div class="tw-mb-2"><img src="/images/user.png" class="image" /></div>
+        <div class="tw-mb-2 tw-text-lg">Seja bem-vindo, {{ $page.props.auth.user.name }}</div>
+        <Link :href="route('dashboard')" class="tw-mb-2"><span class="material-icons md-48">login</span>
+        </Link>
+        <Link :href="route('dashboard')" class="tw-mb-2 tw-underline">Trocar de Conta
+        </Link>
+      </div>
       <template v-else>
-        <Link
-          :href="route('login')"
-          class="tw-text-sm tw-text-gray-700 tw-underline"
-        >
-          Log in
+        <Link :href="route('login')" class="tw-text-sm tw-text-gray-700 tw-underline">
+        Log in
         </Link>
 
-        <Link
-          v-if="canRegister"
-          :href="route('register')"
-          class="tw-ml-4 tw-text-sm tw-text-gray-700 tw-underline"
-        >
-          Register
+        <Link v-if="canRegister" :href="route('register')" class="tw-ml-4 tw-text-sm tw-text-gray-700 tw-underline">
+        Register
         </Link>
       </template>
     </div>
@@ -57,6 +46,10 @@ defineProps({
 </template>
 
 <style scoped>
+.image {
+  max-width: 200px;
+}
+
 .bg-gray-100 {
   background-color: #f7fafc;
   background-color: rgba(247, 250, 252, var(--tw-bg-opacity));
