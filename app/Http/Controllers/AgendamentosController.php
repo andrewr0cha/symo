@@ -10,7 +10,7 @@ use DateTime;
 class AgendamentosController extends Controller
 {
     public function index(){
-        $agendamentos=Agendamento::where('id_usuario', auth()->user()->id)->get();
+        $agendamentos=Agendamento::where('id_usuario', auth()->user()->id)->orderBy('id', 'desc')->get();
         if($agendamentos==null) $agendamentos=0;
         else $atributosCalendario=$this->atributosCalendario($agendamentos);
         return Inertia::render('Agendamentos', ['agendamentos' => $agendamentos,'atributosCalendario'=>$atributosCalendario]);

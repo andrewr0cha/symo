@@ -4,7 +4,7 @@
   <BreezeAuthenticatedLayout>
     <!--saldo e categorias-->
     <div class="tw-w-11/12 tw-mx-auto tw-flex tw-mt-4 border tw-bg-black">
-      <!--saldo--> 
+      <!--saldo-->
       <div class="
           tw-w-1/3
           tw-bg-black
@@ -261,10 +261,10 @@
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
             <div class="q-gutter-y-md">
-              <q-input outlined v-model="form.nome" label="Título*" @click="mudarStatus" />
-              <q-input v-model.number="form.valor" type="number" outlined label="Valor*" min="0.01" step="0.01"
-                @click="mudarStatus" />
-              <q-input outlined v-model="form.descricao" label="Descrição" @click="mudarStatus" />
+              <q-input outlined v-model="form.nome" label="Título*" />
+              <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
+                outlined label="Valor*" min="0.01" step="0.01" />
+              <q-input outlined v-model="form.descricao" label="Descrição" />
             </div>
           </div>
         </q-card-section>
@@ -294,12 +294,11 @@
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
             <div class="q-gutter-y-md">
-              <q-input outlined v-model="form.nome" label="Título*" @click="mudarStatus" />
-              <q-input v-model.number="form.valor" type="number" outlined label="Valor*" min="0.01" step="0.01"
-                @click="mudarStatus" />
-              <q-select outlined v-model="form.id_categoria" :options="categoriasSaida" label="Categoria*"
-                @click="mudarStatus" />
-              <q-input outlined v-model="form.descricao" label="Descrição" @click="mudarStatus" />
+              <q-input outlined v-model="form.nome" label="Título*" />
+              <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
+                outlined label="Valor*" min="0.01" step="0.01" />
+              <q-select outlined v-model="form.id_categoria" :options="categoriasSaida" label="Categoria*" />
+              <q-input outlined v-model="form.descricao" label="Descrição" />
             </div>
           </div>
         </q-card-section>
@@ -322,7 +321,8 @@
         </q-card-section>
         <q-card-section>
           <div v-if="diferenca > 0" class="tw-mx-auto tw-text-center">
-            O seu gasto com essa categoria é <span class="tw-text-green-500">{{ porcentagem(diferenca) }}</span> maior do
+            O seu gasto com essa categoria é <span class="tw-text-green-500">{{ porcentagem(diferenca) }}</span> maior
+            do
             que a média dos demais usuários.
           </div>
           <div v-else-if="diferenca < 0" class=" tw-mx-auto tw-text-center">
@@ -406,9 +406,8 @@
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
             <div class="q-gutter-y-md">
-              <q-input v-model="formData.dataInicial" filled type="date" hint="Data Inicial*" @click="mudarStatus" />
-              <q-input v-model="formData.dataFinal" :min="formData.dataInicial" filled type="date" hint="Data Final*"
-                @click="mudarStatus" />
+              <q-input v-model="formData.dataInicial" filled type="date" hint="Data Inicial*" />
+              <q-input v-model="formData.dataFinal" :min="formData.dataInicial" filled type="date" hint="Data Final*" />
             </div>
           </div>
         </q-card-section>
@@ -430,9 +429,8 @@
         <q-card-section>
           <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
             <div class="q-gutter-y-md">
-              <q-input v-model="formData.dataInicial" filled type="date" hint="Data Inicial*" @click="mudarStatus" />
-              <q-input v-model="formData.dataFinal" :min="formData.dataInicial" filled type="date" hint="Data Final*"
-                @click="mudarStatus" />
+              <q-input v-model="formData.dataInicial" filled type="date" hint="Data Inicial*" />
+              <q-input v-model="formData.dataFinal" :min="formData.dataInicial" filled type="date" hint="Data Final*" />
             </div>
           </div>
         </q-card-section>
@@ -492,14 +490,11 @@ export default {
       return val.toString() + "%";
     },
 
-    mudarStatus() {
-      this.formNulo = false;
-    },
-
     lancarEntrada() {
       if (this.form.nome == "" || this.form.valor == "") {
         this.formNulo = true;
       } else {
+        this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
         this.form.post(route("adicionar.entrada", { id: this.id }), {
           preserveState: true,
           preserveScroll: true,
@@ -519,6 +514,7 @@ export default {
       ) {
         this.formNulo = true;
       } else {
+        this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
         this.form.post(route("adicionar.saida", { id: this.id }), {
           preserveState: true,
           preserveScroll: true,
@@ -573,7 +569,7 @@ export default {
         labels: ['Essencial', 'Objetivos', 'Aposentadoria', 'Educação', 'Lazer'],
         datasets: [
           {
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#FFFFFF'],
+            backgroundColor: ['#41B883', '#59f792', '#ffdf00', '#ac27e6', '#d41545'],
             data: [i, j, k, l, m]
           }
         ]

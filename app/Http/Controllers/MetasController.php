@@ -9,11 +9,11 @@ use App\Models\Meta;
 class MetasController extends Controller
 {
     public function index(){
-        $curtoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Curto')->get();
+        $curtoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Curto')->orderBy('id', 'desc')->get();
         if($curtoPrazo==null) $curtoPrazo=0;
-        $medioPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Médio')->get();
+        $medioPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Médio')->orderBy('id', 'desc')->get();
         if($medioPrazo==null) $medioPrazo=0;
-        $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->get();
+        $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->orderBy('id', 'desc')->get();
         if($longoPrazo==null) $longoPrazo=0;
         return Inertia::render('Metas', ['curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo]);
     }

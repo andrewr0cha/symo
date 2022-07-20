@@ -13,14 +13,14 @@ use DateTime;
 class DashboardController extends Controller
 {
     public function index(){
-        $agendamentos=Agendamento::where('id_usuario', auth()->user()->id)->get();
+        $agendamentos=Agendamento::where('id_usuario', auth()->user()->id)->orderBy('id', 'desc')->get();
         if($agendamentos==null) $agendamentos=0;
         else $atributosCalendario=$this->atributosCalendario($agendamentos);
-        $curtoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Curto')->get();
+        $curtoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Curto')->orderBy('id', 'desc')->get();
         if($curtoPrazo==null) $curtoPrazo=0;
-        $medioPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Médio')->get();
+        $medioPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Médio')->orderBy('id', 'desc')->get();
         if($medioPrazo==null) $medioPrazo=0;
-        $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->get();
+        $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->orderBy('id', 'desc')->get();
         if($longoPrazo==null) $longoPrazo=0;
         $gastosMensais=$this->somarGastos();
         return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,'atributosCalendario'=>$atributosCalendario,'gastosMensais' => $gastosMensais, ]);

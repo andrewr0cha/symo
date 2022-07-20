@@ -143,11 +143,11 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                 </Link>
               </div>
               <div class="tw-w-1/3 tw-mr-2 tw-min-w-32">
-                <Texto class="tw-w-full tw-text-center tw-p-2 tw-cursor-pointer" @click="modalSaidas = true">Despesas
+                <Texto class="tw-w-full tw-text-center tw-p-2 tw-cursor-pointer" @click="modalSaidas = true">+Despesa
                 </Texto>
               </div>
               <div class="tw-w-1/3 tw-min-w-32">
-                <Texto class="tw-w-full tw-text-center tw-p-2 tw-cursor-pointer" @click="modalEntradas = true">Entradas
+                <Texto class="tw-w-full tw-text-center tw-p-2 tw-cursor-pointer" @click="modalEntradas = true">+Entrada
                 </Texto>
               </div>
             </div>

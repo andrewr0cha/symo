@@ -1,5 +1,5 @@
 /*import da fonte vem aqui*/
-/*! tailwindcss v3.1.4 | MIT License | https://tailwindcss.com*/
+/*! tailwindcss v3.1.6 | MIT License | https://tailwindcss.com*/
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
@@ -675,11 +675,11 @@ select {
 .tw-mr-4 {
   margin-right: 1rem;
 }
-.tw-ml-4 {
-  margin-left: 1rem;
-}
 .tw-mt-1 {
   margin-top: 0.25rem;
+}
+.tw-ml-4 {
+  margin-left: 1rem;
 }
 .tw-block {
   display: block;
@@ -1047,10 +1047,6 @@ select {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
-.tw-text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
 .tw-font-semibold {
   font-weight: 600;
 }
@@ -1327,9 +1323,6 @@ select:focus {
   }
   .sm\:tw-ml-6 {
     margin-left: 1.5rem;
-  }
-  .sm\:tw-ml-2 {
-    margin-left: 0.5rem;
   }
   .sm\:tw-block {
     display: block;
