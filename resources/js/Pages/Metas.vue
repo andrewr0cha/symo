@@ -3,6 +3,7 @@ import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
+import Texto from "@/Components/Text.vue";
 const modalMeta = ref(false);
 const modalInfoMetas = ref(false);
 const modalProgressao = ref(false);
@@ -13,27 +14,29 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
 
     <Head title="Metas" />
     <BreezeAuthenticatedLayout>
-        <div class="tw-flex tw-items-center tw-mt-4">
-            <div class="tw-flex-col  tw-w-full tw-mt-4 tw-px-8">
-                <div class="metas tw-max-w-xs tw-w-11/12 tw-h-32 tw-min-h-full tw-p-2 tw-mb-4 tw-mx-auto tw-cursor-pointer"
+        <div class="tw-flex tw-items-center tw-justify-center tw-mt-4">
+            <div class="tw-flex-col tw-text-center tw-mt-4 tw-px-8">
+                <Texto
+                    class="metas tw-max-w-xs tw-w-11/12 tw-h-32 tw-min-h-full tw-p-2 tw-mb-4 tw-mx-auto tw-cursor-pointer"
                     @click="modalmeta('Curto')">
                     <span class="tw-h-full tw-flex tw-items-center tw-justify-center">Minhas metas a curto prazo</span>
-                </div>
-                <div class="metas tw-max-w-xs tw-w-11/12 tw-h-32 tw-min-h-full tw-p-2 tw-mb-4 tw-mx-auto tw-cursor-pointer"
+                </Texto>
+                <Texto
+                    class="metas tw-max-w-xs tw-w-11/12 tw-h-32 tw-min-h-full tw-p-2 tw-mb-4 tw-mx-auto tw-cursor-pointer"
                     @click="modalmeta('Médio')">
                     <span class="tw-h-full tw-flex tw-items-center tw-justify-center">Minhas metas a médio prazo</span>
-                </div>
-                <div class="metas tw-max-w-xs tw-w-11/12 tw-h-32 tw-min-h-full tw-p-2 tw-mx-auto tw-cursor-pointer"
+                </Texto>
+                <Texto class="metas tw-max-w-xs tw-w-11/12 tw-h-32 tw-min-h-full tw-p-2 tw-mx-auto tw-cursor-pointer"
                     @click="modalmeta('Longo')">
                     <span class="tw-h-full tw-flex tw-items-center tw-justify-center">Minhas metas a longo prazo</span>
-                </div>
+                </Texto>
             </div>
         </div>
         <!--modal meta-->
         <q-dialog v-model="modalMeta">
-            <q-carousel transition-prev="slide-right" transition-next="slide-left" swipeable animated v-model="slide"
-                control-color="primary" navigation-icon="radio_button_unchecked" height="500px" navigation>
-                <q-carousel-slide :name="1" style="width:500px; max-width:95vw">
+            <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
+                control-color="primary" navigation height="500px">
+                <q-carousel-slide :name="1" style="width:500px; max-width:85vw">
                     <div>
                         <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
                             <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -63,7 +66,7 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                         </div>
                     </div>
                 </q-carousel-slide>
-                <q-carousel-slide :name="2" style="width:500px;max-width:95vw">
+                <q-carousel-slide :name="2" style="width:500px;max-width:85vw">
                     <div class="tw-h-full">
                         <div class="tw-w-full tw-flex tw-justify-between tw-mt-4">
                             <q-btn icon="arrow_back" flat round dense v-close-popup @click="slide = 1" />
@@ -81,7 +84,7 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                                 <q-scroll-area style="height:300px">
                                     <div class="tw-flex tw-flex-wrap tw-justify-center tw-w-full">
                                         <div v-for="item in metaList" :key="item.id"
-                                            class="meta tw-w-5/12 tw-ml-2 tw-mt-2">
+                                            class="meta tw-w-5/12 tw-ml-2 tw-my-1">
                                             <q-card class="tw-w-full hover:tw-cursor-pointer ">
                                                 <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2"
                                                     @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
@@ -106,7 +109,8 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                                                     @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
                                                     Final: {{ dataFinalFormatada(item.data, item.duracao) }}
                                                 </div>
-                                                <div v-if="apagarMeta || marcarConcluida" class="tw-w-full tw-pl-2">
+                                                <div v-if="apagarMeta || marcarConcluida"
+                                                    class="tw-w-full tw-flex tw-justify-center tw-mt-1 tw-pb-1">
                                                     <input type="checkbox" @click="adicionaItem(item.id)" />
                                                 </div>
                                             </q-card>
@@ -115,12 +119,12 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                                 </q-scroll-area>
                                 <div class="tw-w-full tw-justify-center tw-mt-4 tw-flex tw-inline-flex">
                                     <div v-if="apagarMeta == false && marcarConcluida == false"
-                                        class="tw-mt-2 tw-flex tw-inline-flex tw-justify-around tw-w-full">
-                                        <q-btn color="primary" label="Marcar como Concluída" @click="marcarconcluida"
-                                            no-caps />
+                                        class="tw-my-2 tw-flex tw-inline-flex tw-justify-around tw-w-full">
+                                        <q-btn class="tw-mr-1" color="primary" label="Marcar como Concluída"
+                                            @click="marcarconcluida" no-caps />
                                         <q-btn color="primary" label="Remover" @click="apagarmeta" no-caps />
                                     </div>
-                                    <div v-else-if="apagarMeta == true" class="tw-mt-2 tw-flex tw-inline-flex">
+                                    <div v-else-if="apagarMeta == true" class="tw-my-2 tw-flex tw-inline-flex">
                                         <span class="material-icons md-36 hover:tw-cursor-pointer"
                                             @click="(apagarMeta = false), (lista = [])">clear</span>
                                         <span class="material-icons md-36 hover:tw-cursor-pointer"
@@ -329,6 +333,7 @@ export default {
 
 <style>
 .metas {
+    background-color: white;
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;

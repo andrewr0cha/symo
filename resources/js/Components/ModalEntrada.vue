@@ -1,5 +1,6 @@
 <template>
-  <q-dialog v-model="dialog" transition-show="scale" transition-hide="scale" persistent rounded>
+  <q-dialog v-model="dialog" transition-show="scale" transition-hide="scale" persistent rounded
+    class="tw-hidden sm:tw-flex">
     <q-card style="width: 500px; max-width: 60vw">
       <q-card-section class="row items-center q-pb-none">
         <div class="tw-w-10/12 sm:tw-w-11/12">

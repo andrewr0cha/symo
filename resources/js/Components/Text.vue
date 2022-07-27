@@ -5,7 +5,9 @@ defineProps(["value"]);
 <template>
   <label class="label">
     <span v-if="value">{{ value }}</span>
-    <span v-else><slot /></span>
+    <span v-else>
+      <slot />
+    </span>
   </label>
 </template>
 
@@ -15,7 +17,6 @@ defineProps(["value"]);
   border-radius: 25px;
   padding-top: 10px;
   display: inline-block;
-  height: 45px;
   width: 100%;
 }
 

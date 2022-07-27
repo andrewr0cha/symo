@@ -37,16 +37,18 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <img class="
                       tw-rounded tw-max-w-40 tw-max-h-40 tw-mx-auto tw-pt-1
                     " src="/images/user.png" />
-                  Boa noite, {{ $page.props.auth.user.name }}
-                  <img src="/images/noite.png" class="imagem" />
+                  {{ horas() }} {{ $page.props.auth.user.name }}
+                  <img v-if="horas() == 'Bom dia,'" src="/images/bolsa.png" class="imagem" />
+                  <img v-if="horas() == 'Boa tarde,'" src="/images/bolsa.png" class="imagem" />
+                  <img v-if="horas() == 'Boa noite,'" src="/images/noite.png" class="imagem" />
                   <hr />
                   <div class="tw-mt-5">
-                    <Texto class="tw-w-8/10 tw-text-center tw-p-4">
+                    <Texto class="tw-w-8/10 tw-text-center tw-p-2">
                       Seu saldo: R${{ valorFormatado($page.props.auth.user.saldo) }}
                     </Texto>
                   </div>
                   <div class="tw-mt-5">
-                    <Texto class="tw-w-8/10 tw-text-center tw-p-4">
+                    <Texto class="tw-w-8/10 tw-text-center tw-p-2">
                       Seus gastos este mês: R${{ valorFormatado(gastosMensais) }}
                     </Texto>
                   </div>
@@ -157,17 +159,17 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <!--metas-->
         <div class="tw-flex tw-mt-4">
           <div class="tw-inline-flex tw-flex-auto tw-w-full tw-mt-4">
-            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2 tw-cursor-pointer"
+            <Texto class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2 tw-cursor-pointer"
               @click="modalmeta('Curto')">
               <span class="tw-h-full tw-flex tw-items-center tw-justify-center">Minhas metas a curto prazo</span>
-            </div>
-            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2 tw-cursor-pointer"
+            </Texto>
+            <Texto class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2 tw-cursor-pointer"
               @click="modalmeta('Médio')">
               <span class="tw-h-full tw-flex tw-items-center tw-justify-center">Minhas metas a médio prazo</span>
-            </div>
-            <div class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-p-2 tw-cursor-pointer" @click="modalmeta('Longo')">
+            </Texto>
+            <Texto class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-p-2 tw-cursor-pointer" @click="modalmeta('Longo')">
               <span class="tw-h-full tw-flex tw-items-center tw-justify-center">Minhas metas a longo prazo</span>
-            </div>
+            </Texto>
           </div>
         </div>
 
@@ -175,7 +177,8 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <ModalSaida v-model="modalSaidas"></ModalSaida>
       </div>
       <!--adicionar agendamento-->
-      <q-dialog v-model="modalAgendamentos" transition-show="scale" transition-hide="scale" rounded>
+      <q-dialog v-model="modalAgendamentos" transition-show="scale" transition-hide="scale" rounded
+        class="tw-hidden sm:tw-flex">
         <q-card style="width: 500px; max-width: 60vw">
           <q-card-section class="row items-center q-pb-none">
             <div class="tw-w-10/12 sm:tw-w-11/12">
@@ -208,7 +211,8 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         </q-card>
       </q-dialog>
       <!--escolher uma data-->
-      <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded>
+      <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded
+        class="tw-hidden sm:tw-flex">
         <q-card style="width: 400px; max-width: 60vw">
           <q-card-section>
             <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
@@ -222,9 +226,9 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         </q-card>
       </q-dialog>
       <!--modal meta-->
-      <q-dialog v-model="modalMeta">
-        <q-carousel transition-prev="slide-right" transition-next="slide-left" swipeable animated v-model="slide"
-          control-color="primary" navigation-icon="radio_button_unchecked" height="500px" navigation>
+      <q-dialog v-model="modalMeta" class="tw-hidden sm:tw-flex">
+        <q-carousel transition-prev="scale" transition-next="scale" swipeable animated v-model="slide"
+          control-color="primary" height="500px" navigation>
           <q-carousel-slide :name="1">
             <div style="width:500px">
               <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
@@ -320,7 +324,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         </q-carousel>
       </q-dialog>
       <!--modal explicações metas-->
-      <q-dialog v-model="modalInfoMetas" position="left" rounded>
+      <q-dialog v-model="modalInfoMetas" position="left" rounded class="tw-hidden sm:tw-flex">
         <q-card style="width: 300px; max-width: 60vh">
           <q-card-section class="row items-center q-pb-none">
             <q-btn icon="info" flat round dense />
@@ -350,7 +354,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         </q-card>
       </q-dialog>
       <!--modal progresso de metas-->
-      <q-dialog v-model="modalProgressao" position="right" rounded>
+      <q-dialog v-model="modalProgressao" position="right" rounded class="tw-hidden sm:tw-flex">
         <q-card style="width: 300px; max-width: 60vh">
           <q-card-section class="row items-center q-pb-none">
             <q-btn icon="trending_up" flat round dense />
@@ -383,8 +387,8 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
           </q-card-section>
         </q-card>
       </q-dialog>
-      <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
-        :icon="'error'">
+      <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'"
+        class="tw-hidden sm:tw-flex">
       </DialogBaixo>
     </div>
   </BreezeAuthenticatedLayout>
@@ -403,6 +407,20 @@ export default {
   },
 
   methods: {
+    horas() {
+      var dia = new Date();
+      var hora = dia.getHours() + ":" + dia.getMinutes() + ":" + dia.getSeconds();
+      var mensagem;
+      if (hora > "5:00:00" && hora < "12:00:00") {
+        mensagem = "Bom dia,";
+      } else if (hora > "12:00:00" && hora < "19:00:00") {
+        mensagem = "Boa tarde,";
+      } else if (hora > "12:00:00" && hora < "19:00:00") {
+        mensagem = "Boa noite,";
+      }
+      return mensagem;
+    },
+
     dataFormatada(object) {
       const data = dayjs(object);
       return data.format("DD/MM/YYYY");
@@ -590,12 +608,9 @@ export default {
 }
 
 .metas {
+  background-color: white;
   border: 2px solid black;
   border-radius: 20px;
   text-align: center;
-}
-
-.meta :hover {
-  background-color: #59f792;
 }
 </style>

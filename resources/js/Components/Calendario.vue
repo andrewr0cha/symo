@@ -29,7 +29,7 @@ export default {
                 events: this.atributos,
                 headerToolbar: {
                     left: "title",
-                    right: "today dayGridDay dayGridMonth prev next",
+                    right: "today prev next",
                 },
                 eventColor: '#59f792',
             },
@@ -71,7 +71,8 @@ export default {
     <div class="tw-w-full">
         <FullCalendar :options="calendarOptions" />
     </div>
-    <q-dialog v-model="modalAgendamentos" transition-show="scale" transition-hide="scale" rounded>
+    <q-dialog v-model="modalAgendamentos" transition-show="scale" transition-hide="scale" rounded
+        class="tw-hidden sm:tw-flex">
         <q-card style="width: 500px; max-width: 95w">
             <q-card-section class="row items-center q-pb-none">
                 <div class="tw-w-10/12 sm:tw-w-11/12">
@@ -104,7 +105,7 @@ export default {
         </q-card>
     </q-dialog>
     <!--escolher uma data-->
-    <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded>
+    <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded class="tw-hidden sm:tw-flex">
         <q-card style="width: 400px; max-width: 95vw">
             <q-card-section>
                 <div class="tw-w-full tw-mx-auto tw-text-center">

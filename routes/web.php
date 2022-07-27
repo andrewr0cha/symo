@@ -38,11 +38,11 @@ Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@
 
 Route::post('/adicionar/agendamento', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('adicionar.agendamento');
 
-Route::post('/adicionar/agendamento', 'App\Http\Controllers\AgendamentosController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('agendamento.adicionar.agendamento');
+Route::post('mobile/adicionar/agendamento', 'App\Http\Controllers\AgendamentosController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('agendamento.adicionar.agendamento');
 
 Route::post('/adicionar/meta', 'App\Http\Controllers\DashboardController@adicionarMeta')->middleware(['auth', 'verified'])->name('adicionar.meta');
 
-Route::post('/adicionar/meta', 'App\Http\Controllers\MetasController@adicionarMeta')->middleware(['auth', 'verified'])->name('meta.adicionar.meta');
+Route::post('mobile/adicionar/meta', 'App\Http\Controllers\MetasController@adicionarMeta')->middleware(['auth', 'verified'])->name('meta.adicionar.meta');
 
 Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->middleware(['auth', 'verified'])->name('excluir.saida');
 
@@ -50,15 +50,15 @@ Route::post('/excluir/entrada', 'App\Http\Controllers\ConsultasController@exclui
 
 Route::post('/excluir/agendamento', 'App\Http\Controllers\DashboardController@excluirAgendamento')->middleware(['auth', 'verified'])->name('excluir.agendamento');
 
-Route::post('/excluir/agendamento', 'App\Http\Controllers\AgendamentosController@excluirAgendamento')->middleware(['auth', 'verified'])->name('agendamento.excluir.agendamento');
+Route::post('mobile/excluir/agendamento', 'App\Http\Controllers\AgendamentosController@excluirAgendamento')->middleware(['auth', 'verified'])->name('agendamento.excluir.agendamento');
 
 Route::post('/excluir/meta', 'App\Http\Controllers\DashboardController@excluirMeta')->middleware(['auth', 'verified'])->name('excluir.meta');
 
-Route::post('/excluir/meta', 'App\Http\Controllers\MetasController@excluirMeta')->middleware(['auth', 'verified'])->name('meta.excluir.meta');
+Route::post('mobile/excluir/meta', 'App\Http\Controllers\MetasController@excluirMeta')->middleware(['auth', 'verified'])->name('meta.excluir.meta');
 
 Route::post('/meta/concluir', 'App\Http\Controllers\DashboardController@concluirMeta')->middleware(['auth', 'verified'])->name('concluir.meta');
 
-Route::post('/meta/concluir', 'App\Http\Controllers\MetasController@concluirMeta')->middleware(['auth', 'verified'])->name('meta.concluir.meta');
+Route::post('mobile/meta/concluir', 'App\Http\Controllers\MetasController@concluirMeta')->middleware(['auth', 'verified'])->name('meta.concluir.meta');
 
 Route::post('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@filtrarEntrada')->middleware(['auth', 'verified'])->name('filtrar.entrada');
 
