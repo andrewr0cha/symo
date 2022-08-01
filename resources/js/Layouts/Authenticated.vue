@@ -131,7 +131,7 @@ const showingNavigationDropdown = ref(false);
               Consultas
             </BreezeResponsiveNavLink>
             <BreezeResponsiveNavLink :href="route('agendamentos')" :active="route().current('agendamentos')">
-              Agendamentos
+              Eventos
             </BreezeResponsiveNavLink>
             <BreezeResponsiveNavLink :href="route('metas')" :active="route().current('metas')">
               Metas

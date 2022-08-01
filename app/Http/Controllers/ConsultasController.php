@@ -25,7 +25,8 @@ class ConsultasController extends Controller
         $categoriasSaida=$categoriasSaida->toArray();
         $porcentagens=$this->somarCategorias();
         $porcentagensGerais=$this->somarCategoriasGerais();
-        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida,'id' => $id]);
+        $gastosMensais=$this->somarGastos();
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida,'id' => $id, 'gastosMensais' => $gastosMensais,]);
     }
 
     public function adicionarEntrada(Request $req, $id=null)
@@ -163,6 +164,14 @@ class ConsultasController extends Controller
             ($educacao/$total)*100,
             ($gosto/$total)*100];
         return $porcentagens;
+    }
+
+    private function somarGastos(){
+        $data = Carbon::now();
+        $primeiro=$data->startOfMonth()->format('Y-m-d');
+        $ultimo=$data->endOfMonth()->format('Y-m-d');
+        $gastos=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario',auth()->user()->id)->sum('valor');
+        return $gastos;
     }
 }
 

@@ -38,9 +38,9 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                       tw-rounded tw-max-w-40 tw-max-h-40 tw-mx-auto tw-pt-1
                     " src="/images/user.png" />
                   {{ horas() }} {{ $page.props.auth.user.name }}
-                  <img v-if="horas() == 'Bom dia,'" src="/images/bolsa.png" class="imagem" />
-                  <img v-if="horas() == 'Boa tarde,'" src="/images/bolsa.png" class="imagem" />
-                  <img v-if="horas() == 'Boa noite,'" src="/images/noite.png" class="imagem" />
+                  <img v-if="horas() == 'Bom dia,'" src="/images/nascerdosol.png" class="imagem" />
+                  <img v-else-if="horas() == 'Boa tarde,'" src="/images/pordosol.png" class="imagem" />
+                  <img v-else-if="horas() == 'Boa noite,'" src="/images/noite.png" class="imagem" />
                   <hr />
                   <div class="tw-mt-5">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-2">
@@ -121,6 +121,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                 </div>
               </div>
             </div>
+            <!--Calendario-->
             <div class="topo-calendario tw-hidden lg:tw-w-3/5 lg:tw-flex tw-max-h-full tw-overflow-y-auto tw-px-2">
               <Calendario :atributos="atributosCalendario"></Calendario>
             </div>
@@ -182,7 +183,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <q-card style="width: 500px; max-width: 60vw">
           <q-card-section class="row items-center q-pb-none">
             <div class="tw-w-10/12 sm:tw-w-11/12">
-              <img src="/images/entrada.png" class="tw-mx-auto hover:tw-cursor-pointer"
+              <img src="/images/eventos.png" class="tw-mx-auto hover:tw-cursor-pointer"
                 @click="modalInfoEntradas = true" />
             </div>
             <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -236,7 +237,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <q-btn icon="help_outline" flat round dense @click="modalInfoMetas = true" />
                 </div>
                 <div class="tw-w-8/12 sm:tw-w-10/12">
-                  <img src="/images/entrada.png" class="tw-mx-auto" />
+                  <img src="/images/metas.png" class="tw-mx-auto" />
                 </div>
                 <div class="tw-w-2/12 sm:tw-w-1/12">
                   <q-btn icon="close" flat round dense v-close-popup @click="(formMeta.reset()), (slide = 1)" />
@@ -411,11 +412,13 @@ export default {
       var dia = new Date();
       var hora = dia.getHours() + ":" + dia.getMinutes() + ":" + dia.getSeconds();
       var mensagem;
-      if (hora > "5:00:00" && hora < "12:00:00") {
+      
+        console.log(hora)
+      if (hora > "5:00:00") {
         mensagem = "Bom dia,";
       } else if (hora > "12:00:00" && hora < "19:00:00") {
         mensagem = "Boa tarde,";
-      } else if (hora > "12:00:00" && hora < "19:00:00") {
+      } else if (hora > "19:00:01" && hora < "5:00:00") {
         mensagem = "Boa noite,";
       }
       return mensagem;

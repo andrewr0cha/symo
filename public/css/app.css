@@ -633,13 +633,13 @@ select {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.tw-mx-1 {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
-}
 .tw-my-1 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+}
+.tw-my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .tw-ml-2 {
   margin-left: 0.5rem;
@@ -686,14 +686,11 @@ select {
 .tw-mt-1 {
   margin-top: 0.25rem;
 }
-.tw-ml-4 {
-  margin-left: 1rem;
-}
 .tw-mr-1 {
   margin-right: 0.25rem;
 }
-.tw-mb-1 {
-  margin-bottom: 0.25rem;
+.tw-ml-4 {
+  margin-left: 1rem;
 }
 .tw-block {
   display: block;
@@ -842,6 +839,9 @@ select {
 .tw-flex-wrap {
   flex-wrap: wrap;
 }
+.tw-place-items-center {
+  place-items: center;
+}
 .tw-items-center {
   align-items: center;
 }
@@ -951,9 +951,6 @@ select {
 }
 .tw-p-6 {
   padding: 1.5rem;
-}
-.tw-p-4 {
-  padding: 1rem;
 }
 .tw-px-4 {
   padding-left: 1rem;

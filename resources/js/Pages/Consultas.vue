@@ -57,7 +57,7 @@
                 tw-justify-center
                 hover:tw-cursor-pointer tw-text-center
               " @click="atualizarDataBarra(porcentagens[0], porcentagensGerais[0], 'Essencial')">
-              <img src="/images/bolsa.png" class="imagem" />
+              <img src="/images/essencial.png" class="imagem" />
               Essencial<br>
               {{ porcentagem(porcentagens[0]) }}
             </div>
@@ -70,7 +70,7 @@
                 tw-justify-center
                 hover:tw-cursor-pointer tw-text-center
               " @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Objetivos')">
-              <img src="/images/bolsa.png" class="imagem" />
+              <img src="/images/objetivos.png" class="imagem" />
               Objetivos<br>
               {{ porcentagem(porcentagens[1]) }}
             </div>
@@ -83,7 +83,7 @@
                 tw-justify-center
                 hover:tw-cursor-pointer tw-text-center
               " @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Aposentadoria')">
-              <img src="/images/bolsa.png" class="imagem" />
+              <img src="/images/aposentadoria.png" class="imagem" />
               Aposentadoria<br>
               {{ porcentagem(porcentagens[2]) }}
             </div>
@@ -96,7 +96,7 @@
                 tw-justify-center
                 hover:tw-cursor-pointer tw-text-center
               " @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Educação')">
-              <img src="/images/bolsa.png" class="imagem" />
+              <img src="/images/educacao.png" class="imagem" />
               Educação<br>
               {{ porcentagem(porcentagens[3]) }}
             </div>
@@ -104,7 +104,7 @@
                 tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
                 hover:tw-cursor-pointer tw-text-center tw-mr-2
               " @click="atualizarDataBarra(porcentagens[4], porcentagensGerais[4], 'Lazer')">
-              <img src="/images/bolsa.png" class="imagem" />
+              <img src="/images/lazer1.png" class="imagem" />
               Lazer<br>
               {{ porcentagem(porcentagens[4]) }}
             </div>
@@ -309,45 +309,45 @@
         </div>
       </q-card>
     </q-dialog>
-    <!--form nulo v-if="formNulo == true"-->
+    <!--form nulo-->
     <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'">
     </DialogBaixo>
     <!--modal categorias-->
-    <q-dialog v-model="modalCategorias" position="right" rounded>
-      <q-card style="width: 300px; max-width: 60vh">
-        <q-card-section class="row items-center q-pb-none">
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <q-card-section>
-          <div v-if="diferenca > 0" class="tw-mx-auto tw-text-center">
-            O seu gasto com essa categoria é <span class="tw-text-green-500">{{ porcentagem(diferenca) }}</span> maior
-            do
-            que a média dos demais usuários.
-          </div>
-          <div v-else-if="diferenca < 0" class=" tw-mx-auto tw-text-center">
-            O seu gasto com essa categoria é <span class="tw-text-green-500">{{ porcentagem(diferenca * (-1)) }}</span>
-            menor do que a média dos demais usuários.
-          </div>
-          <div v-else class=" tw-mx-auto tw-text-center">
-            <span>O seu gasto com essa categoria é igual à média dos demais usuários.</span>
-          </div>
-          <Bar :chart-data="chartData" />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    <ModalCategoria v-model="modalCategorias" :chartData="chartData" :diferenca="diferenca" />
     <!--modal custos-->
     <q-dialog v-model="modalCustos" position="right" rounded>
-      <q-card style="width: 300px; max-width: 60vh">
-        <q-card-section class="row items-center q-pb-none">
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <q-card-section>
-          <div class="tw-text-center  tw-mx-auto"><span>Os seus gastos estão divididos da seguinte forma:</span></div>
-          <Pie :chart-data="chartData" />
-        </q-card-section>
-      </q-card>
+      <q-carousel v-model="slide" vertical height="420px" transition-prev="slide-down" transition-next="slide-up"
+        swipeable animated control-color="primary" arrows>
+        <q-carousel-slide :name="1">
+          <div style="width: 300px;  max-width: 60vh;">
+            <div class="row items-center q-pb-none">
+            </div>
+            <div>
+              <div v-if="gastosMensais == 0" class="tw-text-center tw-mx-auto tw-flex tw-items-center tw-text-lg">
+                <span class="tw-w-full tw-mb-2">Parece que você ainda não tem despesas cadastradas.🙁</span><img
+                  src="images/custos1.png" />
+              </div>
+              <div class="tw-text-center tw-mx-auto" v-else>
+                <span>Os seus gastos estão divididos da seguinte forma:</span>
+                <Pie :chart-data="chartData" />
+              </div>
+            </div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2">
+          <div style="width: 300px;  max-width: 60vh; height:100%">
+            <div class="tw-flex  tw-items-center tw-h-full">
+              <div class="tw-flex tw-flex-col">
+                <img src="/images/lampada.png" class="tw-mx-auto" />
+                <span class="tw-text-lg tw-text-center">Estabilidade financeira diz respeito sobre disciplina antes de
+                  tudo. Nesse sentido, sugerimos uma divisão padrão para seus gastos: ela pode ser visualizada usando
+                  os
+                  ícones ao lado 😉</span>
+              </div>
+            </div>
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
     </q-dialog>
     <!--modal explicações entrada-->
     <q-dialog v-model="modalInfoEntradas" position="left" rounded>
@@ -366,7 +366,8 @@
           <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Valor:
               </span>Quanto dinheiro tal movimentação rendeu a você. Campo obrigatório.</span></div>
           <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Descrição:
-              </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a movimentação.</span>
+              </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a
+              movimentação.</span>
           </div>
         </q-card-section>
       </q-card>
@@ -390,7 +391,8 @@
               </span>Classificação dada à despesa. Contemplam as despesas consideradas básicas a uma vida saudável
               financeiramente falando. Campo obrigatório.</span></div>
           <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Descrição:
-              </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a movimentação.</span>
+              </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a
+              movimentação.</span>
           </div>
         </q-card-section>
       </q-card>
@@ -448,6 +450,7 @@
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
+import ModalCategoria from "@/Components/ModalCategorias.vue";
 import { ref } from "vue";
 import { Bar, Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Legend, ArcElement, Tooltip, BarElement, CategoryScale, LinearScale, Chart } from 'chart.js'
@@ -473,6 +476,7 @@ export default {
     porcentagensGerais: Object,
     categoriasSaida: Object,
     id: Object,
+    gastosMensais: Object,
   },
   methods: {
     dataFormatada(object) {
@@ -557,10 +561,11 @@ export default {
 
     atualizarDataBarra(i, j, c) {
       this.chartData = {
-        labels: ['Suas Despesas'],
-        datasets: [{ label: 'Totais', backgroundColor: ["#59f792"], data: [100] }, { label: c, backgroundColor: ["#ac27e6"], data: [i] }]
+        labels: [''],
+        datasets: [{ label: 'Entradas (%)', backgroundColor: ["#59f792"], data: [100] }, { label: c + " (%)", backgroundColor: ["#ac27e6"], data: [i] }]
       },
         this.diferenca = i - j;
+
       this.modalCategorias = true;
     },
 
@@ -618,6 +623,7 @@ export default {
       apagarSaida: false,
       apagarEntrada: false,
       diferenca: null,
+      slide: ref(1),
       chartData: {
         labels: [],
         datasets: [{ backgroundColor: [], data: [] }]
@@ -662,7 +668,7 @@ export default {
 .scrollbar::-webkit-scrollbar-track {
   border-radius: 100vh;
   background: none;
-  width: 75%;
+  width: 50%;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
