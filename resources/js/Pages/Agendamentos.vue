@@ -11,7 +11,7 @@ defineExpose({ modalAgendamentos, modalData });
 
 <template>
 
-    <Head title="Agendamentos" />
+    <Head title="Eventos" />
     <BreezeAuthenticatedLayout>
         <div class="tw-border-1 tw-border-dotted tw-mt-4 tw-px-8 tw-p-y-4 tw-flex tw-justify-center">
             <div class="calendario tw-w-full tw-pl-4 tw-max-w-xl">

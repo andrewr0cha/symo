@@ -15,7 +15,7 @@ class MetasController extends Controller
         if($medioPrazo==null) $medioPrazo=0;
         $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->orderBy('id', 'desc')->get();
         if($longoPrazo==null) $longoPrazo=0;
-        return Inertia::render('Metas', ['curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo]);
+        return Inertia::render('Metas', ['curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,]);
     }
 
     public function adicionarMeta(Request $req){

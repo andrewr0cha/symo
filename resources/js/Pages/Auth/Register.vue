@@ -31,7 +31,7 @@ const submit = () => {
     <form @submit.prevent="submit" class="tw-w-max-10/12">
       <div class="sm:tw-flex sm:tw-flex-inline sm:tw-justify-center tw-items-center">
         <h1 class="tw-text-center tw-text-xl sm:tw-text-2xl tw-font-bold">Crie sua conta</h1>
-        <img src="/images/logo.png" class="imagem tw-mx-auto sm:tw-mx-1" />
+        <img src="/images/logo.png" class="image tw-mx-auto sm:tw-mx-1" />
       </div>
       <BreezeValidationErrors class="tw-mb-4" />
       <div class="tw-mt-2">
@@ -82,7 +82,7 @@ const submit = () => {
 </template>
 
 <style scoped>
-.imagem {
+.image {
   max-width: 40%;
   min-width: 10%;
 }
