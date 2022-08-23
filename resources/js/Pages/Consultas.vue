@@ -8,21 +8,34 @@
       <div class="
           tw-w-1/3
           tw-bg-black
-          tw-h-28
+          tw-h-28 
+          tw-flex tw-inline-flex tw-items-center
+          tw-justify-center
+          borda-invisivel tw-overflow-x-auto scrollbar
+        ">
+        <div class="tw-w-28 tw-flex tw-flex-col">
+          <div class="
+                round
+                tw-w-20 tw-h-20 tw-ml-4
+                sm:tw-w-24 sm:tw-h-24
+                tw-flex tw-items-center tw-justify-center tw-text-center sm:tw-border-2 sm:tw-border-white
+              hover:tw-cursor-pointer" @click="modalCofre = true">
+
+            <div><img src="/images/bolsa-de-dinheiro.png" class="tw-mx-auto" />
+              Cofre</div>
+          </div>
+        </div>
+        <div class="
           tw-flex
           tw-flex-col
-          tw-items-center
-          tw-justify-center
-          borda-invisivel
-        ">
-        <div class="
-            tw-mt-4 tw-flex tw-inline-flex tw-items-center tw-justify-center
-          ">
-          <span class="tw-text-white">Seu saldo</span>
-          <img src="/images/bolsa.png" class="imagem" />
-        </div>
-        <div class="tw-mb-4">
-          <span class="tw-text-white">R$ {{ valorFormatado($page.props.auth.user.saldo) }}</span>
+          tw-mx-2 tw-w-28">
+          <img src="/images/dinheiro.png" class="imagem tw-mx-auto" />
+          <div class="tw-flex tw-inline-flex tw-items-center tw-mx-auto">
+            <span class="tw-text-white tw-hidden sm:tw-flex">Seu saldo</span>
+          </div>
+          <div class="tw-mx-auto">
+            <span class="tw-text-white tw-text-center">R${{ valorFormatado($page.props.auth.user.saldo) }}</span>
+          </div>
         </div>
       </div>
       <!--porcentagens por categoria-->
@@ -69,9 +82,22 @@
                 tw-items-center
                 tw-justify-center
                 hover:tw-cursor-pointer tw-text-center
-              " @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Objetivos')">
+              " @click="modalObjetivos = true">
               <img src="/images/objetivos.png" class="imagem" />
               Objetivos<br>
+              {{ metasConcluidas }}/{{ metas }}
+            </div>
+            <div class="
+                tw-w-60
+                tw-mr-2
+                tw-flex
+                tw-flex-col
+                tw-items-center
+                tw-justify-center
+                hover:tw-cursor-pointer tw-text-center
+              " @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Aposentadoria')">
+              <img src="/images/aposentadoria.png" class="imagem" />
+              Aposentadoria<br>
               {{ porcentagem(porcentagens[1]) }}
             </div>
             <div class="
@@ -82,31 +108,18 @@
                 tw-items-center
                 tw-justify-center
                 hover:tw-cursor-pointer tw-text-center
-              " @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Aposentadoria')">
-              <img src="/images/aposentadoria.png" class="imagem" />
-              Aposentadoria<br>
-              {{ porcentagem(porcentagens[2]) }}
-            </div>
-            <div class="
-                tw-w-60
-                tw-mr-2
-                tw-flex
-                tw-flex-col
-                tw-items-center
-                tw-justify-center
-                hover:tw-cursor-pointer tw-text-center
-              " @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Educação')">
+              " @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Educação')">
               <img src="/images/educacao.png" class="imagem" />
               Educação<br>
-              {{ porcentagem(porcentagens[3]) }}
+              {{ porcentagem(porcentagens[2]) }}
             </div>
             <div class="
                 tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
                 hover:tw-cursor-pointer tw-text-center tw-mr-2
-              " @click="atualizarDataBarra(porcentagens[4], porcentagensGerais[4], 'Lazer')">
+              " @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Lazer')">
               <img src="/images/lazer1.png" class="imagem" />
               Lazer<br>
-              {{ porcentagem(porcentagens[4]) }}
+              {{ porcentagem(porcentagens[3]) }}
             </div>
           </div>
         </div>
@@ -244,7 +257,7 @@
     </div>
     <!--modal entradas-->
     <q-dialog v-model="modalEntradas" persistent transition-show="scale" transition-hide="scale" rounded>
-      <q-card style="width: 500px; max-width: 60vw">
+      <q-card style="width: 500px; max-width: 80vw">
         <q-card-section class="row items-center q-pb-none">
           <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
             <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -277,7 +290,7 @@
     </q-dialog>
     <!--modal saídas-->
     <q-dialog v-model="modalSaidas" persistent transition-show="scale" transition-hide="scale">
-      <q-card style="width: 500px; max-width: 60vw">
+      <q-card style="width: 500px; max-width: 80vw">
         <q-card-section class="row items-center q-pb-none">
           <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
             <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -309,94 +322,92 @@
         </div>
       </q-card>
     </q-dialog>
-    <!--form nulo-->
-    <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'">
-    </DialogBaixo>
-    <!--modal categorias-->
-    <ModalCategoria v-model="modalCategorias" :chartData="chartData" :diferenca="diferenca" />
-    <!--modal custos-->
-    <q-dialog v-model="modalCustos" position="right" rounded>
-      <q-carousel v-model="slide" vertical height="420px" transition-prev="slide-down" transition-next="slide-up"
-        swipeable animated control-color="primary" arrows>
-        <q-carousel-slide :name="1">
-          <div style="width: 300px;  max-width: 60vh;">
+    <!--modal cofre-->
+    <q-dialog v-model="modalCofre" persistent transition-show="scale" transition-hide="scale" rounded>
+      <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
+        control-color="primary" navigation height="330px">
+        <q-carousel-slide :name="1" style="width:500px; max-width:85vw">
+          <div style="max-width: 80vw">
             <div class="row items-center q-pb-none">
+              <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="help_outline" flat round dense @click="modalInfoCofre = true" />
+                </div>
+                <div class="tw-w-8/12 sm:tw-w-10/12">
+                  <img src="/images/safebox.png" class="tw-mx-auto" />
+                </div>
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="close" flat round dense v-close-popup @click="form.reset()" />
+                </div>
+              </div>
             </div>
-            <div>
-              <div v-if="gastosMensais == 0" class="tw-text-center tw-mx-auto tw-flex tw-items-center tw-text-lg">
-                <span class="tw-w-full tw-mb-2">Parece que você ainda não tem despesas cadastradas.🙁</span><img
-                  src="images/custos1.png" />
+            <div class="tw-mt-4">
+              <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+                <div class="q-gutter-y-md">
+                  <span class="tw-text-lg">Saldo atual: R${{ valorFormatado($page.props.auth.user.saldo) }}</span>
+                  <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
+                    outlined label="Valor*" min="0.01" step="0.01" />
+                </div>
               </div>
-              <div class="tw-text-center tw-mx-auto" v-else>
-                <span>Os seus gastos estão divididos da seguinte forma:</span>
-                <Pie :chart-data="chartData" />
-              </div>
+            </div>
+            <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-2">
+              <button type="button" @click="guardarCofre($page.props.auth.user.saldo)">
+                <span class="material-icons md-36">task_alt</span>
+              </button>
             </div>
           </div>
         </q-carousel-slide>
-        <q-carousel-slide :name="2">
-          <div style="width: 300px;  max-width: 60vh; height:100%">
-            <div class="tw-flex  tw-items-center tw-h-full">
-              <div class="tw-flex tw-flex-col">
-                <img src="/images/lampada.png" class="tw-mx-auto" />
-                <span class="tw-text-lg tw-text-center">Estabilidade financeira diz respeito sobre disciplina antes de
-                  tudo. Nesse sentido, sugerimos uma divisão padrão para seus gastos: ela pode ser visualizada usando
-                  os
-                  ícones ao lado 😉</span>
+        <q-carousel-slide :name="2" style="width:500px; max-width:85vw">
+          <div style="max-width: 80vw">
+            <div class="row items-center q-pb-none">
+              <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="help_outline" flat round dense @click="modalInfoCofre = true" />
+                </div>
+                <div class="tw-w-8/12 sm:tw-w-10/12">
+                  <img src="/images/safebox.png" class="tw-mx-auto" />
+                </div>
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="close" flat round dense v-close-popup @click="form.reset()" />
+                </div>
               </div>
+            </div>
+            <div class="tw-mt-4">
+              <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+                <div class="q-gutter-y-md">
+                  <span class="tw-text-lg">Cofre: R${{ valorFormatado($page.props.auth.user.cofre) }}</span>
+                  <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
+                    outlined label="Valor*" min="0.01" step="0.01" />
+                </div>
+              </div>
+            </div>
+            <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-2">
+              <button type="button" @click="retirarCofre($page.props.auth.user.cofre)">
+                <span class="material-icons md-36">task_alt</span>
+              </button>
             </div>
           </div>
         </q-carousel-slide>
       </q-carousel>
     </q-dialog>
+    <!--form nulo-->
+    <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'">
+    </DialogBaixo>
+    <!--saldo insuficiente-->
+    <DialogBaixo v-model="saldoInsuficiente" :value="'O seu saldo não é suficiente para essa ação.'" :icon="'error'">
+    </DialogBaixo>
+    <!--modal categorias-->
+    <ModalCategoria v-model="modalCategorias" :chartData="chartData" :diferenca="diferenca" :categoria="categoria" />
+    <!--modal custos-->
+    <ModalCusto v-model="modalCustos" :chartData="chartData" :gastosMensais="gastosMensais" />
+    <!--modal objetivos-->
+    <ModalObjetivo v-model="modalObjetivos" :metas="metas" :metasConcluidas="metasConcluidas" :objetivo="porcentagens[4]" />
     <!--modal explicações entrada-->
-    <q-dialog v-model="modalInfoEntradas" position="left" rounded>
-      <q-card style="width: 300px; max-width: 60vh">
-        <q-card-section class="row items-center q-pb-none">
-          <q-btn icon="info" flat round dense />
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <q-card-section>
-          <span>Aqui são inseridas as movimentações financeiras que te favoreceram. Serviços prestados, salário, etc.
-            Tudo o que, de alguma forma, 'te fez ganhar dinheiro'.</span>
-          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Título:
-              </span>Campo obrigatório e a principal identificação para aquela movimentação. Poucas palavras que
-              facilitem a lembrança de onde veio aquele dinheiro.</span></div>
-          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Valor:
-              </span>Quanto dinheiro tal movimentação rendeu a você. Campo obrigatório.</span></div>
-          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Descrição:
-              </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a
-              movimentação.</span>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    <ModalInfoEntradas v-model="modalInfoEntradas" />
     <!--modal explicações saida-->
-    <q-dialog v-model="modalInfoSaidas" position="left" rounded>
-      <q-card style="width: 300px; max-width: 60vh">
-        <q-card-section class="row items-center q-pb-none">
-          <q-btn icon="info" flat round dense />
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <q-card-section>
-          <span>Aqui são inseridas as movimentações financeiras nas quais você é o pagante.</span>
-          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Título:
-              </span>Campo obrigatório e a principal identificação para aquela movimentação. Poucas palavras que
-              facilitem a lembrança de para onde foi aquele dinheiro.</span></div>
-          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Valor:
-              </span>Quanto dinheiro tal movimentação subtraiu de seu saldo. Campo obrigatório.</span></div>
-          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Categoria:
-              </span>Classificação dada à despesa. Contemplam as despesas consideradas básicas a uma vida saudável
-              financeiramente falando. Campo obrigatório.</span></div>
-          <div class="tw-flex tw-inline-flex tw-mt-2"><span><span class="tw-text-green-600 tw-text-lg">Descrição:
-              </span>Campo opcional. Preencha caso exista mais alguma informação importante sobre a
-              movimentação.</span>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    <ModalInfoSaidas v-model="modalInfoSaidas" />
+    <!--modal explicações cofre-->
+    <ModalInfoCofre v-model="modalInfoCofre" />
     <!--modal filtro entradas-->
     <q-dialog v-model="modalFiltroEntrada" transition-show="scale" transition-hide="scale">
       <q-card style="width: 500px; max-width: 60vw">
@@ -451,6 +462,11 @@ import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
 import ModalCategoria from "@/Components/ModalCategorias.vue";
+import ModalCusto from "@/Components/ModalCustos.vue";
+import ModalObjetivo from "@/Components/ModalObjetivos.vue";
+import ModalInfoSaidas from "@/Components/ModalInfoSaidas.vue";
+import ModalInfoEntradas from "@/Components/ModalInfoEntradas.vue";
+import ModalInfoCofre from "@/Components/ModalInfoCofre.vue";
 import { ref } from "vue";
 import { Bar, Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Legend, ArcElement, Tooltip, BarElement, CategoryScale, LinearScale, Chart } from 'chart.js'
@@ -459,11 +475,14 @@ const modalEntradas = ref(false);
 const modalSaidas = ref(false);
 const modalCategorias = ref(false);
 const modalCustos = ref(false);
+const modalCofre = ref(false);
+const modalObjetivos = ref(false);
 const modalInfoEntradas = ref(false);
 const modalInfoSaidas = ref(false);
 const modalFiltroEntrada = ref(false);
 const modalFiltroSaida = ref(false);
-defineExpose({ modalEntradas, modalSaidas, modalCategorias, modalCustos, modalInfoEntradas, modalInfoSaidas, modalFiltroEntrada, modalFiltroSaida });
+const modalInfoCofre = ref(false);
+defineExpose({ modalEntradas, modalSaidas, modalCategorias, modalInfoCofre, modalCustos, modalCofre, modalObjetivos, modalInfoEntradas, modalInfoSaidas, modalFiltroEntrada, modalFiltroSaida });
 </script>
 
 <script>
@@ -475,8 +494,10 @@ export default {
     porcentagens: Object,
     porcentagensGerais: Object,
     categoriasSaida: Object,
-    id: Object,
-    gastosMensais: Object,
+    id: Number,
+    gastosMensais: Number,
+    metas: Number,
+    metasConcluidas: Number,
   },
   methods: {
     dataFormatada(object) {
@@ -530,6 +551,44 @@ export default {
       }
     },
 
+    guardarCofre(value) {
+      this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
+      if (this.form.valor == "") {
+        this.formNulo = true;
+      } else if (value < this.form.valor) {
+        this.saldoInsuficiente = true;
+        this.form.reset();
+      } else {
+        this.form.post(route("guardar"), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalCofre = false;
+            this.form.reset();
+          },
+        });
+      }
+    },
+
+    retirarCofre (value) {
+      this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
+      if (this.form.valor == "") {
+        this.formNulo = true;
+      } else if (value < this.form.valor) {
+        this.saldoInsuficiente = true;
+        this.form.reset();
+      } else {
+        this.form.post(route("remover"), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalCofre = false;
+            this.form.reset();
+          },
+        });
+      }
+    },
+
     apagarsaida() {
       this.apagarSaida = true;
     },
@@ -565,13 +624,13 @@ export default {
         datasets: [{ label: 'Entradas (%)', backgroundColor: ["#59f792"], data: [100] }, { label: c + " (%)", backgroundColor: ["#ac27e6"], data: [i] }]
       },
         this.diferenca = i - j;
-
+      this.categoria = c;
       this.modalCategorias = true;
     },
 
     atualizarDataSetor(i, j, k, l, m) {
       this.chartData = {
-        labels: ['Essencial', 'Objetivos', 'Aposentadoria', 'Educação', 'Lazer'],
+        labels: ['Essencial', 'Aposentadoria', 'Educação', 'Lazer'],
         datasets: [
           {
             backgroundColor: ['#41B883', '#59f792', '#ffdf00', '#ac27e6', '#d41545'],
@@ -619,10 +678,12 @@ export default {
         descricao: "",
       }),
       formNulo: false,
+      saldoInsuficiente: false,
       listaExclusao: [],
       apagarSaida: false,
       apagarEntrada: false,
       diferenca: null,
+      categoria: null,
       slide: ref(1),
       chartData: {
         labels: [],
@@ -682,7 +743,6 @@ export default {
 
 .imagem {
   display: inline-block;
-  margin-right: 5px;
   width: 30px;
 }
 

@@ -10,6 +10,8 @@ import { Link } from "@inertiajs/inertia-vue3";
       tw-items-left tw-p-6
       sm:tw-pt-0
       tw-bg-gray-900
+      tw-flex-col
+      md:tw-flex-row
     ">
     <!--<div class="m-auto">
       <Link href="/">
@@ -30,6 +32,9 @@ import { Link } from "@inertiajs/inertia-vue3";
         tw-items-center tw-justify-center
       ">
       <slot />
+    </div>
+    <div class=" tw-max-h-screen tw-hidden md:tw-w-1/2 md:tw-flex tw-items-end tw-pb-4">
+      <img src="/images/porco.png" class="tw-mx-auto"/>
     </div>
   </div>
 </template>

@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Entrada;
 use App\Models\Saida;
+use App\Models\Meta;
 use App\Models\Categoria;
 
 class ConsultasController extends Controller
@@ -26,7 +27,11 @@ class ConsultasController extends Controller
         $porcentagens=$this->somarCategorias();
         $porcentagensGerais=$this->somarCategoriasGerais();
         $gastosMensais=$this->somarGastos();
-        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida,'id' => $id, 'gastosMensais' => $gastosMensais,]);
+        $metasConcluidas=Meta::where('id_usuario',$id)->where('status','like','Concluída')->get();
+        $metasConcluidas= $metasConcluidas==null ? $metasConcluidas=0:$metasConcluidas->count();
+        $metas=Meta::where('id_usuario',$id)->get();
+        $metas= $metas==null ? $metas=0:$metas->count();
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais,'categoriasSaida' => $categoriasSaida,'id' => $id, 'gastosMensais' => $gastosMensais,'metasConcluidas'=>$metasConcluidas, 'metas'=>$metas]);
     }
 
     public function adicionarEntrada(Request $req, $id=null)
@@ -68,6 +73,32 @@ class ConsultasController extends Controller
         $saida->save();
         $user=User::where('id',$id)->first();
         $user->saldo=$user->saldo-$saida->valor;
+        $user->save();
+        return redirect()->route('consultas', $id);
+    }
+
+    public function adicionarCofre(Request $req)
+    {
+        $id=auth()->user()->id;
+        $req->validate([
+            'valor' => 'required',
+        ]);
+        $user=User::where('id',$id)->first();
+        $user->cofre=$user->cofre+$req->valor;
+        $user->saldo=$user->saldo-$req->valor;
+        $user->save();
+        return redirect()->route('consultas', $id);
+    }
+
+    public function removerCofre(Request $req)
+    {
+        $id=auth()->user()->id;
+        $req->validate([
+            'valor' => 'required',
+        ]);
+        $user=User::where('id',$id)->first();
+        $user->cofre=$user->cofre-$req->valor;
+        $user->saldo=$user->saldo+$req->valor;
         $user->save();
         return redirect()->route('consultas', $id);
     }
@@ -133,16 +164,16 @@ class ConsultasController extends Controller
         $total=Entrada::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario',auth()->user()->id)->sum('valor');
         if($total==0) $total=1;
         $essencial=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',1)->where('id_usuario',auth()->user()->id)->sum('valor');
-        $objetivos=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',2)->where('id_usuario',auth()->user()->id)->sum('valor');
-        $aposentadoria=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',3)->where('id_usuario',auth()->user()->id)->sum('valor');
-        $educacao=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',4)->where('id_usuario',auth()->user()->id)->sum('valor');
-        $gosto=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',5)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $aposentadoria=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',2)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $educacao=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',3)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $gosto=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',4)->where('id_usuario',auth()->user()->id)->sum('valor');
+        $objetivos=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',5)->where('id_usuario',auth()->user()->id)->sum('valor');
         $porcentagens=
             [($essencial/$total)*100,
-            ($objetivos/$total)*100,
             ($aposentadoria/$total)*100,
             ($educacao/$total)*100,
-            ($gosto/$total)*100];
+            ($gosto/$total)*100,
+            ($objetivos/$total)*100];
         return $porcentagens;
     }
     
@@ -153,13 +184,11 @@ class ConsultasController extends Controller
         $total=Entrada::whereBetween('created_at', [$primeiro, $ultimo])->sum('valor');
         if($total==0) $total=1;
         $essencial=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',1)->sum('valor');
-        $objetivos=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',2)->sum('valor');
         $aposentadoria=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',3)->sum('valor');
         $educacao=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',4)->sum('valor');
         $gosto=Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria',5)->sum('valor');
         $porcentagens=
             [($essencial/$total)*100,
-            ($objetivos/$total)*100,
             ($aposentadoria/$total)*100,
             ($educacao/$total)*100,
             ($gosto/$total)*100];

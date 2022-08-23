@@ -38,7 +38,7 @@ const submit = () => {
       <!-- <img src="/images/user.png" class="imagem tw-mx-auto" /> -->
       <div class="sm:tw-flex sm:tw-flex-inline tw-justify-center tw-items-center tw-mb-2">
         <h1 class="tw-text-xl tw-font-bold tw-text-center">Entre em sua conta</h1>
-        <img src="/images/logo.png" class="imagem tw-ml-2" />
+        <img src="/images/logo.png" class="imageem tw-ml-2" />
       </div>
       <BreezeValidationErrors class="tw-mb-4" />
       <div>
@@ -80,10 +80,11 @@ const submit = () => {
       </div>
     </form>
   </BreezeGuestLayout>
+  
 </template>
 
 <style>
-.imagem {
+.imageem {
   max-width: 190px;
 }
 </style>

@@ -2,7 +2,8 @@
 import { ref } from "vue";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
 const modalAgendamentos = ref(false);
-defineExpose({ modalAgendamentos });
+const modalData = ref(false);
+defineExpose({ modalAgendamentos, modalData });
 </script>
 <script>
 import dayjs from "dayjs";
@@ -71,12 +72,11 @@ export default {
     <div class="tw-w-full">
         <FullCalendar :options="calendarOptions" />
     </div>
-    <q-dialog v-model="modalAgendamentos" transition-show="scale" transition-hide="scale" rounded
-        class="tw-hidden sm:tw-flex">
+    <q-dialog v-model="modalAgendamentos" transition-show="scale" transition-hide="scale" rounded>
         <q-card style="width: 500px; max-width: 95w">
             <q-card-section class="row items-center q-pb-none">
                 <div class="tw-w-10/12 sm:tw-w-11/12">
-                    <img src="/images/entrada.png" class="tw-mx-auto hover:tw-cursor-pointer"
+                    <img src="/images/eventos.png" class="tw-mx-auto hover:tw-cursor-pointer"
                         @click="modalInfoEntradas = true" />
                 </div>
                 <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -105,11 +105,11 @@ export default {
         </q-card>
     </q-dialog>
     <!--escolher uma data-->
-    <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded class="tw-hidden sm:tw-flex">
+    <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded>
         <q-card style="width: 400px; max-width: 95vw">
             <q-card-section>
                 <div class="tw-w-full tw-mx-auto tw-text-center">
-                    <q-date v-model="form.dataAgendamento" today-btn mask="YYYY-MM-DD"
+                    <q-date v-model="form.dataAgendamento" today-btn flat mask="YYYY-MM-DD"
                         :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro', 'Dezembro'], daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'], days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'] }" />
                 </div>
             </q-card-section>

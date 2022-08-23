@@ -35,7 +35,7 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
         <!--modal meta-->
         <q-dialog v-model="modalMeta">
             <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
-                control-color="primary" navigation height="500px">
+                control-color="primary" arrows height="500px">
                 <q-carousel-slide :name="1" style="width:500px; max-width:85vw">
                     <div>
                         <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
@@ -43,7 +43,7 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                                 <q-btn icon="help_outline" flat round dense @click="modalInfoMetas = true" />
                             </div>
                             <div class="tw-w-8/12 sm:tw-w-10/12">
-                                <img src="/images/entrada.png" class="tw-mx-auto" />
+                                <img src="/images/metas.png" class="tw-mx-auto" />
                             </div>
                             <div class="tw-w-2/12 sm:tw-w-1/12">
                                 <q-btn icon="close" flat round dense v-close-popup
@@ -54,8 +54,9 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                             <div class="q-gutter-y-md">
                                 <q-input outlined v-model="formMeta.nome" label="Título*" />
                                 <q-input outlined v-model="formMeta.descricao" label="Descrição" />
-                                <q-input v-model.number="formMeta.valor" type="number" outlined label="Valor*"
-                                    min="0.01" step="0.01" />
+                                <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
+                                    hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01"
+                                    step="0.01" />
                                 <q-select outlined v-model="formMeta.duracao" label='Prazo' disable />
                             </div>
                         </div>
@@ -87,26 +88,26 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                                             class="meta tw-w-5/12 tw-ml-2 tw-my-1">
                                             <q-card class="tw-w-full hover:tw-cursor-pointer ">
                                                 <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2"
-                                                    @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                                                    @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                                                     {{ item.nome }}
                                                 </div>
                                                 <div class="tw-w-full tw-pl-2"
-                                                    @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                                                    @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                                                     R$ {{ valorFormatado(item.valor) }}</div>
                                                 <div class="tw-w-full tw-pl-2"
-                                                    @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                                                    @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                                                     Status: {{ item.status }}</div>
 
                                                 <div class="tw-w-full tw-pl-2"
-                                                    @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                                                    @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                                                     {{ item.descricao }}
                                                 </div>
                                                 <div class="tw-w-full tw-pl-2"
-                                                    @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                                                    @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                                                     Início: {{ dataFormatada(item.data) }}
                                                 </div>
                                                 <div class="tw-w-full tw-pl-2"
-                                                    @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                                                    @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                                                     Final: {{ dataFinalFormatada(item.data, item.duracao) }}
                                                 </div>
                                                 <div v-if="apagarMeta || marcarConcluida"
@@ -174,6 +175,11 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                             projeto futuro. Juntos, as alcançaremos! Os prazos destas têm mais de cinco anos. Para o
                             padrão,
                             usaremos sete anos.</span>
+                    </div>
+                    <div class="tw-flex tw-inline-flex tw-mt-2">
+                        <span>Para calcular como estamos indo, usaremos a quantia disponível no cofre. Não se esqueça de
+                            guardar
+                            um pouco mensalmente😇</span>
                     </div>
                 </q-card-section>
             </q-card>
@@ -262,6 +268,7 @@ export default {
             if (this.formMeta.nome == "" || this.formMeta.valor == "") {
                 this.formNulo = true;
             } else {
+                this.formMeta.valor = this.formMeta.valor.replace(".", "").replace(",", ".");
                 this.formMeta.post(route("meta.adicionar.meta"), {
                     preserveState: true,
                     preserveScroll: true,

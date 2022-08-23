@@ -21,28 +21,23 @@ class CategoriaSeeder extends Seeder
         ]);
         DB::table('categorias')->insert([
             'id' => 2,
-            'nome' => 'Objetivos',
-            'id_tipo' => 1,
-        ]);
-        DB::table('categorias')->insert([
-            'id' => 3,
             'nome' => 'Aposentadoria',
             'id_tipo' => 1,
         ]);
         DB::table('categorias')->insert([
-            'id' => 4,
+            'id' => 3,
             'nome' => 'Educação',
             'id_tipo' => 1,
         ]);
         DB::table('categorias')->insert([
-            'id' => 5,
+            'id' => 4,
             'nome' => 'Lazer',
             'id_tipo' => 1,
         ]);
         DB::table('categorias')->insert([
-            'id' => 6,
-            'nome' => 'entrada',
-            'id_tipo' => 2,
+            'id' => 5,
+            'nome' => 'Objetivos',
+            'id_tipo' => 1,
         ]);
         
     }

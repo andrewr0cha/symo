@@ -31,7 +31,7 @@ const showingNavigationDropdown = ref(false);
                   sm:tw-my-px sm:tw-ml-10 sm:tw-flex
                 ">
                 <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                  Dashboard
+                  <img src="/images/casa-nova.png" />
                 </BreezeNavLink>
               </div>
               <div class="
@@ -39,7 +39,7 @@ const showingNavigationDropdown = ref(false);
                   sm:tw-my-px sm:tw-ml-10 sm:tw-flex
                 ">
                 <BreezeNavLink :href="route('consultas')" :active="route().current('consultas')">
-                  Consultas
+                  <img src="/images/documento.png" />
                 </BreezeNavLink>
               </div>
             </div>

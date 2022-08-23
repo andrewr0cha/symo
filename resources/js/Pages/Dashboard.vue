@@ -8,6 +8,8 @@ import ModalEntrada from "@/Components/ModalEntrada.vue";
 import ModalSaida from "@/Components/ModalSaida.vue";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
 import Calendario from "@/Components/Calendario.vue";
+import ModalInfoMetas from "@/Components/ModalInfoMeta.vue";
+import ModalProgressoMeta from "@/Components/ModalProgressoMeta.vue";
 const modalAgendamentos = ref(false);
 const modalData = ref(false);
 const modalMeta = ref(false);
@@ -35,7 +37,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
               <div class="fundo tw-flex sm:tw-max-w-2/6 tw-mr-2 tw-pl-5">
                 <div class="topo tw-mx-auto sm:tw-max-w-2/6 tw-pl-2">
                   <img class="
-                      tw-rounded tw-max-w-40 tw-max-h-40 tw-mx-auto tw-pt-1
+                      tw-rounded tw-max-w-40 tw-max-h-48 tw-mx-auto tw-pt-1
                     " src="/images/user.png" />
                   {{ horas() }} {{ $page.props.auth.user.name }}
                   <img v-if="horas() == 'Bom dia,'" src="/images/nascerdosol.png" class="imagem" />
@@ -50,6 +52,11 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <div class="tw-mt-5">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-2">
                       Seus gastos este mês: R${{ valorFormatado(gastosMensais) }}
+                    </Texto>
+                  </div>
+                  <div class="tw-mt-5">
+                    <Texto class="tw-w-8/10 tw-text-center tw-p-2">
+                      Dinheiro guardado: R${{ valorFormatado($page.props.auth.user.cofre) }}
                     </Texto>
                   </div>
                 </div>
@@ -76,7 +83,8 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
             <!--Agendamentos-->
             <div class="tempo tw-w-full lg:tw-w-2/5">
               <div v-if="agendamentos == 0" class="tw-h-full tw-flex tw-items-center tw-justify-center">
-                <span class="tw-cursor-pointer tw-text-lg tw-text-center" @click="modalAgendamentos = true">
+                <span class="tw-cursor-pointer tw-text-white tw-text-lg tw-text-center"
+                  @click="modalAgendamentos = true">
                   Você ainda não tem eventos agendados. Clique aqui para criar um evento.
                 </span>
               </div>
@@ -104,7 +112,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   </div>
                 </q-scroll-area>
                 <div class="tw-w-full tw-justify-center tw-mt-2 tw-flex tw-inline-flex">
-                  <div v-if="!apagarAgendamento" class="tw-mt-2 tw-flex tw-inline-flex">
+                  <div v-if="!apagarAgendamento" class="tw-mt-2 tw-text-white  tw-flex tw-inline-flex">
                     <span class="material-icons md-36 hover:tw-cursor-pointer" @click="modalAgendamentos = true">
                       add_circle_outline
                     </span>
@@ -112,7 +120,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                       remove_circle_outline
                     </span>
                   </div>
-                  <div v-else class="tw-mt-2 tw-flex tw-inline-flex">
+                  <div v-else class="tw-mt-2 tw-flex tw-text-white  tw-inline-flex">
                     <span class="material-icons md-36 hover:tw-cursor-pointer"
                       @click="(apagarAgendamento = false), (lista = [])">clear</span>
                     <span class="material-icons md-36 hover:tw-cursor-pointer"
@@ -217,7 +225,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <q-card style="width: 400px; max-width: 60vw">
           <q-card-section>
             <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
-              <q-date v-model="form.dataAgendamento" today-btn mask="YYYY-MM-DD"
+              <q-date v-model="form.dataAgendamento" today-btn flat mask="YYYY-MM-DD"
                 :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro', 'Dezembro'], daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'], days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'] }" />
             </div>
           </q-card-section>
@@ -229,7 +237,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
       <!--modal meta-->
       <q-dialog v-model="modalMeta" class="tw-hidden sm:tw-flex">
         <q-carousel transition-prev="scale" transition-next="scale" swipeable animated v-model="slide"
-          control-color="primary" height="500px" navigation>
+          control-color="primary" height="500px" arrows>
           <q-carousel-slide :name="1">
             <div style="width:500px">
               <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
@@ -247,8 +255,8 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                 <div class="q-gutter-y-md">
                   <q-input outlined v-model="formMeta.nome" label="Título*" />
                   <q-input outlined v-model="formMeta.descricao" label="Descrição" />
-                  <q-input v-model.number="formMeta.valor" type="number" outlined label="Valor*" min="0.01"
-                    step="0.01" />
+                  <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
+                    hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
                   <q-select outlined v-model="formMeta.duracao" label='Prazo' disable />
                 </div>
               </div>
@@ -276,21 +284,21 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                     <div v-for="item in metaList" :key="item.id" class="tw-my-2 tw-w-11/12 tw-mx-auto meta">
                       <q-card class="flex inline-flex hover:tw-cursor-pointer">
                         <div class="tw-w-5/12 tw-text-left tw-text-xl tw-pl-2 pb-2"
-                          @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                          @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                           {{ item.nome }}
                         </div>
-                        <div class="tw-w-3/12 tw-pr-2" @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                        <div class="tw-w-3/12 tw-pr-2" @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                           R$ {{ valorFormatado(item.valor) }}</div>
-                        <div class="tw-w-4/12" @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                        <div class="tw-w-4/12" @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                           Status: {{ item.status }}</div>
                         <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-left">
-                          <div class="tw-w-5/12 tw-pl-2" @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                          <div class="tw-w-5/12 tw-pl-2" @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                             {{ item.descricao }}
                           </div>
-                          <div class="tw-w-3/12" @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                          <div class="tw-w-3/12" @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                             Data Inicial: {{ dataFormatada(item.data) }}
                           </div>
-                          <div class="tw-w-3/12" @click="mudarProgressao(item.id, $page.props.auth.user.saldo)">
+                          <div class="tw-w-3/12" @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                             Data Final: {{ dataFinalFormatada(item.data, item.duracao) }}
                           </div>
                           <div v-if="apagarMeta || marcarConcluida" class="tw-w-1/12>">
@@ -325,73 +333,24 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         </q-carousel>
       </q-dialog>
       <!--modal explicações metas-->
-      <q-dialog v-model="modalInfoMetas" position="left" rounded class="tw-hidden sm:tw-flex">
-        <q-card style="width: 300px; max-width: 60vh">
-          <q-card-section class="row items-center q-pb-none">
-            <q-btn icon="info" flat round dense />
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <q-card-section>
-            <span>Aqui são inseridas as suas metas. Tudo aquilo que você pretende alcançar (e a gente pretende te
-              ajudar🤩).</span>
-            <div class="tw-flex tw-inline-flex tw-mt-2">
-              <span><span class="tw-text-green-600 tw-text-lg">Curto Prazo: </span>São aquelas metas urgentes, com prazo
-                máximo de um ano. Vamos considerar um ano como
-                prazo padrão.</span>
-            </div>
-            <div class="tw-flex tw-inline-flex tw-mt-2">
-              <span><span class="tw-text-green-600 tw-text-lg">Médio Prazo: </span>São metas que têm sua prioridade, mas
-                não são urgentes com as de curto prazo. Seus prazos
-                variam de um ano a cinco. Como padrão para o prazo, consideraremos três anos.</span>
-            </div>
-            <div class="tw-flex tw-inline-flex tw-mt-2">
-              <span><span class="tw-text-green-600 tw-text-lg">Longo Prazo: </span>Representam aquelas metas que não
-                estão ao seu alcance no momento, mas fazem parte de um
-                projeto futuro. Juntos, as alcançaremos! Os prazos destas têm mais de cinco anos. Para o padrão,
-                usaremos sete anos.</span>
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+      <ModalInfoMetas v-model="modalInfoMetas"/>
       <!--modal progresso de metas-->
-      <q-dialog v-model="modalProgressao" position="right" rounded class="tw-hidden sm:tw-flex">
-        <q-card style="width: 300px; max-width: 60vh">
-          <q-card-section class="row items-center q-pb-none">
-            <q-btn icon="trending_up" flat round dense />
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <q-card-section>
-            <div class="tw-flex tw-inline-flex tw-my-2 tw-w-full tw-text-center">
-              <div v-if="progressaoMeta.status == 'Concluída'">
-                <span class="tw-text-lg">UHUL!! Essa meta está concluída!! Parabéns!🎉</span>
-              </div>
-              <div v-else-if="progresso > 1 && progressaoMeta.status == 'Em andamento'">
-                <span class="tw-text-lg">Essa meta ainda está em andamento, mas você já poupou o valor ligado à ela!!
-                  Bom trabalho!🥰</span>
-              </div>
-              <div v-else-if="progresso > 0.800 && progresso <= 1.000 && progressaoMeta.status == 'Em andamento'">
-                <span class="tw-text-lg">Essa meta está quase concluída!! Só mais um pouco!🤑</span>
-              </div>
-              <div v-else-if="progresso > 0.500 && progresso <= 0.800 && progressaoMeta.status == 'Em andamento'">
-                <span class="tw-text-lg">Já passamos da metade!! Continue assim!🤗</span>
-              </div>
-              <div v-else-if="progresso > 0.400 && progresso <= 0.500 && progressaoMeta.status == 'Em andamento'">
-                <span class="tw-text-lg">Essa meta está quase na metade. Você está indo bem!🤭</span>
-              </div>
-              <div v-else-if="progresso <= 0.400 && progressaoMeta.status == 'Em andamento'">
-                <span class="tw-text-lg">Essa meta está começando. Força!💪</span>
-              </div>
-            </div>
-            <q-linear-progress :value="progresso" color="primary" />
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+      <ModalProgressoMeta v-model="modalProgressao" :progresso="progresso" :progressaoMeta="progressaoMeta"/>
       <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'"
         class="tw-hidden sm:tw-flex">
       </DialogBaixo>
     </div>
+    <div class="tw-border-t-2 tw-border-black tw-justify-center tw-w-full tw-flex tw-inline-flex tw-p-4 ">
+      <div class="tw-full sm:tw-w-1/3">
+        <img src="/images/cti.gif" style="max-width:250px" />
+      </div>
+      <div class="tw-hidden sm:tw-flex sm:tw-w-2/3 tw-text-center tw-items-center tw-text-lg">
+        <span>Projeto SYMO - Colégio Técnico Industrial - CTI</span>
+        <span>Desenvolvido por Andrew, Carolina, Enzo, Guilherme Barboza, Guilherme Garcia, Lucas Alves</span>
+      </div>
+    </div>
+
+
   </BreezeAuthenticatedLayout>
 </template>
 
@@ -412,8 +371,8 @@ export default {
       var dia = new Date();
       var hora = dia.getHours() + ":" + dia.getMinutes() + ":" + dia.getSeconds();
       var mensagem;
-      
-        console.log(hora)
+
+      console.log(hora)
       if (hora > "5:00:00") {
         mensagem = "Bom dia,";
       } else if (hora > "12:00:00" && hora < "19:00:00") {
@@ -480,6 +439,7 @@ export default {
       if (this.formMeta.nome == "" || this.formMeta.valor == "") {
         this.formNulo = true;
       } else {
+        this.formMeta.valor = this.formMeta.valor.replace(".", "").replace(",", ".");
         this.formMeta.post(route("adicionar.meta"), {
           preserveState: true,
           preserveScroll: true,
@@ -568,7 +528,7 @@ export default {
   background-color: white;
   text-align: center;
   width: 290px;
-  height: 360px;
+  height: 430px;
   border-radius: 20px;
   padding-right: 5px;
   border: 2px solid black;
@@ -583,12 +543,11 @@ export default {
 .calendario {
   background-color: black;
   border-radius: 20px;
-  height: 360px;
+  height: 430px;
 }
 
 .tempo {
-  background-color: #1ed760;
-  height: 360px;
+  height: 430px;
   border-radius: 20px;
   padding-right: 5px;
   border: 2px solid black;
@@ -596,7 +555,7 @@ export default {
 
 .topo-calendario {
   background-color: white;
-  height: 360px;
+  height: 430px;
   border-radius: 20px;
   padding-right: 5px;
   border: 2px solid black;

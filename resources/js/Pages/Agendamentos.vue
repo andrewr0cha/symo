@@ -18,7 +18,8 @@ defineExpose({ modalAgendamentos, modalData });
                 <!--Agendamentos-->
                 <div class="tempo tw-w-full tw-max-w-xl">
                     <div v-if="agendamentos == 0" class="tw-h-full tw-flex tw-items-center tw-justify-center">
-                        <span class="tw-cursor-pointer tw-text-lg tw-text-center" @click="modalAgendamentos = true">
+                        <span class="tw-cursor-pointer tw-text-white tw-text-lg tw-text-center"
+                            @click="modalAgendamentos = true">
                             Você ainda não tem eventos agendados. Clique aqui para criar um evento.
                         </span>
                     </div>
@@ -78,7 +79,7 @@ defineExpose({ modalAgendamentos, modalData });
             <q-card style="width: 500px; max-width: 95vw">
                 <q-card-section class="row items-center q-pb-none">
                     <div class="tw-w-10/12 sm:tw-w-11/12">
-                        <img src="/images/entrada.png" class="tw-mx-auto hover:tw-cursor-pointer"
+                        <img src="/images/eventos.png" class="tw-mx-auto hover:tw-cursor-pointer"
                             @click="modalInfoEntradas = true" />
                     </div>
                     <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -199,7 +200,7 @@ export default {
 }
 
 .tempo {
-    background-color: #1ed760;
+    background-color: black;
     height: 360px;
     border-radius: 20px;
     padding-right: 5px;

@@ -29,7 +29,7 @@
       </div>
     </q-card>
   </q-dialog>
-</template>
+  </template>
 
 <script>
 import { emit } from 'process'
