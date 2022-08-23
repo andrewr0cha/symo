@@ -333,13 +333,12 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         </q-carousel>
       </q-dialog>
       <!--modal explicações metas-->
-      <ModalInfoMetas v-model="modalInfoMetas" />
+      <ModalInfoMetas v-model="modalInfoMetas"/>
       <!--modal progresso de metas-->
-      <ModalProgressoMeta v-model="modalProgressao" :progresso="progresso" :progressaoMeta="progressaoMeta" />
+      <ModalProgressoMeta v-model="modalProgressao" :progresso="progresso" :progressaoMeta="progressaoMeta"/>
       <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'"
         class="tw-hidden sm:tw-flex">
       </DialogBaixo>
-
     </div>
     <div class="tw-border-t-2 tw-border-black tw-justify-center tw-w-full tw-flex tw-inline-flex tw-p-4 ">
       <div class="tw-full sm:tw-w-1/3">
@@ -352,20 +351,6 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
     </div>
 
 
-
-
-    <div class="tw-border-t-2 tw-border-black tw-justify-center tw-w-full tw-flex tw-inline-flex tw-p-4 ">
-      <div class="tw-full sm:tw-w-1/3">
-        <img src="/images/cti.gif" style="max-width:250px" />
-      </div>
-      <div class="tw-hidden sm:tw-flex sm:tw-w-2/3 tw-text-center tw-items-center tw-text-lg">
-        <span>Projeto SYMO - Colégio Técnico Industrial - CTI</span>
-        <span>Desenvolvido por Andrew, Carolina, Enzo, Guilherme Barboza, Guilherme Garcia, Lucas Alves</span>
-      </div>
-    </div>
-
-
-    >>>>>>> ebc590509b22ada6b5da4f926288b7365fd76a9a
   </BreezeAuthenticatedLayout>
 </template>
 
@@ -562,9 +547,8 @@ export default {
 }
 
 .tempo {
-  <<<<<<< HEAD height: 430px;
-  =======height: 360px;
-  >>>>>>>ebc590509b22ada6b5da4f926288b7365fd76a9a border-radius: 20px;
+  height: 430px;
+  border-radius: 20px;
   padding-right: 5px;
   border: 2px solid black;
 }

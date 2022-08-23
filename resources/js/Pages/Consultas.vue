@@ -357,16 +357,34 @@
             </div>
           </div>
         </q-carousel-slide>
-        <q-carousel-slide :name="2">
-          <div style="width: 300px;  max-width: 60vh; height:100%">
-            <div class="tw-flex  tw-items-center tw-h-full">
-              <div class="tw-flex tw-flex-col">
-                <img src="/images/lampada.png" class="tw-mx-auto" />
-                <span class="tw-text-lg tw-text-center">Estabilidade financeira diz respeito sobre disciplina antes de
-                  tudo. Nesse sentido, sugerimos uma divisão padrão para seus gastos: ela pode ser visualizada usando
-                  os
-                  ícones ao lado 😉</span>
+        <q-carousel-slide :name="2" style="width:500px; max-width:85vw">
+          <div style="max-width: 80vw">
+            <div class="row items-center q-pb-none">
+              <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="help_outline" flat round dense @click="modalInfoCofre = true" />
+                </div>
+                <div class="tw-w-8/12 sm:tw-w-10/12">
+                  <img src="/images/safebox.png" class="tw-mx-auto" />
+                </div>
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="close" flat round dense v-close-popup @click="form.reset()" />
+                </div>
               </div>
+            </div>
+            <div class="tw-mt-4">
+              <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+                <div class="q-gutter-y-md">
+                  <span class="tw-text-lg">Cofre: R${{ valorFormatado($page.props.auth.user.cofre) }}</span>
+                  <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
+                    outlined label="Valor*" min="0.01" step="0.01" />
+                </div>
+              </div>
+            </div>
+            <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-2">
+              <button type="button" @click="retirarCofre($page.props.auth.user.cofre)">
+                <span class="material-icons md-36">task_alt</span>
+              </button>
             </div>
           </div>
         </q-carousel-slide>
@@ -383,8 +401,7 @@
     <!--modal custos-->
     <ModalCusto v-model="modalCustos" :chartData="chartData" :gastosMensais="gastosMensais" />
     <!--modal objetivos-->
-    <ModalObjetivo v-model="modalObjetivos" :metas="metas" :metasConcluidas="metasConcluidas"
-      :objetivo="porcentagens[4]" />
+    <ModalObjetivo v-model="modalObjetivos" :metas="metas" :metasConcluidas="metasConcluidas" :objetivo="porcentagens[4]" />
     <!--modal explicações entrada-->
     <ModalInfoEntradas v-model="modalInfoEntradas" />
     <!--modal explicações saida-->
@@ -553,7 +570,7 @@ export default {
       }
     },
 
-    retirarCofre(value) {
+    retirarCofre (value) {
       this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
       if (this.form.valor == "") {
         this.formNulo = true;
@@ -666,7 +683,6 @@ export default {
       apagarSaida: false,
       apagarEntrada: false,
       diferenca: null,
-      categoria: null,
       categoria: null,
       slide: ref(1),
       chartData: {
