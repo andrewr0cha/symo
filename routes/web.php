@@ -28,6 +28,8 @@ Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->midd
 
 Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->middleware(['auth', 'verified'])->name('consultas');
 
+Route::get('/previsoes', 'App\Http\Controllers\PrevisoesController@index')->middleware(['auth', 'verified'])->name('previsoes');
+
 Route::get('/agendamentos', 'App\Http\Controllers\AgendamentosController@index')->middleware(['auth', 'verified'])->name('agendamentos');
 
 Route::get('/metas', 'App\Http\Controllers\MetasController@index')->middleware(['auth', 'verified'])->name('metas');

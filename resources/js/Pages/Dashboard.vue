@@ -239,43 +239,14 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <q-carousel transition-prev="scale" transition-next="scale" swipeable animated v-model="slide"
           control-color="primary" height="500px" arrows>
           <q-carousel-slide :name="1">
-            <div style="width:500px">
-              <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
-                <div class="tw-w-2/12 sm:tw-w-1/12">
-                  <q-btn icon="help_outline" flat round dense @click="modalInfoMetas = true" />
-                </div>
-                <div class="tw-w-8/12 sm:tw-w-10/12">
-                  <img src="/images/metas.png" class="tw-mx-auto" />
-                </div>
-                <div class="tw-w-2/12 sm:tw-w-1/12">
-                  <q-btn icon="close" flat round dense v-close-popup @click="(formMeta.reset()), (slide = 1)" />
-                </div>
-              </div>
-              <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
-                <div class="q-gutter-y-md">
-                  <q-input outlined v-model="formMeta.nome" label="Título*" />
-                  <q-input outlined v-model="formMeta.descricao" label="Descrição" />
-                  <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
-                    hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
-                  <q-select outlined v-model="formMeta.duracao" label='Prazo' disable />
-                </div>
-              </div>
-              <div class="tw-w-full tw-text-center tw-my-4">
-                <button type="button" @click="lancarMeta">
-                  <span class="material-icons md-36">task_alt</span>
-                </button>
-              </div>
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide :name="2">
             <div style="width:500px" class="tw-h-full">
               <div class="tw-w-full tw-flex tw-justify-between tw-mt-4">
-                <q-btn icon="arrow_back" flat round dense v-close-popup @click="slide = 1" />
-                <q-btn icon="close" flat round dense v-close-popup />
+                <q-btn icon="close" flat round dense v-close-popup @click="slide = 1" />
               </div>
               <div class="tw-h-5/6 tw-w-full">
                 <div v-if="metaList == 0" class="tw-w-full tw-h-full tw-text-center tw-flex tw-items-center">
-                  <span class="tw-text-lg ">Parece que você ainda não tem metas com essa duração. Use o formulário ao
+                  <span class="tw-text-lg tw-w-11/12">Parece que você ainda não tem metas com essa duração. Use o
+                    formulário ao
                     lado para criar uma.🤩
                   </span>
                 </div>
@@ -330,12 +301,42 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
               </div>
             </div>
           </q-carousel-slide>
+          <q-carousel-slide :name="2">
+            <div style="width:500px">
+              <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="help_outline" flat round dense @click="modalInfoMetas = true" />
+                </div>
+                <div class="tw-w-8/12 sm:tw-w-10/12">
+                  <img src="/images/metas.png" class="tw-mx-auto" />
+                </div>
+                <div class="tw-w-2/12 sm:tw-w-1/12">
+                  <q-btn icon="close" flat round dense v-close-popup @click="(formMeta.reset())" />
+                </div>
+              </div>
+              <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+                <div class="q-gutter-y-md">
+                  <q-input outlined v-model="formMeta.nome" label="Título*" />
+                  <q-input outlined v-model="formMeta.descricao" label="Descrição" />
+                  <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
+                    hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
+                  <q-select outlined v-model="formMeta.duracao" label='Prazo' disable />
+                </div>
+              </div>
+              <div class="tw-w-full tw-text-center tw-my-4">
+                <button type="button" @click="lancarMeta">
+                  <span class="material-icons md-36">task_alt</span>
+                </button>
+              </div>
+            </div>
+          </q-carousel-slide>
+
         </q-carousel>
       </q-dialog>
       <!--modal explicações metas-->
-      <ModalInfoMetas v-model="modalInfoMetas"/>
+      <ModalInfoMetas v-model="modalInfoMetas" />
       <!--modal progresso de metas-->
-      <ModalProgressoMeta v-model="modalProgressao" :progresso="progresso" :progressaoMeta="progressaoMeta"/>
+      <ModalProgressoMeta v-model="modalProgressao" :progresso="progresso" :progressaoMeta="progressaoMeta" />
       <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'"
         class="tw-hidden sm:tw-flex">
       </DialogBaixo>
@@ -349,7 +350,45 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <span>Desenvolvido por Andrew, Carolina, Enzo, Guilherme Barboza, Guilherme Garcia, Lucas Alves</span>
       </div>
     </div>
+    <!--modal meta-->
+    <q-dialog v-model="metas" class="tw-hidden sm:tw-flex">
+      <q-card style="height:370px">
+        <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
+          <div class="tw-w-2/12 sm:tw-w-1/12">
+          </div>
+          <div class="tw-w-8/12 sm:tw-w-10/12">
+            <img src="/images/metas.png" class="tw-mx-auto" />
+          </div>
+          <div class="tw-w-2/12 sm:tw-w-1/12 tw-mr-2">
+            <q-btn icon="close" flat round dense v-close-popup />
+          </div>
+        </div>
+        <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto tw-text-center">
+          <span class="tw-text-lg">Parece que você tem os seguintes eventos para hoje:</span>
+          <q-scroll-area style="height: 150px">
+            <div class="tw-w-11/12 tw-mx-auto">
+              <div v-for="item in metasDia" :key="item.id" class="tw-mb-2 tw-mt-2">
+                <q-card class="flex inline-flex">
+                  <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
+                    {{ item.nome }}
+                  </div>
+                  <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-left ">
+                    <div class="tw-w-6/12 tw-pl-2">
+                      <div v-if="item.descricao != null">
+                        {{ item.descricao }}
+                      </div>
+                    </div>
+                    <div class="tw-w-5/12">{{ dataFormatada(item.data) }}</div>
+                  </div>
+                </q-card>
+              </div>
+            </div>
+          </q-scroll-area>
 
+          <span class="tw-text-lg tw-my-2">Não se esqueça de nos contra soble eles.😄</span>
+        </div>
+      </q-card>
+    </q-dialog>
 
   </BreezeAuthenticatedLayout>
 </template>
@@ -364,6 +403,8 @@ export default {
     longoPrazo: Object,
     atributosCalendario: Object,
     gastosMensais: Object,
+    metasDia: Object,
+    metas: Boolean,
   },
 
   methods: {
@@ -372,7 +413,7 @@ export default {
       var hora = dia.getHours() + ":" + dia.getMinutes() + ":" + dia.getSeconds();
       var mensagem;
 
-      console.log(hora)
+      mensagem = "Bom dia,";
       if (hora > "5:00:00") {
         mensagem = "Bom dia,";
       } else if (hora > "12:00:00" && hora < "19:00:00") {
@@ -475,7 +516,8 @@ export default {
 
     mudarProgressao(i, k) {
       this.progressaoMeta = this.metaList.find((meta) => meta.id == i);
-      this.progresso = k / this.progressaoMeta.valor;
+      this.progresso = [k / this.progressaoMeta.valor, this.progressaoMeta.valor]
+      //this.progresso = k / this.progressaoMeta.valor;
       this.modalProgressao = true;
     },
 

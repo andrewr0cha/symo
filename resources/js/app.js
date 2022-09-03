@@ -6,7 +6,6 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { Quasar, Dialog } from 'quasar';
 import '@quasar/extras/material-icons/material-icons.css';
 import 'quasar/dist/quasar.prod.css';
-import VCalendar from 'v-calendar';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -22,7 +21,7 @@ createInertiaApp({
                 },
                 config: {
                     brand: {
-                        primary: '#1ed760',
+                        primary: '#9787ff',
                     },
                 },
             })

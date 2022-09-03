@@ -31,7 +31,7 @@
           tw-mx-2 tw-w-28">
           <img src="/images/dinheiro.png" class="imagem tw-mx-auto" />
           <div class="tw-flex tw-inline-flex tw-items-center tw-mx-auto">
-            <span class="tw-text-white tw-hidden sm:tw-flex">Seu saldo</span>
+            <span class="tw-text-white tw-hidden sm:tw-flex">Carteira</span>
           </div>
           <div class="tw-mx-auto">
             <span class="tw-text-white tw-text-center">R${{ valorFormatado($page.props.auth.user.saldo) }}</span>
@@ -72,7 +72,7 @@
               " @click="atualizarDataBarra(porcentagens[0], porcentagensGerais[0], 'Essencial')">
               <img src="/images/essencial.png" class="imagem" />
               Essencial<br>
-              {{ porcentagem(porcentagens[0]) }}
+              {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[0]) }}
             </div>
             <div class="
                 tw-w-60
@@ -98,7 +98,7 @@
               " @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Aposentadoria')">
               <img src="/images/aposentadoria.png" class="imagem" />
               Aposentadoria<br>
-              {{ porcentagem(porcentagens[1]) }}
+              {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[1]) }}
             </div>
             <div class="
                 tw-w-60
@@ -111,7 +111,7 @@
               " @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Educação')">
               <img src="/images/educacao.png" class="imagem" />
               Educação<br>
-              {{ porcentagem(porcentagens[2]) }}
+              {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[2]) }}
             </div>
             <div class="
                 tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
@@ -119,7 +119,7 @@
               " @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Lazer')">
               <img src="/images/lazer1.png" class="imagem" />
               Lazer<br>
-              {{ porcentagem(porcentagens[3]) }}
+              {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[3]) }}
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@
           <span class="material-icons md-24 tw-mr-2 hover:tw-cursor-pointer"
             @click="modalFiltroEntrada = true">filter_list</span>
         </div>
-        <q-scroll-area style="height: 350px">
+        <q-scroll-area style="height: 335px">
           <div v-if="entradas != 0" class="tw-w-full">
             <div v-for="item in entradas" :key="item.id" class="tw-mb-2 entrada">
               <q-card class="flex inline-flex">
@@ -158,7 +158,7 @@
                     {{ item.descricao }}
                   </div>
                   <div class="tw-w-4/12">
-                    <div class="tw-text-green-500">
+                    <div class="tw-text-green-600">
                       +R$ {{ valorFormatado(item.valor) }}
                     </div>
                     {{ dataFormatada(item.data) }}
@@ -201,7 +201,7 @@
           <span class="material-icons md-24 tw-mr-2 hover:tw-cursor-pointer"
             @click="modalFiltroSaida = true">filter_list</span>
         </div>
-        <q-scroll-area style="height: 350px">
+        <q-scroll-area style="height: 335px">
           <div v-if="saidas != 0" class="tw-w-full">
             <div v-for="item in saidas" :key="item.id" class="tw-mb-2 entrada">
               <q-card class="flex inline-flex">
@@ -350,10 +350,9 @@
                 </div>
               </div>
             </div>
-            <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-2">
-              <button type="button" @click="guardarCofre($page.props.auth.user.saldo)">
-                <span class="material-icons md-36">task_alt</span>
-              </button>
+            <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+              <q-btn @click="guardarCofre($page.props.auth.user.saldo)" icon="task_alt" color="primary"
+                label="Guardar" />
             </div>
           </div>
         </q-carousel-slide>
@@ -381,10 +380,9 @@
                 </div>
               </div>
             </div>
-            <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-2">
-              <button type="button" @click="retirarCofre($page.props.auth.user.cofre)">
-                <span class="material-icons md-36">task_alt</span>
-              </button>
+            <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+              <q-btn @click="retirarCofre($page.props.auth.user.cofre)" icon="task_alt" color="primary"
+                label="Retirar" />
             </div>
           </div>
         </q-carousel-slide>
@@ -397,11 +395,13 @@
     <DialogBaixo v-model="saldoInsuficiente" :value="'O seu saldo não é suficiente para essa ação.'" :icon="'error'">
     </DialogBaixo>
     <!--modal categorias-->
-    <ModalCategoria v-model="modalCategorias" :chartData="chartData" :diferenca="diferenca" :categoria="categoria" />
+    <ModalCategoria v-model="modalCategorias" :chartData="chartData" :diferenca="diferenca" :categoria="categoria"
+      :temEntrada="porcentagens[5]" />
     <!--modal custos-->
     <ModalCusto v-model="modalCustos" :chartData="chartData" :gastosMensais="gastosMensais" />
     <!--modal objetivos-->
-    <ModalObjetivo v-model="modalObjetivos" :metas="metas" :metasConcluidas="metasConcluidas" :objetivo="porcentagens[4]" />
+    <ModalObjetivo v-model="modalObjetivos" :metas="metas" :metasConcluidas="metasConcluidas"
+      :objetivo="porcentagens[4]" />
     <!--modal explicações entrada-->
     <ModalInfoEntradas v-model="modalInfoEntradas" />
     <!--modal explicações saida-->
@@ -412,7 +412,7 @@
     <q-dialog v-model="modalFiltroEntrada" transition-show="scale" transition-hide="scale">
       <q-card style="width: 500px; max-width: 60vw">
         <q-card-section class="row items-center q-pb-none">
-          <q-btn icon="calendar_today" flat round dense />
+          <q-icon name="calendar_today" size="20px" />
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup @click="formData.reset()" />
         </q-card-section>
@@ -435,7 +435,7 @@
     <q-dialog v-model="modalFiltroSaida" transition-show="scale" transition-hide="scale">
       <q-card style="width: 500px; max-width: 60vw">
         <q-card-section class="row items-center q-pb-none">
-          <q-btn icon="calendar_today" flat round dense />
+          <q-icon name="calendar_today" size="20px" />
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup @click="formData.reset()" />
         </q-card-section>
@@ -570,7 +570,7 @@ export default {
       }
     },
 
-    retirarCofre (value) {
+    retirarCofre(value) {
       this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
       if (this.form.valor == "") {
         this.formNulo = true;
@@ -625,6 +625,7 @@ export default {
       },
         this.diferenca = i - j;
       this.categoria = c;
+      this.categoriaValor = i;
       this.modalCategorias = true;
     },
 
@@ -733,12 +734,12 @@ export default {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: #59f792;
+  background: #d1b6ff;
   border-radius: 100vh;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: green;
+  background: #b49fff;
 }
 
 .imagem {
@@ -747,6 +748,6 @@ export default {
 }
 
 .entrada :hover {
-  background-color: #59f792;
+  background-color: #d1b6ff;
 }
 </style>

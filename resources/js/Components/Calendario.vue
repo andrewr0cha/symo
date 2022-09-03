@@ -32,7 +32,7 @@ export default {
                     left: "title",
                     right: "today prev next",
                 },
-                eventColor: '#59f792',
+                eventColor: '#b49fff',
             },
             form: this.$inertia.form({
                 nome: '',
@@ -124,7 +124,7 @@ export default {
 
 <style>
 .fc .fc-button-primary {
-    background-color: #59f792;
+    background-color: #d1b6ff;
     color: black;
 }
 
@@ -134,15 +134,16 @@ export default {
 }
 
 .fc .fc-button-primary:disabled {
-    background-color: rgb(28, 81, 28);
+    background-color: #9787ff;
+    color: black;
 }
 
 .fc-button-active {
-    background-color: rgb(98, 230, 91);
+    background-color: #b49fff;
 }
 
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
-    background-color: green;
+    background-color: #9787ff;
 }
 </style>

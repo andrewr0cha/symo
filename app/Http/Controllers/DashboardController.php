@@ -16,6 +16,13 @@ class DashboardController extends Controller
         $agendamentos=Agendamento::where('id_usuario', auth()->user()->id)->orderBy('id', 'desc')->get();
         if($agendamentos==null) $agendamentos=0;
         else $atributosCalendario=$this->atributosCalendario($agendamentos);
+        $data=new DateTime();
+        //dd($data->format('Y-m-d'));
+        $data=$data->format('Y-m-d');
+        $agendamentosDia=Agendamento::where('id_usuario', auth()->user()->id)->where('data',$data)->orderBy('id', 'desc')->get();
+        
+        if(count($agendamentosDia)>=1){$metasDia=$agendamentosDia; $metas=true;} 
+        else {$metasDia=0; $metas=false;};
         $curtoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Curto')->orderBy('id', 'desc')->get();
         if($curtoPrazo==null) $curtoPrazo=0;
         $medioPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Médio')->orderBy('id', 'desc')->get();
@@ -23,7 +30,7 @@ class DashboardController extends Controller
         $longoPrazo=Meta::where('id_usuario', auth()->user()->id)->where('duracao','Longo')->orderBy('id', 'desc')->get();
         if($longoPrazo==null) $longoPrazo=0;
         $gastosMensais=$this->somarGastos();
-        return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,'atributosCalendario'=>$atributosCalendario,'gastosMensais' => $gastosMensais, ]);
+        return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,'atributosCalendario'=>$atributosCalendario,'gastosMensais' => $gastosMensais,'metasDia'=>$metasDia, 'metas'=>$metas ]);
     }
 
     public function adicionarAgendamento(Request $req){

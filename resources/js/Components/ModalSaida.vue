@@ -75,7 +75,7 @@ export default {
         descricao: "",
       }),
       formNulo: false,
-      categoriasSaida: ['Essencial', 'Objetivos', 'Aposentadoria', 'Educação', 'Lazer'],
+      categoriasSaida: ['Essencial', 'Aposentadoria', 'Educação', 'Lazer'],
     }
   },
 }

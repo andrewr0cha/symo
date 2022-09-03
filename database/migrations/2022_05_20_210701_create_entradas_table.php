@@ -18,8 +18,10 @@ class CreateEntradasTable extends Migration
             $table->string('nome', 100);
             $table->text('descricao')->nullable();
             $table->double('valor', 9, 2)->default(0.00);
-            $table->bigInteger('id_usuario')->unsigned();;
+            $table->bigInteger('id_usuario')->unsigned();
             $table->foreign('id_usuario')->references('id')->on('users');
+            /*$table->bollean('fixo')->notnull();
+            $table->datetime('data_fixa')->unsigned();*/
             $table->datetime('data');
             $table->timestamps();
         });
