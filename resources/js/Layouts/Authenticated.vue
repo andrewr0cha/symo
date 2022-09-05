@@ -46,6 +46,14 @@ const showingNavigationDropdown = ref(false);
 
             <div class="tw-hidden sm:tw-flex sm:tw-items-center sm:tw-ml-6">
               <!-- Settings Dropdown -->
+              <div class="
+                  tw-hidden tw-space-x-8
+                  sm:tw-my-px sm:tw-ml-10 sm:tw-flex tw-h-full
+                ">
+                <BreezeNavLink :href="route('usuario')" :active="route().current('usuario')">
+                  <img src="/images/documento.png" />
+                </BreezeNavLink>
+              </div>
               <div class="tw-ml-3 tw-relative">
                 <BreezeDropdown align="right" width="48">
                   <template #trigger>

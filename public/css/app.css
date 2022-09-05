@@ -624,6 +624,9 @@ select {
 .tw-m-4 {
   margin: 1rem;
 }
+.tw-m-2 {
+  margin: 0.5rem;
+}
 .tw-mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -697,6 +700,9 @@ select {
 }
 .tw-block {
   display: block;
+}
+.tw-inline {
+  display: inline;
 }
 .tw-flex {
   display: flex;
@@ -796,6 +802,9 @@ select {
 }
 .tw-w-60 {
   width: 15rem;
+}
+.tw-w-7\/12 {
+  width: 58.333333%;
 }
 .tw-w-4\/12 {
   width: 33.333333%;

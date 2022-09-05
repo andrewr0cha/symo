@@ -17,6 +17,7 @@ class AlterUsersTable extends Migration
             $table->float('saldo')->default(0.00);
             $table->float('cofre')->default(0.00);
             $table->string('usuario')->unique();
+            $table->string('foto')->default('/images/user.png');
         });
     }
 

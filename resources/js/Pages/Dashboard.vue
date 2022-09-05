@@ -38,7 +38,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                 <div class="topo tw-mx-auto sm:tw-max-w-2/6 tw-pl-2">
                   <img class="
                       tw-rounded tw-max-w-40 tw-max-h-48 tw-mx-auto tw-pt-1
-                    " src="/images/user.png" />
+                    " :src=$page.props.auth.user.foto />
                   {{ horas() }} {{ $page.props.auth.user.name }}
                   <img v-if="horas() == 'Bom dia,'" src="/images/nascerdosol.png" class="imagem" />
                   <img v-else-if="horas() == 'Boa tarde,'" src="/images/pordosol.png" class="imagem" />

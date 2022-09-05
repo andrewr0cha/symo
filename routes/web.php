@@ -74,6 +74,10 @@ Route::get('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@index')
 
 Route::get('/filtrar/saida', 'App\Http\Controllers\ConsultasController@index');
 
+Route::get('/editar/usuario', 'App\Http\Controllers\EditarController@usuario')->middleware(['auth', 'verified'])->name('usuario');;
+
+Route::post('/alterar/usuario', 'App\Http\Controllers\EditarController@alterarUsuario')->middleware(['auth', 'verified'])->name('alterar.usuario');;
+
 /*function () {
     return Inertia::render('Consultas');
 }*/

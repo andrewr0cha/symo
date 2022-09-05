@@ -151,10 +151,7 @@
                     tw-items-center
                     tw-justify-left
                   ">
-                  <div class="tw-w-2/12">
-                    {{ item.id }}
-                  </div>
-                  <div class="tw-w-5/12">
+                  <div class="tw-w-7/12">
                     {{ item.descricao }}
                   </div>
                   <div class="tw-w-4/12">
