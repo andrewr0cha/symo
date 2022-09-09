@@ -33,13 +33,23 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', ['agendamentos' => $agendamentos,'curtoPrazo'=>$curtoPrazo,'medioPrazo'=>$medioPrazo,'longoPrazo'=>$longoPrazo,'atributosCalendario'=>$atributosCalendario,'gastosMensais' => $gastosMensais,'metasDia'=>$metasDia, 'metas'=>$metas ]);
     }
 
-    public function adicionarAgendamento(Request $req){
-        $agendamento=new Agendamento();
-        $agendamento->nome=$req->nome;
-        $agendamento->descricao=$req->descricao;
-        $agendamento->data=$req->dataAgendamento;
-        $agendamento->id_usuario=auth()->user()->id;
-        $agendamento->save();
+    public function adicionarAgendamento(Request $req, int $id=null){
+        
+        if($id==null){
+            $agendamento=new Agendamento();
+            $agendamento->nome=$req->nome;
+            $agendamento->descricao=$req->descricao;
+            $agendamento->data=$req->dataAgendamento;
+            $agendamento->id_usuario=auth()->user()->id;
+            $agendamento->save();
+        }else{
+            $agendamento=Agendamento::find($id);
+            $agendamento->nome=$req->nome;
+            $agendamento->descricao=$req->descricao;
+            $agendamento->data=$req->dataAgendamento;
+            $agendamento->id_usuario=auth()->user()->id;
+            $agendamento->save();
+        }
         return redirect()->route('dashboard');
     }
 

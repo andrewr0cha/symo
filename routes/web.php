@@ -42,9 +42,9 @@ Route::post('/adicionar/cofre', 'App\Http\Controllers\ConsultasController@adicio
 
 Route::post('/remover/cofre', 'App\Http\Controllers\ConsultasController@removerCofre')->middleware(['auth', 'verified'])->name('remover');
 
-Route::post('/adicionar/agendamento', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('adicionar.agendamento');
+Route::post('/adicionar/agendamento/{id?}', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('adicionar.agendamento');
 
-Route::post('mobile/adicionar/agendamento', 'App\Http\Controllers\AgendamentosController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('agendamento.adicionar.agendamento');
+Route::post('mobile/adicionar/agendamento/{id?}', 'App\Http\Controllers\AgendamentosController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('agendamento.adicionar.agendamento');
 
 Route::post('/adicionar/meta', 'App\Http\Controllers\DashboardController@adicionarMeta')->middleware(['auth', 'verified'])->name('adicionar.meta');
 

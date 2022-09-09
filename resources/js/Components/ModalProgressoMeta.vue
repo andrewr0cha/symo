@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="dialog" position="right" rounded class="tw-hidden sm:tw-flex">
-    <q-card style="width: 300px; max-width: 60vh; height:180px">
+    <q-card style="width: 300px; max-width: 60vh; height:215px">
       <q-card-section class="row items-center q-pb-none">
         <q-btn icon="trending_up" flat round dense @click="mostrarValor" />
         <q-space />
@@ -28,7 +28,7 @@
             <span class="tw-text-lg">Essa meta está começando. Força!💪</span>
           </div>
         </div>
-        <q-linear-progress :value="progresso" color="primary" />
+        <q-linear-progress :value="progresso[0]" color="primary" />
         <div v-show="valor == true" class="tw-w-full tw-flex tw-place-content-between">
           <span>R$ {{ valorFormatado(0) }}</span>
           <span>R$ {{ valorFormatado(progresso[1]) }}</span>

@@ -46,7 +46,7 @@ defineExpose({ modalAgendamentos, modalData });
                                 </div>
                             </div>
                         </q-scroll-area>
-                        <div class="tw-w-full tw-justify-center tw-mt-2 tw-flex tw-inline-flex">
+                        <div class="tw-w-full tw-justify-center tw-mt-2 tw-flex tw-inline-flex tw-text-white">
                             <div v-if="!apagarAgendamento" class="tw-mt-2 tw-flex tw-inline-flex">
                                 <span class="material-icons md-36 hover:tw-cursor-pointer"
                                     @click="modalAgendamentos = true">

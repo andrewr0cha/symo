@@ -37,14 +37,14 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
               <div class="fundo tw-flex sm:tw-max-w-2/6 tw-mr-2 tw-pl-5">
                 <div class="topo tw-mx-auto sm:tw-max-w-2/6 tw-pl-2">
                   <img class="
-                      tw-rounded tw-max-w-40 tw-max-h-48 tw-mx-auto tw-pt-1
+                      tw-rounded tw-max-w-40 tw-max-h-48 tw-mx-auto tw-py-2
                     " :src=$page.props.auth.user.foto />
                   {{ horas() }} {{ $page.props.auth.user.name }}
                   <img v-if="horas() == 'Bom dia,'" src="/images/nascerdosol.png" class="imagem" />
                   <img v-else-if="horas() == 'Boa tarde,'" src="/images/pordosol.png" class="imagem" />
                   <img v-else-if="horas() == 'Boa noite,'" src="/images/noite.png" class="imagem" />
-                  <hr />
-                  <div class="tw-mt-5">
+                  <hr class="tw-mt-2"/>
+                  <div class="tw-mt-4">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-2">
                       Seu saldo: R${{ valorFormatado($page.props.auth.user.saldo) }}
                     </Texto>
@@ -93,16 +93,16 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <div class="tw-w-11/12 tw-mx-auto">
                     <div v-for="item in agendamentos" :key="item.id" class="tw-mb-2 tw-mt-2">
                       <q-card class="flex inline-flex">
-                        <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
+                        <div class="tw-w-full tw-cursor-pointer tw-text-left tw-text-xl tw-pl-2 pb-2" @click="editaEvento(item.id)">
                           {{ item.nome }}
                         </div>
-                        <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-left ">
-                          <div class="tw-w-6/12 tw-pl-2">
+                        <div class="tw-w-full tw-cursor-pointer tw-flex tw-inline-flex tw-items-center tw-justify-left ">
+                          <div class="tw-w-6/12 tw-pl-2" @click="editaEvento(item.id)">
                             <div v-if="item.descricao != null">
                               {{ item.descricao }}
                             </div>
                           </div>
-                          <div class="tw-w-5/12">{{ dataFormatada(item.data) }}</div>
+                          <div class="tw-w-5/12" @click="editaEvento(item.id)">{{ dataFormatada(item.data) }}</div>
                           <div v-if="apagarAgendamento" class="tw-w-1/12>">
                             <input type="checkbox" @click="adicionaItem(item.id)" />
                           </div>
@@ -385,7 +385,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
             </div>
           </q-scroll-area>
 
-          <span class="tw-text-lg tw-my-2">Não se esqueça de nos contra soble eles.😄</span>
+          <span class="tw-text-lg tw-my-2">Não se esqueça de nos contar sobre eles.😄</span>
         </div>
       </q-card>
     </q-dialog>
@@ -446,7 +446,7 @@ export default {
       if (this.form.nome == "" || this.form.dataAgendamento == "") {
         this.formNulo = true;
       } else {
-        this.form.post(route("adicionar.agendamento"), {
+        this.form.post(route("adicionar.agendamento", {id:this.form.id}), {
           preserveState: true,
           preserveScroll: true,
           onSuccess: () => {
@@ -527,6 +527,19 @@ export default {
         this.lista.splice(pos, 1);
       } else this.lista.push(id);
     },
+
+    editaEvento(a) {
+      for(var i=0; i<this.agendamentos.length;i++){
+        if(this.agendamentos[i].id==a){
+          this.evento=this.agendamentos[i];
+          this.form.dataAgendamento=this.evento.data;
+          this.form.id=this.evento.id;
+          this.form.nome=this.evento.nome;
+          this.form.descricao=this.evento.descricao;
+        }
+      }
+      this.modalAgendamentos=true;  
+    },
   },
 
   data() {
@@ -541,6 +554,7 @@ export default {
         nome: '',
         descricao: '',
         dataAgendamento: '',
+        id:'',
       }),
       formMeta: this.$inertia.form({
         nome: '',
@@ -551,6 +565,7 @@ export default {
       }),
       formNulo: null,
       lista: [],
+      evento: null,
       apagarAgendamento: false,
       apagarMeta: false,
       marcarConcluida: false,

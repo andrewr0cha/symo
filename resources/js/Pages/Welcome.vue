@@ -25,7 +25,7 @@ defineProps({
     <div v-if="canLogin" class="tw-mx-auto tw-top-0 tw-right-0 tw-px-6 tw-py-4">
       <div v-if="$page.props.auth.user" class="tw-flex tw-flex-col tw-items-center">
         <div class="tw-mb-2"><img src="/images/logo-desenho.png" style="max-width: 250px;" /></div>
-        <div class="tw-mb-2"><img src="/images/user.png" class="img" /></div>
+        <div class="tw-mb-2"><img :src=$page.props.auth.user.foto class="img" /></div>
         <div class="tw-mb-2 tw-text-lg">Seja bem-vindo, {{ $page.props.auth.user.name }}</div>
         <Link :href="route('dashboard')" class="tw-mb-2"><span class="material-icons md-48">login</span>
         </Link>
