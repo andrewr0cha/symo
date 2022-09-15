@@ -20,8 +20,7 @@ class CreateEntradasTable extends Migration
             $table->double('valor', 9, 2)->default(0.00);
             $table->bigInteger('id_usuario')->unsigned();
             $table->foreign('id_usuario')->references('id')->on('users');
-            /*$table->bollean('fixo')->notnull();
-            $table->datetime('data_fixa')->unsigned();*/
+            $table->boolean('cofre')->default(false);
             $table->datetime('data');
             $table->timestamps();
         });

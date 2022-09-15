@@ -36,7 +36,7 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
         <q-dialog v-model="modalMeta">
             <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
                 control-color="primary" arrows height="500px">
-                <q-carousel-slide :name="1" style="width:500px; max-width:85vw">
+                <q-carousel-slide :name="2" style="width:500px; max-width:85vw">
                     <div>
                         <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
                             <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -67,7 +67,7 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                         </div>
                     </div>
                 </q-carousel-slide>
-                <q-carousel-slide :name="2" style="width:500px;max-width:85vw">
+                <q-carousel-slide :name="1" style="width:500px;max-width:85vw">
                     <div class="tw-h-full">
                         <div class="tw-w-full tw-flex tw-justify-between tw-mt-4">
                             <q-btn icon="arrow_back" flat round dense v-close-popup @click="slide = 1" />
@@ -76,7 +76,9 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
                         <div class="tw-h-5/6 tw-w-full">
                             <div v-if="metaList == 0"
                                 class="tw-w-full tw-h-full tw-text-center tw-flex tw-items-center">
-                                <span class="tw-text-lg ">Parece que você ainda não tem metas com essa duração. Use o
+                                <span class="tw-text-lg tw-w-10/12 tw-mx-auto">Parece que você ainda não tem metas com
+                                    essa
+                                    duração. Use o
                                     formulário ao
                                     lado para criar uma.🤩
                                 </span>

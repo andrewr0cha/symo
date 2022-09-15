@@ -62,37 +62,33 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                 </div>
               </div>
             </div>
-            <div class="sm:tw-max-w-2/6 tw-mx-auto">
+            <div class="sm:tw-max-w-2/6 tw-mx-auto ">
               <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
-                control-color="white" arrows class="bg-deep-purple-2 text-white shadow-1 rounded-borders tw-mt-4"
+                control-color="black" arrows class="bg-deep-purple-2 text-white shadow-1 rounded-borders tw-mt-4"
                 :autoplay="autoplay" infinite @mouseenter="autoplay = false" @mouseleave="autoplay = true" padding
                 style="border-radius:25px; height:260px; min-height: 160px; max-width: 300px">
                 <q-carousel-slide :name="1" class="column no-wrap flex-center">
-                  <div class="q-mt-md text-center">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
-                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
-                    dolorem quis neque et.
+                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
+                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
+                    {{dicas[0]}}
                   </div>
                 </q-carousel-slide>
                 <q-carousel-slide :name="2" class="column no-wrap flex-center">
-                  <div class="q-mt-md text-center">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
-                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
-                    dolorem quis neque et.
+                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
+                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
+                    {{dicas[1]}}
                   </div>
                 </q-carousel-slide>
                 <q-carousel-slide :name="3" class="column no-wrap flex-center">
-                  <div class="q-mt-md text-center">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
-                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
-                    dolorem quis neque et.
+                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
+                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
+                    {{dicas[2]}}
                   </div>
                 </q-carousel-slide>
                 <q-carousel-slide :name="4" class="column no-wrap flex-center">
-                  <div class="q-mt-md text-center">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
-                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
-                    dolorem quis neque et.
+                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
+                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
+                    Entre todos os dias para receber novas dicas :)
                   </div>
                 </q-carousel-slide>
               </q-carousel>
@@ -388,7 +384,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
       </div>
     </div>
     <!--modal meta-->
-    <q-dialog v-model="metas" class="tw-hidden sm:tw-flex">
+    <q-dialog v-model="metas">
       <q-card style="height:370px">
         <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
           <div class="tw-w-2/12 sm:tw-w-1/12">
@@ -442,6 +438,7 @@ export default {
     gastosMensais: Object,
     metasDia: Object,
     metas: Boolean,
+    dicas: Array,
   },
 
   methods: {

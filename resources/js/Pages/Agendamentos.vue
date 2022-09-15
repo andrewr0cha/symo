@@ -28,16 +28,20 @@ defineExpose({ modalAgendamentos, modalData });
                             <div class="tw-w-11/12 tw-mx-auto">
                                 <div v-for="item in agendamentos" :key="item.id" class="tw-mb-2 tw-mt-2">
                                     <q-card class="flex inline-flex">
-                                        <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2">
+                                        <div class="tw-w-full tw-text-left tw-text-xl tw-pl-2 pb-2 hover:tw-cursor-pointer"
+                                            @click="editaEvento(item.id)">
                                             {{ item.nome }}
                                         </div>
                                         <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-left ">
-                                            <div class="tw-w-6/12 tw-pl-2">
+                                            <div class="tw-w-6/12 tw-pl-2  hover:tw-cursor-pointer"
+                                                @click="editaEvento(item.id)">
                                                 <div v-if="item.descricao != null">
                                                     {{ item.descricao }}
                                                 </div>
                                             </div>
-                                            <div class="tw-w-5/12">{{ dataFormatada(item.data) }}</div>
+                                            <div class="tw-w-5/12  hover:tw-cursor-pointer"
+                                                @click="editaEvento(item.id)">{{
+                                                dataFormatada(item.data) }}</div>
                                             <div v-if="apagarAgendamento" class="tw-w-1/12>">
                                                 <input type="checkbox" @click="adicionaItem(item.id)" />
                                             </div>
@@ -174,6 +178,19 @@ export default {
                 var pos = this.lista.indexOf(id);
                 this.lista.splice(pos, 1);
             } else this.lista.push(id);
+        },
+
+        editaEvento(a) {
+            for (var i = 0; i < this.agendamentos.length; i++) {
+                if (this.agendamentos[i].id == a) {
+                    this.evento = this.agendamentos[i];
+                    this.form.dataAgendamento = this.evento.data;
+                    this.form.id = this.evento.id;
+                    this.form.nome = this.evento.nome;
+                    this.form.descricao = this.evento.descricao;
+                }
+            }
+            this.modalAgendamentos = true;
         },
     },
 

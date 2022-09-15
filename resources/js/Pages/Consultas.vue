@@ -160,7 +160,7 @@
                     </div>
                     {{ dataFormatada(item.data) }}
                   </div>
-                  <div v-if="apagarEntrada" class="tw-w-1/12>">
+                  <div v-if="apagarEntrada&&item.cofre==false" class="tw-w-1/12>">
                     <input type="checkbox" @click="adicionaItem(item.id)" />
                   </div>
                 </div>
@@ -224,7 +224,7 @@
                     </div>
                     {{ dataFormatada(item.data) }}
                   </div>
-                  <div v-if="apagarSaida" class="tw-w-1/12>">
+                  <div v-if="apagarSaida&&item.cofre==false" class="tw-w-1/12>">
                     <input type="checkbox" class="hover:tw-cursor-pointer" @click="adicionaItem(item.id)" />
                   </div>
                 </div>
@@ -322,7 +322,7 @@
     <!--modal cofre-->
     <q-dialog v-model="modalCofre" persistent transition-show="scale" transition-hide="scale" rounded>
       <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
-        control-color="primary" navigation height="330px">
+        control-color="primary" navigation height="340px">
         <q-carousel-slide :name="1" style="width:500px; max-width:85vw">
           <div style="max-width: 80vw">
             <div class="row items-center q-pb-none">

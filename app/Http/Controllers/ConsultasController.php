@@ -31,6 +31,7 @@ class ConsultasController extends Controller
         $metasConcluidas = $metasConcluidas == null ? $metasConcluidas = 0 : $metasConcluidas->count();
         $metas = Meta::where('id_usuario', $id)->get();
         $metas = $metas == null ? $metas = 0 : $metas->count();
+
         return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida, 'id' => $id, 'gastosMensais' => $gastosMensais, 'metasConcluidas' => $metasConcluidas, 'metas' => $metas]);
     }
 
@@ -88,12 +89,13 @@ class ConsultasController extends Controller
         $user->saldo = $user->saldo - $req->valor;
         $user->save();
         $saida = new Saida();
-        $saida->nome ='Dinheiro Guardado';
-        $saida->id_categoria=5;
+        $saida->nome = 'Dinheiro Guardado';
+        $saida->id_categoria = 5;
         $saida->valor = $req->valor;
-        $saida->descricao = 'cofre';
+        $saida->descricao = 'Posto no Cofre';
         $saida->data = date("Y-m-d H:i:s");
         $saida->id_usuario = $id;
+        $saida->cofre = true;
         $saida->save();
         return redirect()->route('consultas', $id);
     }
@@ -107,31 +109,31 @@ class ConsultasController extends Controller
         $user = User::where('id', $id)->first();
         $user->cofre = $user->cofre - $req->valor;
         $entrada = new Entrada();
-        $entrada->nome ='Dinheiro Resgatado';
+        $entrada->nome = 'Dinheiro Resgatado';
         $entrada->valor = $req->valor;
-        $entrada->descricao = 'Resgato do cofre';
+        $entrada->descricao = 'Resgate do Cofre';
         $entrada->data = date("Y-m-d H:i:s");
         $entrada->id_usuario = $id;
+        $entrada->cofre = true;
         $entrada->save();
         $user->saldo = $user->saldo + $req->valor;
         $user->save();
-        $saida=Saida::where('id_usuario',$id)->where('descricao','like','cofre')->orderBy('created_at', 'desc')->first();
-        
-        
-        if($req->valor>=$saida->valor){
-        while($req->valor>=$saida->valor){
-            
-            if($req->valor=$saida->valor){$saida->delete();break;}
-            else{$req->valor=$req->valor-$saida->valor;
-            $saida->delete();
-            $saida=Saida::where('id_usuario',$id)->where('descricao','like','cofre')->orderBy('created_at', 'desc')->first();
+        $saida = Saida::where('id_usuario', $id)->where('cofre', true)->orderBy('created_at', 'desc')->first();
+        if ($req->valor >= $saida->valor) {
+            while ($req->valor >= $saida->valor) {
+                if ($req->valor == $saida->valor) {
+                    $saida->delete();
+                    break;
+                } else {
+                    $req->valor = $req->valor - $saida->valor;
+                    $saida->delete();
+                    $saida = Saida::where('id_usuario', $id)->where('cofre', true)->orderBy('created_at', 'desc')->first();
+                }
             }
         }
-    }
-        else{
-            $saida->valor=$saida->valor-$req->valor;
-            $saida->save();
-        }
+        $saida->valor = $saida->valor - $req->valor;
+        if ($saida->valor == 0) $saida->delete();
+        else $saida->save();
         return redirect()->route('consultas', $id);
     }
 
