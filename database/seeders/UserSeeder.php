@@ -21,5 +21,12 @@ class UserSeeder extends Seeder
             'email' => 'andrew.silva@unesp.br',
             'password' => bcrypt('123')
         ]);
+        DB::table('users')->insert([
+            'id' => 2,
+            'name' => 'Lucas',
+            'usuario' => 'lucas',
+            'email' => 'lucas.alves@unesp.br',
+            'password' => bcrypt('123')
+        ]);
     }
 }

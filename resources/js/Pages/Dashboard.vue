@@ -34,7 +34,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
         <div class="tw-flex tw-flex-col tw-mx-auto">
           <aside>
             <div class="tw-flex sm:tw-max-w-7xl tw-mx-auto">
-              <div class="fundo tw-flex sm:tw-max-w-2/6 tw-mr-2 tw-pl-5">
+              <div class="fundo tw-flex sm:tw-max-w-2/6 tw-pl-5 tw-mx-auto">
                 <div class="topo tw-mx-auto sm:tw-max-w-2/6 tw-pl-2">
                   <img class="
                       tw-rounded tw-max-w-40 tw-max-h-48 tw-mx-auto tw-py-2
@@ -43,7 +43,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <img v-if="horas() == 'Bom dia,'" src="/images/nascerdosol.png" class="imagem" />
                   <img v-else-if="horas() == 'Boa tarde,'" src="/images/pordosol.png" class="imagem" />
                   <img v-else-if="horas() == 'Boa noite,'" src="/images/noite.png" class="imagem" />
-                  <hr class="tw-mt-2"/>
+                  <hr class="tw-mt-2" />
                   <div class="tw-mt-4">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-2">
                       Seu saldo: R${{ valorFormatado($page.props.auth.user.saldo) }}
@@ -61,6 +61,41 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="sm:tw-max-w-2/6 tw-mx-auto">
+              <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
+                control-color="white" arrows class="bg-deep-purple-2 text-white shadow-1 rounded-borders tw-mt-4"
+                :autoplay="autoplay" infinite @mouseenter="autoplay = false" @mouseleave="autoplay = true" padding
+                style="border-radius:25px; height:260px; min-height: 160px; max-width: 300px">
+                <q-carousel-slide :name="1" class="column no-wrap flex-center">
+                  <div class="q-mt-md text-center">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
+                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
+                    dolorem quis neque et.
+                  </div>
+                </q-carousel-slide>
+                <q-carousel-slide :name="2" class="column no-wrap flex-center">
+                  <div class="q-mt-md text-center">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
+                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
+                    dolorem quis neque et.
+                  </div>
+                </q-carousel-slide>
+                <q-carousel-slide :name="3" class="column no-wrap flex-center">
+                  <div class="q-mt-md text-center">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
+                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
+                    dolorem quis neque et.
+                  </div>
+                </q-carousel-slide>
+                <q-carousel-slide :name="4" class="column no-wrap flex-center">
+                  <div class="q-mt-md text-center">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum deserunt fugiat recusandae sunt
+                    suscipit numquam sapiente. Quod corrupti veritatis labore, quasi rem dignissimos cumque? Numquam
+                    dolorem quis neque et.
+                  </div>
+                </q-carousel-slide>
+              </q-carousel>
             </div>
           </aside>
         </div>
@@ -93,10 +128,12 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <div class="tw-w-11/12 tw-mx-auto">
                     <div v-for="item in agendamentos" :key="item.id" class="tw-mb-2 tw-mt-2">
                       <q-card class="flex inline-flex">
-                        <div class="tw-w-full tw-cursor-pointer tw-text-left tw-text-xl tw-pl-2 pb-2" @click="editaEvento(item.id)">
+                        <div class="tw-w-full tw-cursor-pointer tw-text-left tw-text-xl tw-pl-2 pb-2"
+                          @click="editaEvento(item.id)">
                           {{ item.nome }}
                         </div>
-                        <div class="tw-w-full tw-cursor-pointer tw-flex tw-inline-flex tw-items-center tw-justify-left ">
+                        <div
+                          class="tw-w-full tw-cursor-pointer tw-flex tw-inline-flex tw-items-center tw-justify-left ">
                           <div class="tw-w-6/12 tw-pl-2" @click="editaEvento(item.id)">
                             <div v-if="item.descricao != null">
                               {{ item.descricao }}
@@ -167,7 +204,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
 
         <!--metas-->
         <div class="tw-flex tw-mt-4">
-          <div class="tw-inline-flex tw-flex-auto tw-w-full tw-mt-4">
+          <div class="tw-inline-flex tw-flex-auto tw-w-full tw-mt-3">
             <Texto class="metas tw-w-1/3 tw-h-32 tw-min-h-full tw-mr-4 tw-p-2 tw-cursor-pointer"
               @click="modalmeta('Curto')">
               <span class="tw-h-full tw-flex tw-items-center tw-justify-center">Minhas metas a curto prazo</span>
@@ -446,7 +483,7 @@ export default {
       if (this.form.nome == "" || this.form.dataAgendamento == "") {
         this.formNulo = true;
       } else {
-        this.form.post(route("adicionar.agendamento", {id:this.form.id}), {
+        this.form.post(route("adicionar.agendamento", { id: this.form.id }), {
           preserveState: true,
           preserveScroll: true,
           onSuccess: () => {
@@ -529,16 +566,16 @@ export default {
     },
 
     editaEvento(a) {
-      for(var i=0; i<this.agendamentos.length;i++){
-        if(this.agendamentos[i].id==a){
-          this.evento=this.agendamentos[i];
-          this.form.dataAgendamento=this.evento.data;
-          this.form.id=this.evento.id;
-          this.form.nome=this.evento.nome;
-          this.form.descricao=this.evento.descricao;
+      for (var i = 0; i < this.agendamentos.length; i++) {
+        if (this.agendamentos[i].id == a) {
+          this.evento = this.agendamentos[i];
+          this.form.dataAgendamento = this.evento.data;
+          this.form.id = this.evento.id;
+          this.form.nome = this.evento.nome;
+          this.form.descricao = this.evento.descricao;
         }
       }
-      this.modalAgendamentos=true;  
+      this.modalAgendamentos = true;
     },
   },
 
@@ -547,6 +584,7 @@ export default {
       modalEntradas: false,
       modalSaidas: false,
       slide: ref(1),
+      autoplay: ref(true),
       metaList: null,
       progressaoMeta: null,
       progresso: null,
@@ -554,7 +592,7 @@ export default {
         nome: '',
         descricao: '',
         dataAgendamento: '',
-        id:'',
+        id: '',
       }),
       formMeta: this.$inertia.form({
         nome: '',
@@ -586,6 +624,20 @@ export default {
   text-align: center;
   width: 290px;
   height: 430px;
+  border-radius: 20px;
+  padding-right: 5px;
+  border: 2px solid black;
+}
+
+.fundo2 {
+  background-color: black;
+  max-width: 300px;
+  border-radius: 20px;
+}
+
+.topo2 {
+  text-align: center;
+  width: 300px;
   border-radius: 20px;
   padding-right: 5px;
   border: 2px solid black;

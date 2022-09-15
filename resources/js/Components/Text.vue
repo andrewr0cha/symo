@@ -21,6 +21,6 @@ defineProps(["value"]);
 }
 
 .label:hover {
-  background-color: #b49fff;
+  background-color: #d1c4e9;
 }
 </style>

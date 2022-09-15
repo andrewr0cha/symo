@@ -87,6 +87,14 @@ class ConsultasController extends Controller
         $user->cofre = $user->cofre + $req->valor;
         $user->saldo = $user->saldo - $req->valor;
         $user->save();
+        $saida = new Saida();
+        $saida->nome ='Dinheiro Guardado';
+        $saida->id_categoria=5;
+        $saida->valor = $req->valor;
+        $saida->descricao = 'cofre';
+        $saida->data = date("Y-m-d H:i:s");
+        $saida->id_usuario = $id;
+        $saida->save();
         return redirect()->route('consultas', $id);
     }
 
@@ -98,8 +106,32 @@ class ConsultasController extends Controller
         ]);
         $user = User::where('id', $id)->first();
         $user->cofre = $user->cofre - $req->valor;
+        $entrada = new Entrada();
+        $entrada->nome ='Dinheiro Resgatado';
+        $entrada->valor = $req->valor;
+        $entrada->descricao = 'Resgato do cofre';
+        $entrada->data = date("Y-m-d H:i:s");
+        $entrada->id_usuario = $id;
+        $entrada->save();
         $user->saldo = $user->saldo + $req->valor;
         $user->save();
+        $saida=Saida::where('id_usuario',$id)->where('descricao','like','cofre')->orderBy('created_at', 'desc')->first();
+        
+        
+        if($req->valor>=$saida->valor){
+        while($req->valor>=$saida->valor){
+            
+            if($req->valor=$saida->valor){$saida->delete();break;}
+            else{$req->valor=$req->valor-$saida->valor;
+            $saida->delete();
+            $saida=Saida::where('id_usuario',$id)->where('descricao','like','cofre')->orderBy('created_at', 'desc')->first();
+            }
+        }
+    }
+        else{
+            $saida->valor=$saida->valor-$req->valor;
+            $saida->save();
+        }
         return redirect()->route('consultas', $id);
     }
 
@@ -166,13 +198,13 @@ class ConsultasController extends Controller
         $data = Carbon::now();
         $primeiro = $data->startOfMonth()->format('Y-m-d');
         $ultimo = $data->endOfMonth()->format('Y-m-d');
-        $total = Entrada::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->sum('valor');
+        $total = Entrada::whereBetween('data', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->sum('valor');
 
-        $essencial = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 1)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $aposentadoria = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 2)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $educacao = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 3)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $gosto = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 4)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $objetivos = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 5)->where('id_usuario', auth()->user()->id)->sum('valor');
+        $essencial = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 1)->where('id_usuario', auth()->user()->id)->sum('valor');
+        $aposentadoria = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 2)->where('id_usuario', auth()->user()->id)->sum('valor');
+        $educacao = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 3)->where('id_usuario', auth()->user()->id)->sum('valor');
+        $gosto = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 4)->where('id_usuario', auth()->user()->id)->sum('valor');
+        $objetivos = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 5)->where('id_usuario', auth()->user()->id)->sum('valor');
 
         if ($total == 0) {
             $temEntrada = false;
