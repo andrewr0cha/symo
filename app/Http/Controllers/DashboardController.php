@@ -8,7 +8,9 @@ use Inertia\Inertia;
 use App\Models\Agendamento;
 use App\Models\Meta;
 use App\Models\Saida;
+use App\Models\Entrada;
 use App\Models\Dicas;
+use App\Models\User;
 use DateTime;
 
 class DashboardController extends Controller
@@ -100,6 +102,65 @@ class DashboardController extends Controller
             $meta->status = "Concluída";
             $meta->update();
         }
+        return redirect()->route('dashboard');
+    }
+
+    public function guardarMeta(Request $req)
+    {
+        $meta = Meta::find($req->id);
+        $meta->valor_guardado += $req->valor;
+        $meta->save();
+        $user = User::where('id', auth()->user()->id)->first();
+        $user->cofreMeta += $req->valor;
+        $user->saldo -= $req->valor;
+        $user->save();
+        $saida = new Saida();
+        $saida->nome = 'Dinheiro Guardado';
+        $saida->id_categoria = 5;
+        $saida->valor = $req->valor;
+        $saida->descricao = 'Posto no Cofre para Meta Específica';
+        $saida->data = date("Y-m-d H:i:s");
+        $saida->id_usuario = auth()->user()->id;
+        $saida->cofre = true;
+        $saida->save();
+        return redirect()->route('dashboard');
+    }
+
+    public function retirarMeta(Request $req)
+    {
+        $meta = Meta::find($req->id);
+        $meta->valor_guardado -= $req->valor;
+        $meta->save();
+        $user = User::where('id', auth()->user()->id)->first();
+        $user->cofreMeta -= $req->valor;
+        $user->saldo += $req->valor;
+        $user->save();
+        $entrada = new Entrada();
+        $entrada->nome = 'Dinheiro Resgatado';
+        $entrada->valor = $req->valor;
+        $entrada->descricao = 'Retirado do Cofre de uma Meta Específica';
+        $entrada->data = date("Y-m-d H:i:s");
+        $entrada->id_usuario = auth()->user()->id;
+        $entrada->cofre = true;
+        $entrada->save();
+        $user->save();
+
+        $saida = Saida::where('id_usuario', auth()->user()->id)->where('descricao', 'LIKE', 'Posto no Cofre para Meta Específica')->orderBy('created_at', 'desc')->first();
+        if ($req->valor >= $saida->valor) {
+            while ($req->valor >= $saida->valor) {
+                if ($req->valor == $saida->valor) {
+                    $saida->delete();
+                    break;
+                } else {
+                    $req->valor = $req->valor - $saida->valor;
+                    $saida->delete();
+                    $saida = Saida::where('id_usuario', auth()->user()->id)->where('cofre', true)->orderBy('created_at', 'desc')->first();
+                }
+            }
+        }
+        $saida->valor -= $req->valor;
+        if ($saida->valor == 0) $saida->delete();
+        else $saida->save();
         return redirect()->route('dashboard');
     }
 

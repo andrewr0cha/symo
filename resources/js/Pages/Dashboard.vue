@@ -3,6 +3,7 @@ import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { ref } from "vue";
 import BreezeButon from "@/Components/Button.vue";
 import Texto from "@/Components/Text.vue";
+import Dica from "@/Components/Dicas.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import ModalEntrada from "@/Components/ModalEntrada.vue";
 import ModalSaida from "@/Components/ModalSaida.vue";
@@ -56,42 +57,15 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   </div>
                   <div class="tw-mt-5">
                     <Texto class="tw-w-8/10 tw-text-center tw-p-2">
-                      Dinheiro guardado: R${{ valorFormatado($page.props.auth.user.cofre) }}
+                      Dinheiro guardado: R${{
+                      valorFormatado($page.props.auth.user.cofre+$page.props.auth.user.cofreMeta) }}
                     </Texto>
                   </div>
                 </div>
               </div>
             </div>
             <div class="sm:tw-max-w-2/6 tw-mx-auto ">
-              <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
-                control-color="black" arrows class="bg-deep-purple-2 text-white shadow-1 rounded-borders tw-mt-4"
-                :autoplay="autoplay" infinite @mouseenter="autoplay = false" @mouseleave="autoplay = true" padding
-                style="border-radius:25px; height:260px; min-height: 160px; max-width: 300px">
-                <q-carousel-slide :name="1" class="column no-wrap flex-center">
-                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
-                    {{dicas[0]}}
-                  </div>
-                </q-carousel-slide>
-                <q-carousel-slide :name="2" class="column no-wrap flex-center">
-                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
-                    {{dicas[1]}}
-                  </div>
-                </q-carousel-slide>
-                <q-carousel-slide :name="3" class="column no-wrap flex-center">
-                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
-                    {{dicas[2]}}
-                  </div>
-                </q-carousel-slide>
-                <q-carousel-slide :name="4" class="column no-wrap flex-center">
-                  <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-                  <div class="q-mt-md text-center tw-text-black tw-text-lg">
-                    Entre todos os dias para receber novas dicas :)
-                  </div>
-                </q-carousel-slide>
-              </q-carousel>
+              <Dica :dicas="dicas" />
             </div>
           </aside>
         </div>
@@ -550,7 +524,9 @@ export default {
 
     mudarProgressao(i, k) {
       this.progressaoMeta = this.metaList.find((meta) => meta.id == i);
-      this.progresso = [k / this.progressaoMeta.valor, this.progressaoMeta.valor]
+      if (this.progressaoMeta.duracao == 'Curto') this.progresso = [k / this.progressaoMeta.valor];
+      else this.progresso = [this.progressaoMeta.valor_guardado / this.progressaoMeta.valor,]
+      this.progresso.push(this.progressaoMeta.valor, this.progressaoMeta.id, this.progressaoMeta.nome, this.progressaoMeta.duracao);
       //this.progresso = k / this.progressaoMeta.valor;
       this.modalProgressao = true;
     },
@@ -581,6 +557,7 @@ export default {
       modalEntradas: false,
       modalSaidas: false,
       slide: ref(1),
+      slideDica: ref(1),
       autoplay: ref(true),
       metaList: null,
       progressaoMeta: null,

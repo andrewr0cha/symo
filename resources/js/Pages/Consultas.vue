@@ -371,7 +371,8 @@
             <div class="tw-mt-4">
               <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
                 <div class="q-gutter-y-md">
-                  <span class="tw-text-lg">Cofre: R${{ valorFormatado($page.props.auth.user.cofre) }}</span>
+                  <span class="tw-text-lg">Cofre: R${{
+                  valorFormatado($page.props.auth.user.cofre) }}</span>
                   <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
                     outlined label="Valor*" min="0.01" step="0.01" />
                 </div>
@@ -568,6 +569,7 @@ export default {
     },
 
     retirarCofre(value) {
+      console.log(value);
       this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
       if (this.form.valor == "") {
         this.formNulo = true;

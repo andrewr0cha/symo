@@ -48,6 +48,10 @@ Route::post('mobile/adicionar/agendamento/{id?}', 'App\Http\Controllers\Agendame
 
 Route::post('/adicionar/meta', 'App\Http\Controllers\DashboardController@adicionarMeta')->middleware(['auth', 'verified'])->name('adicionar.meta');
 
+Route::post('/guardar/meta', 'App\Http\Controllers\DashboardController@guardarMeta')->middleware(['auth', 'verified'])->name('guardar.meta');
+
+Route::post('/retirar/meta', 'App\Http\Controllers\DashboardController@retirarMeta')->middleware(['auth', 'verified'])->name('retirar.meta');
+
 Route::post('mobile/adicionar/meta', 'App\Http\Controllers\MetasController@adicionarMeta')->middleware(['auth', 'verified'])->name('meta.adicionar.meta');
 
 Route::post('/excluir/saida', 'App\Http\Controllers\ConsultasController@excluirSaida')->middleware(['auth', 'verified'])->name('excluir.saida');

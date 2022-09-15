@@ -16,6 +16,7 @@ class AlterUsersTable extends Migration
         Schema::table('users', function ($table) {
             $table->float('saldo')->default(0.00);
             $table->float('cofre')->default(0.00);
+            $table->float('cofreMeta')->default(0.00);
             $table->string('usuario')->unique();
             $table->string('foto')->default('/images/user.png');
         });
