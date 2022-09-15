@@ -200,7 +200,7 @@ class ConsultasController extends Controller
         $data = Carbon::now();
         $primeiro = $data->startOfMonth()->format('Y-m-d');
         $ultimo = $data->endOfMonth()->format('Y-m-d');
-        $total = Entrada::whereBetween('data', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->sum('valor');
+        $total = Entrada::whereBetween('data', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->where('cofre', false)->sum('valor');
 
         $essencial = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 1)->where('id_usuario', auth()->user()->id)->sum('valor');
         $aposentadoria = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 2)->where('id_usuario', auth()->user()->id)->sum('valor');
