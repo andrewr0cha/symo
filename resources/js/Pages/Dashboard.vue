@@ -279,9 +279,11 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                           <div class="tw-w-3/12" @click="mudarProgressao(item.id, $page.props.auth.user.cofre)">
                             Data Final: {{ dataFinalFormatada(item.data, item.duracao) }}
                           </div>
-                          <div v-if="apagarMeta || marcarConcluida" class="tw-w-1/12>">
+                          <div v-if="(apagarMeta || marcarConcluida)&&item.status!='Concluída'" class="tw-w-1/12>">
                             <input type="checkbox" @click="adicionaItem(item.id)" />
                           </div>
+                          <div v-if="item.status=='Concluída'" class="tw-w-1/12>">
+                          <q-icon name="task_alt" color="green" size="32px"/></div>
                         </div>
                       </q-card>
                     </div>

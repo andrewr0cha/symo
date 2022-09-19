@@ -4,27 +4,43 @@
         :autoplay="autoplay" infinite @mouseenter="autoplay = false" @mouseleave="autoplay = true" padding
         style="border-radius:25px; height:260px; min-height: 160px; max-width: 300px">
         <q-carousel-slide :name="1" class="column no-wrap flex-center">
-            <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-            <div class="q-mt-md text-center tw-text-black tw-text-md">
+            <q-icon v-if="dicas!=null" name="tips_and_updates" size="40px" class="tw-text-black" />
+            <div v-if="dicas!=null" class="q-mt-md text-center tw-text-black tw-text-md">
+            
                 {{dicas[0]}}
+            </div>
+            <div v-else>
+                <img src="/images/porco.png" style="max-height:180px"/>
             </div>
         </q-carousel-slide>
         <q-carousel-slide :name="2" class="column no-wrap flex-center">
-            <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-            <div class="q-mt-md text-center tw-text-black tw-text-md">
-                {{dicas[1]}}
+            <q-icon v-if="dicas!=null" name="tips_and_updates" size="40px" class="tw-text-black" />
+            <div v-if="dicas!=null" class="q-mt-md text-center tw-text-black tw-text-md">
+            
+                {{dicas[1]}}           
+            </div>
+            <div v-else>
+                <img src="/images/porco.png" style="max-height:180px"/>
             </div>
         </q-carousel-slide>
         <q-carousel-slide :name="3" class="column no-wrap flex-center">
-            <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-            <div class="q-mt-md text-center tw-text-black tw-text-md">
-                {{dicas[2]}}
+            <q-icon v-if="dicas!=null" name="tips_and_updates" size="40px" class="tw-text-black" />
+            <div v-if="dicas!=null" class="q-mt-md text-center tw-text-black tw-text-md">
+            
+                {{dicas[2]}}    
+            </div>
+            <div v-else>
+                <img src="/images/porco.png" style="max-height:180px"/>
             </div>
         </q-carousel-slide>
         <q-carousel-slide :name="4" class="column no-wrap flex-center">
-            <q-icon name="tips_and_updates" size="40px" class="tw-text-black" />
-            <div class="q-mt-md text-center tw-text-black tw-text-md">
+            <q-icon v-if="dicas!=null" name="tips_and_updates" size="40px" class="tw-text-black" />
+            <div v-if="dicas!=null" class="q-mt-md text-center tw-text-black tw-text-md">
+            
                 Entre todos os dias para receber novas dicas :)
+            </div>
+            <div v-else>
+                <img src="/images/porco.png" style="max-height:180px"/>
             </div>
         </q-carousel-slide>
     </q-carousel>

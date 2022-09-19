@@ -90,6 +90,14 @@ class DashboardController extends Controller
     {
         foreach ($req->lista as $id) {
             $meta = Meta::where('id', $id)->first(); //sempre finalizar com first, get ou paginate porque senão nçao traz
+            if ($meta->valor_guardado > 0) {
+                $user = User::where('id', auth()->user()->id)->first();
+                $user->saldo += $meta->valor_guardado;
+                $user->cofre -= $meta->valor_guardado;
+                $user->save();
+                $saida = Saida::where('id_usuario', auth()->user()->id)->where('valor', $meta->valor_guardado)->first();
+                $saida->delete();
+            }
             $meta->delete();
         }
         return redirect()->route('dashboard');

@@ -50,7 +50,6 @@
           control-color="primary" height="220px" arrows>
           <q-carousel-slide :name="1">
             <div style="margin-right:30px; width: 250px; max-width: 60vh; height:180px">
-              <div v-if="progresso[4]!='Curto'">
                 <div class="tw-my-2 tw-w-full tw-text-center">
                   <div class="tw-h-6">
                     <div v-if="saldoInsuficiente">
@@ -61,25 +60,18 @@
                   <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
                     hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
                 </div>
-                <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                <div v-if="progressaoMeta.status!='Concluída'" class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
                   <q-btn @click="guardarMeta($page.props.auth.user.saldo)" icon="task_alt" color="primary"
                     label="Guardar" />
                 </div>
-              </div>
-              <div v-else>
-                <div class="tw-my-2 tw-w-full tw-text-center tw-flex tw-items-center tw-text-lg">
-                  <span>As metas de curto prazo são um pouco diferentes: nelas, usamos apenas o valor guardado no cofre
-                    para
-                    calcular o progresso. Diferentemente das metas de médio e longo prazo, onde usamos valores
-                    específicos
-                    para cada meta :)</span>
+                <div v-else class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                  <q-btn @click="guardarMeta($page.props.auth.user.saldo)" icon="task_alt" color="primary"
+                    label="Guardar" disable/>
                 </div>
               </div>
-            </div>
           </q-carousel-slide>
           <q-carousel-slide :name="2">
             <div style="margin-left:30px; width: 250px; max-width: 60vh; height:180px">
-              <div v-if="progresso[4]!='Curto'">
                 <div class="tw-my-2 tw-w-full tw-text-center">
                   <div class="tw-h-6">
                     <div v-if="saldoInsuficiente">
@@ -93,21 +85,15 @@
                   <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
                     hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
                 </div>
-                <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                <div v-if="progressaoMeta.status!='Concluída'" class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
                   <q-btn @click="retirarMeta(progressaoMeta.valor_guardado)" icon="task_alt" color="primary"
                     label="Retirar" />
                 </div>
-              </div>
-              <div v-else>
-                <div class="tw-my-2 tw-w-full tw-text-center tw-flex tw-items-center tw-text-lg">
-                  <span>As metas de curto prazo são um pouco diferentes: nelas, usamos apenas o valor guardado no cofre
-                    para
-                    calcular o progresso. Diferentemente das metas de médio e longo prazo, onde usamos valores
-                    específicos
-                    para cada meta :)</span>
+                <div v-else class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                  <q-btn @click="retirarMeta(progressaoMeta.valor_guardado)" icon="task_alt" color="primary"
+                    label="Retirar" disable/>
                 </div>
               </div>
-            </div>
           </q-carousel-slide>
         </q-carousel>
       </q-carousel-slide>

@@ -166,7 +166,11 @@ class ConsultasController extends Controller
     public function filtrarEntrada(Request $req)
     {
         $id = auth()->user()->id;
-        $entradas = Entrada::where('id_usuario', '=', $id)->whereBetween('data', [$req->dataInicial, $req->dataFinal])->orderBy('data', 'desc')->get();
+        $dataInicial=new Carbon($req->dataInicial);
+        $dataInicial= $dataInicial->subDay(1, 'day')->format('Y-m-d');
+        $dataFinal=new Carbon($req->dataFinal);
+        $dataFinal= $dataFinal->add(1, 'day')->format('Y-m-d');
+        $entradas = Entrada::where('id_usuario', '=', $id)->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
         $saidas = Saida::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
         if ($saidas == null) $saidas = 0;
@@ -184,7 +188,12 @@ class ConsultasController extends Controller
         $id = auth()->user()->id;
         $entradas = Entrada::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
-        $saidas = Saida::where('id_usuario', '=', $id)->whereBetween('data', [$req->dataInicial, $req->dataFinal])->orderBy('data', 'desc')->get();
+        
+        $dataInicial=new Carbon($req->dataInicial);
+        $dataInicial= $dataInicial->subDay(1, 'day')->format('Y-m-d');
+        $dataFinal=new Carbon($req->dataFinal);
+        $dataFinal= $dataFinal->add(1, 'day')->format('Y-m-d');
+        $saidas = Saida::where('id_usuario', '=', $id)->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
         if ($saidas == null) $saidas = 0;
         /*$categoriasEntrada = Categoria::where('id_tipo',2)->get()->pluck('nome');
         $categoriasEntrada=$categoriasEntrada->toArray();*/

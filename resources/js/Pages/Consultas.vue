@@ -630,7 +630,7 @@ export default {
 
     atualizarDataSetor(i, j, k, l, m) {
       this.chartData = {
-        labels: ['Essencial', 'Aposentadoria', 'Educação', 'Lazer'],
+        labels: ['Essencial', 'Aposentadoria', 'Educação', 'Lazer', 'Objetivos'],
         datasets: [
           {
             backgroundColor: ['#41B883', '#59f792', '#ffdf00', '#ac27e6', '#d41545'],
