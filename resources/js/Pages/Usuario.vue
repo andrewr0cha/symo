@@ -50,7 +50,7 @@ defineExpose({ modalFoto });
                     <BreezeValidationErrors class="tw-mb-4" />
                     <div class="tw-mt-2">
                         <BreezeLabel for="name" value="Nome" />
-                        <BreezeInput id="name" type="text" class="tw-mt-1 tw-block tw-w-full" v-model="form.name"
+                        <BreezeInput id="name" type="text" class="tw-mt-1 tw-block tw-w-full" maxlength="20" v-model="form.name"
                             required autofocus autocomplete="name" />
                     </div>
 

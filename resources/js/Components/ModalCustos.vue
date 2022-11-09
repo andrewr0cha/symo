@@ -23,7 +23,7 @@
           <div class="tw-flex  tw-items-center tw-h-full">
             <div class="tw-flex tw-flex-col">
               <img src="/images/lampada.png" class="tw-mx-auto" />
-              <span class="tw-text-lg tw-text-center">Estabilidade financeira diz respeito sobre disciplina antes de
+              <span class="tw-text-lg tw-flex tw-text-justify">Estabilidade financeira diz respeito sobre disciplina antes de
                 tudo. Nesse sentido, sugerimos uma divisão padrão para seus gastos: ela pode ser visualizada usando
                 os
                 ícones ao lado 😉</span>

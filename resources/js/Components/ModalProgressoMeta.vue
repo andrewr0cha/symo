@@ -1,6 +1,6 @@
 <template>
-  <q-dialog v-model="dialog" position="right" rounded class="tw-hidden sm:tw-flex">
-    <q-carousel v-model="slide" vertical height="240px" transition-prev="slide-down" transition-next="slide-up"
+  <q-dialog v-model="dialog" position="right" rounded class="">
+    <q-carousel v-model="slide" vertical height="260px" transition-prev="slide-down" transition-next="slide-up"
       swipeable animated control-color="primary" arrows>
       <q-carousel-slide :name="1" style="width: 350px;">
         <div style="width: 300px; max-width: 60vh; height:180px">
@@ -47,53 +47,53 @@
       </q-carousel-slide>
       <q-carousel-slide :name="2" style="width: 350px; ">
         <q-carousel v-model="slide2" transition-prev="scale" transition-next="scale" swipeable animated
-          control-color="primary" height="220px" arrows>
+          control-color="primary" height="240px" arrows>
           <q-carousel-slide :name="1">
             <div style="margin-right:30px; width: 250px; max-width: 60vh; height:180px">
-                <div class="tw-my-2 tw-w-full tw-text-center">
-                  <div class="tw-h-6">
-                    <div v-if="saldoInsuficiente">
-                      <span class="tw-text-red-600">Saldo insuficiente para a ação.</span>
-                    </div>
+              <div class="tw-my-2 tw-w-full tw-text-center">
+                <div class="tw-h-6">
+                  <div v-if="saldoInsuficiente">
+                    <span class="tw-text-red-600">Saldo insuficiente para a ação.</span>
                   </div>
-                  <span>Guardar dinheiro para a meta: <span class="tw-text-violet-300">{{progresso[3]}}</span></span>
-                  <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
-                    hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
                 </div>
-                <div v-if="progressaoMeta.status!='Concluída'" class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
-                  <q-btn @click="guardarMeta($page.props.auth.user.saldo)" icon="task_alt" color="primary"
-                    label="Guardar" />
-                </div>
-                <div v-else class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
-                  <q-btn @click="guardarMeta($page.props.auth.user.saldo)" icon="task_alt" color="primary"
-                    label="Guardar" disable/>
-                </div>
+                <span>Guardar dinheiro para a meta: <span class="tw-text-cyan-400">{{progresso[3]}}</span></span>
+                <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
+                  hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
               </div>
+              <div v-if="progressaoMeta.status!='Concluída'" class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                <q-btn @click="guardarMeta($page.props.auth.user.saldo)" icon="task_alt" color="primary"
+                  label="Guardar" />
+              </div>
+              <div v-else class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                <q-btn @click="guardarMeta($page.props.auth.user.saldo)" icon="task_alt" color="primary" label="Guardar"
+                  disable />
+              </div>
+            </div>
           </q-carousel-slide>
           <q-carousel-slide :name="2">
-            <div style="margin-left:30px; width: 250px; max-width: 60vh; height:180px">
-                <div class="tw-my-2 tw-w-full tw-text-center">
-                  <div class="tw-h-6">
-                    <div v-if="saldoInsuficiente">
-                      <span class="tw-text-red-600">Saldo insuficiente para a ação.</span>
-                    </div>
+            <div style="margin-left:30px; width: 250px; max-width: 60vh; height:215px">
+              <div class="tw-my-2 tw-w-full tw-text-center">
+                <div class="tw-h-6">
+                  <div v-if="saldoInsuficiente">
+                    <span class="tw-text-red-600">Saldo insuficiente para a ação.</span>
                   </div>
-                  <span>Retirar dinheiro da meta: <span class="tw-text-violet-300">{{progresso[3]}}</span></span>
-                  <br>
-                  <span>Dinheiro guardado: <span
-                      class="tw-text-violet-300">{{valorFormatado(progressaoMeta.valor_guardado)}}</span></span>
-                  <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
-                    hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
                 </div>
-                <div v-if="progressaoMeta.status!='Concluída'" class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
-                  <q-btn @click="retirarMeta(progressaoMeta.valor_guardado)" icon="task_alt" color="primary"
-                    label="Retirar" />
-                </div>
-                <div v-else class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
-                  <q-btn @click="retirarMeta(progressaoMeta.valor_guardado)" icon="task_alt" color="primary"
-                    label="Retirar" disable/>
-                </div>
+                <span>Retirar dinheiro da meta: <span class="tw-text-cyan-400">{{progresso[3]}}</span></span>
+                <br>
+                <span>Dinheiro guardado: <span
+                    class="tw-text-cyan-400">{{valorFormatado(progressaoMeta.valor_guardado)}}</span></span>
+                <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
+                  hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
               </div>
+              <div v-if="progressaoMeta.status!='Concluída'" class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                <q-btn @click="retirarMeta(progressaoMeta.valor_guardado)" icon="task_alt" color="primary"
+                  label="Retirar" />
+              </div>
+              <div v-else class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
+                <q-btn @click="retirarMeta(progressaoMeta.valor_guardado)" icon="task_alt" color="primary"
+                  label="Retirar" disable />
+              </div>
+            </div>
           </q-carousel-slide>
         </q-carousel>
       </q-carousel-slide>

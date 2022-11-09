@@ -46,20 +46,21 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                   <img v-else-if="horas() == 'Boa noite,'" src="/images/noite.png" class="imagem" />
                   <hr class="tw-mt-2" />
                   <div class="tw-mt-4">
-                    <Texto class="tw-w-8/10 tw-text-center tw-p-2">
-                      Seu saldo: R${{ valorFormatado($page.props.auth.user.saldo) }}
-                    </Texto>
+                    <div class="tw-w-8/10 tw-text-center tw-p-2">
+                      <a class="tw-flex tw-inline-flex tw-items-center" @mouseover="gif='carteira'" @mouseleave="gif=''" @click="soltarGif('carteira')"> 
+                        <img src="/images/carteira.gif" style="max-width:40px" v-show="gif=='carteira'"/> 
+                        <img src="/images/carteira.png" style="max-width:40px" v-show="gif!='carteira'"/> 
+                        Carteira: R${{ valorFormatado($page.props.auth.user.saldo) }}</a>
+                    </div>
                   </div>
-                  <div class="tw-mt-5">
-                    <Texto class="tw-w-8/10 tw-text-center tw-p-2">
-                      Seus gastos este mês: R${{ valorFormatado(gastosMensais) }}
-                    </Texto>
-                  </div>
-                  <div class="tw-mt-5">
-                    <Texto class="tw-w-8/10 tw-text-center tw-p-2">
-                      Dinheiro guardado: R${{
-                      valorFormatado($page.props.auth.user.cofre+$page.props.auth.user.cofreMeta) }}
-                    </Texto>
+                  <div class="tw-mt-3">
+                    <div class="tw-w-8/10 tw-text-center tw-p-2">
+                      <a class="tw-flex tw-inline-flex tw-items-center"  @mouseover="gif='cofre'" @mouseleave="gif=''" @click="soltarGif('cofre')"> 
+                        <img src="/images/cofre.gif" style="max-width:40px" v-show="gif=='cofre'"/> 
+                        <img src="/images/cofre.png" style="max-width:40px" v-show="gif!='cofre'"/> 
+                        Cofre: R${{ valorFormatado($page.props.auth.user.cofre+$page.props.auth.user.cofreMeta) }}
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -325,8 +326,8 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
               </div>
               <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
                 <div class="q-gutter-y-md">
-                  <q-input outlined v-model="formMeta.nome" label="Título*" />
-                  <q-input outlined v-model="formMeta.descricao" label="Descrição" />
+                  <q-input outlined v-model="formMeta.nome" label="Título*" maxlength="20"/>
+                  <q-input outlined v-model="formMeta.descricao" label="Descrição" maxlength="40"/>
                   <q-input v-model="formMeta.valor" mask="###.###,##" reverse-fill-mask
                     hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
                   <q-select outlined v-model="formMeta.duracao" label='Prazo' disable />
@@ -338,7 +339,7 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
                 </button>
               </div>
             </div>
-          </q-carousel-slide>
+          </q-carousel-slide >
 
         </q-carousel>
       </q-dialog>
@@ -349,10 +350,13 @@ defineExpose({ modalAgendamentos, modalData, modalMeta, modalInfoMetas, modalPro
       <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'"
         class="tw-hidden sm:tw-flex">
       </DialogBaixo>
+      <DialogBaixo v-model="formInvalido" :value="'Insira um valor válido no campo Valor do formulário.'" :icon="'error'"
+        class="tw-hidden sm:tw-flex">
+      </DialogBaixo>
     </div>
     <div class="tw-border-t-2 tw-border-black tw-justify-center tw-w-full tw-flex tw-inline-flex tw-p-4 ">
       <div class="tw-full sm:tw-w-1/3">
-        <img src="/images/cti.gif" style="max-width:250px" />
+        <img src="/images/cti.gif" style="max-width:250px" class="tw-mx-auto"/>
       </div>
       <div class="tw-hidden sm:tw-flex sm:tw-w-2/3 tw-text-center tw-items-center tw-text-lg">
         <span>Projeto SYMO - Colégio Técnico Industrial - CTI</span>
@@ -418,6 +422,10 @@ export default {
   },
 
   methods: {
+    soltarGif(value){
+      if(this.gif!='') this.gif='';
+      else this.gif=value;
+    },
     horas() {
       var dia = new Date();
       var hora = dia.getHours() + ":" + dia.getMinutes() + ":" + dia.getSeconds();
@@ -487,10 +495,13 @@ export default {
     },
 
     lancarMeta() {
+      var valor= this.formMeta.valor.replace(".", "").replace(",", ".");
       if (this.formMeta.nome == "" || this.formMeta.valor == "") {
         this.formNulo = true;
+      } else if(Number(valor)>99999999){
+        this.formInvalido=true;
       } else {
-        this.formMeta.valor = this.formMeta.valor.replace(".", "").replace(",", ".");
+        this.formMeta.valor = valor;
         this.formMeta.post(route("adicionar.meta"), {
           preserveState: true,
           preserveScroll: true,
@@ -526,8 +537,7 @@ export default {
 
     mudarProgressao(i, k) {
       this.progressaoMeta = this.metaList.find((meta) => meta.id == i);
-      if (this.progressaoMeta.duracao == 'Curto') this.progresso = [k / this.progressaoMeta.valor];
-      else this.progresso = [this.progressaoMeta.valor_guardado / this.progressaoMeta.valor,]
+      this.progresso = [this.progressaoMeta.valor_guardado / this.progressaoMeta.valor,]
       this.progresso.push(this.progressaoMeta.valor, this.progressaoMeta.id, this.progressaoMeta.nome, this.progressaoMeta.duracao);
       //this.progresso = k / this.progressaoMeta.valor;
       this.modalProgressao = true;
@@ -578,11 +588,13 @@ export default {
         status: ''
       }),
       formNulo: null,
+      formInvalido: null,
       lista: [],
       evento: null,
       apagarAgendamento: false,
       apagarMeta: false,
       marcarConcluida: false,
+      gif:''
     }
   },
 };

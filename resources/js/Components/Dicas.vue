@@ -1,6 +1,6 @@
 <template>
     <q-carousel v-model="slideDica" transition-prev="scale" transition-next="scale" swipeable animated
-        control-color="black" arrows class="bg-deep-purple-2 text-white shadow-1 rounded-borders tw-mt-4"
+        control-color="black" arrows class="bg-cyan-4 text-white shadow-1 rounded-borders tw-mt-4"
         :autoplay="autoplay" infinite @mouseenter="autoplay = false" @mouseleave="autoplay = true" padding
         style="border-radius:25px; height:260px; min-height: 160px; max-width: 300px">
         <q-carousel-slide :name="1" class="column no-wrap flex-center">

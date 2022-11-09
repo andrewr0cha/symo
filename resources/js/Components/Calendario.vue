@@ -32,7 +32,7 @@ export default {
                     left: "title",
                     right: "today prev next",
                 },
-                eventColor: '#b49fff',
+                eventColor: '#33cccc',
             },
             form: this.$inertia.form({
                 nome: '',
@@ -110,7 +110,7 @@ export default {
             <q-card-section>
                 <div class="tw-w-full tw-mx-auto tw-text-center">
                     <q-date v-model="form.dataAgendamento" today-btn flat mask="YYYY-MM-DD"
-                        :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro', 'Dezembro'], daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'], days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'] }" />
+                        :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro','Outubro', 'Novembro', 'Dezembro'], daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'], days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'] }" />
                 </div>
             </q-card-section>
             <div class="tw-w-full tw-text-center tw-mb-2">
@@ -124,7 +124,7 @@ export default {
 
 <style>
 .fc .fc-button-primary {
-    background-color: #d1b6ff;
+    background-color: #33cccc;
     color: black;
 }
 
@@ -134,7 +134,7 @@ export default {
 }
 
 .fc .fc-button-primary:disabled {
-    background-color: #9787ff;
+    background-color: #33cccc;
     color: black;
 }
 
@@ -144,6 +144,6 @@ export default {
 
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
-    background-color: #9787ff;
+    background-color: #33cccc;
 }
 </style>

@@ -12,7 +12,10 @@
       <q-card-section>
         <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
           <span v-if="formNulo" class="tw-text-red-600 tw-text-lg tw-text-center tw-mb-2">Preencha todos os campos
-            obrigatórios. (Marcados com *)</span>
+            obrigatórios. (Marcados com *)</span><span v-if="formInvalido"
+            class="tw-text-red-600 tw-text-lg tw-text-center tw-mb-2">Insira um valor válido no campo Valor do
+            formulário.</span>
+
           <div class="q-gutter-y-md">
             <q-input outlined v-model="form.nome" label="Título*" />
             <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
@@ -48,12 +51,16 @@ export default {
   },
   methods: {
     lancarSaida() {
+      this.formNulo = false;
+      this.formInvalido = false;
+      var valor = this.form.valor.replace(".", "").replace(",", ".");
       if (
         this.form.nome == "" ||
         this.form.valor == "" ||
-        this.form.id_categoria == ""
-      ) {
+        this.form.id_categoria == "") {
         this.formNulo = true;
+      } else if (Number(valor) > 99999999) {
+        this.formInvalido = true;
       } else {
         this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
         this.form.post(route("adicionar.saida"), {
@@ -70,11 +77,12 @@ export default {
     return {
       form: this.$inertia.form({
         nome: "",
-        id_categoria: ref(null),
+        id_categoria: "",
         valor: "",
         descricao: "",
       }),
       formNulo: false,
+      formInvalido: false,
       categoriasSaida: ['Essencial', 'Aposentadoria', 'Educação', 'Lazer'],
     }
   },

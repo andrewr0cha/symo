@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import DialogBaixo from "@/Components/DialogBaixo.vue";
 import Texto from "@/Components/Text.vue";
+import ModalProgressoMeta from "@/Components/ModalProgressoMeta.vue";
 const modalMeta = ref(false);
 const modalInfoMetas = ref(false);
 const modalProgressao = ref(false);
@@ -187,43 +188,8 @@ defineExpose({ modalMeta, modalInfoMetas, modalProgressao });
             </q-card>
         </q-dialog>
         <!--modal progresso de metas-->
-        <q-dialog v-model="modalProgressao" position="right" rounded>
-            <q-card style="width: 300px; max-width: 60vh">
-                <q-card-section class="row items-center q-pb-none">
-                    <q-btn icon="trending_up" flat round dense />
-                    <q-space />
-                    <q-btn icon="close" flat round dense v-close-popup />
-                </q-card-section>
-                <q-card-section>
-                    <div class="tw-flex tw-inline-flex tw-my-2 tw-w-full tw-text-center">
-                        <div v-if="progressaoMeta.status == 'Concluída'">
-                            <span class="tw-text-lg">UHUL!! Essa meta está concluída!! Parabéns!🎉</span>
-                        </div>
-                        <div v-else-if="progresso > 1 && progressaoMeta.status == 'Em andamento'">
-                            <span class="tw-text-lg">Essa meta ainda está em andamento, mas você já poupou o valor
-                                ligado à ela!!
-                                Bom trabalho!🥰</span>
-                        </div>
-                        <div
-                            v-else-if="progresso > 0.800 && progresso <= 1.000 && progressaoMeta.status == 'Em andamento'">
-                            <span class="tw-text-lg">Essa meta está quase concluída!! Só mais um pouco!🤑</span>
-                        </div>
-                        <div
-                            v-else-if="progresso > 0.500 && progresso <= 0.800 && progressaoMeta.status == 'Em andamento'">
-                            <span class="tw-text-lg">Já passamos da metade!! Continue assim!🤗</span>
-                        </div>
-                        <div
-                            v-else-if="progresso > 0.400 && progresso <= 0.500 && progressaoMeta.status == 'Em andamento'">
-                            <span class="tw-text-lg">Essa meta está quase na metade. Você está indo bem!🤭</span>
-                        </div>
-                        <div v-else-if="progresso <= 0.400 && progressaoMeta.status == 'Em andamento'">
-                            <span class="tw-text-lg">Essa meta está começando. Força!💪</span>
-                        </div>
-                    </div>
-                    <q-linear-progress :value="progresso" color="primary" />
-                </q-card-section>
-            </q-card>
-        </q-dialog>
+        <ModalProgressoMeta v-model="modalProgressao" :progresso="progresso" :progressaoMeta="progressaoMeta" />
+
         <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'"
             :icon="'error'">
         </DialogBaixo>
@@ -306,7 +272,9 @@ export default {
 
         mudarProgressao(i, k) {
             this.progressaoMeta = this.metaList.find((meta) => meta.id == i);
-            this.progresso = k / this.progressaoMeta.valor;
+            this.progresso = [this.progressaoMeta.valor_guardado / this.progressaoMeta.valor,]
+            this.progresso.push(this.progressaoMeta.valor, this.progressaoMeta.id, this.progressaoMeta.nome, this.progressaoMeta.duracao);
+            //this.progresso = k / this.progressaoMeta.valor;
             this.modalProgressao = true;
         },
 

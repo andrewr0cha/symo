@@ -3,10 +3,11 @@
   <Head title="Consultas" />
   <BreezeAuthenticatedLayout>
     <!--saldo e categorias-->
-    <div class="tw-w-11/12 tw-mx-auto tw-flex tw-mt-4 border tw-bg-black">
+    <div class="tw-w-11/12 tw-mx-auto sm:tw-flex tw-mt-4 border tw-bg-black">
       <!--saldo-->
       <div class="
-          tw-w-1/3
+      tw-w-full    
+      sm:tw-w-1/3
           tw-bg-black
           tw-h-28 
           tw-flex tw-inline-flex tw-items-center
@@ -39,7 +40,7 @@
         </div>
       </div>
       <!--porcentagens por categoria-->
-      <div class="tw-h-28 tw-w-2/3 tw-bg-white borda-invisivel">
+      <div class="tw-h-28 tw-w-full sm:tw-w-2/3 tw-bg-white borda-invisivel">
         <div class="tw-w-full tw-h-28 tw-flex tw-inline-flex">
           <!--custos-->
           <div class="
@@ -55,7 +56,7 @@
                 sm:tw-w-24 sm:tw-h-24
                 tw-flex tw-items-center tw-justify-center tw-text-center
               ">
-              Meus Custos
+              Meus Gastos
             </div>
           </div>
           <!--categorias-->
@@ -392,6 +393,10 @@
     <!--saldo insuficiente-->
     <DialogBaixo v-model="saldoInsuficiente" :value="'O seu saldo não é suficiente para essa ação.'" :icon="'error'">
     </DialogBaixo>
+    <!--valor muito alto-->
+      <DialogBaixo v-model="formInvalido" :value="'Insira um valor válido no campo Valor do formulário.'" :icon="'error'"
+        class="tw-hidden sm:tw-flex">
+      </DialogBaixo>
     <!--modal categorias-->
     <ModalCategoria v-model="modalCategorias" :chartData="chartData" :diferenca="diferenca" :categoria="categoria"
       :temEntrada="porcentagens[5]" />
@@ -514,10 +519,13 @@ export default {
     },
 
     lancarEntrada() {
+      var valor= this.form.valor.replace(".", "").replace(",", ".");
       if (this.form.nome == "" || this.form.valor == "") {
         this.formNulo = true;
+      } else if(Number(valor)>99999999){
+        this.formInvalido=true;
       } else {
-        this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
+        this.form.valor = valor;
         this.form.post(route("adicionar.entrada", { id: this.id }), {
           preserveState: true,
           preserveScroll: true,
@@ -530,14 +538,17 @@ export default {
     },
 
     lancarSaida() {
+      var valor= this.form.valor.replace(".", "").replace(",", ".");
       if (
         this.form.nome == "" ||
         this.form.valor == "" ||
         this.form.id_categoria == ""
       ) {
         this.formNulo = true;
+      }  else if(Number(valor)>99999999){
+        this.formInvalido=true;
       } else {
-        this.form.valor = this.form.valor.replace(".", "").replace(",", ".");
+        this.form.valor = valor;
         this.form.post(route("adicionar.saida", { id: this.id }), {
           preserveState: true,
           preserveScroll: true,
@@ -620,7 +631,7 @@ export default {
     atualizarDataBarra(i, j, c) {
       this.chartData = {
         labels: [''],
-        datasets: [{ label: 'Entradas (%)', backgroundColor: ["#59f792"], data: [100] }, { label: c + " (%)", backgroundColor: ["#ac27e6"], data: [i] }]
+        datasets: [{ label: 'Entradas (%)', backgroundColor: ["#59f792"], data: [100] }, { label: c + " (%)", backgroundColor: ["#33cccc"], data: [i] }]
       },
         this.diferenca = i - j;
       this.categoria = c;
@@ -678,6 +689,7 @@ export default {
         descricao: "",
       }),
       formNulo: false,
+      formInvalido: null,
       saldoInsuficiente: false,
       listaExclusao: [],
       apagarSaida: false,

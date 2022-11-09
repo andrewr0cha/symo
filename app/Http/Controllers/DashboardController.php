@@ -200,8 +200,7 @@ class DashboardController extends Controller
         $i = 0;
         while ($i < 3) {
             $numero = random_int(1, 18);
-            if (in_array($numero, $numeros)) return;
-            else {
+            if ((in_array($numero, $numeros))==false) {
                 array_push($numeros, $numero);
                 $i++;
             }

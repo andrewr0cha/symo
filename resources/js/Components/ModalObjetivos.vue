@@ -36,10 +36,10 @@
                         <div class="tw-flex tw-flex-col tw-text-center">
                             <img src="/images/objetivos.png" class="tw-mx-auto" />
                             <span class="tw-text-lg tw-mt-2 tw-text-green-600 ">Metas</span>
-                            <span>Todos temos objetivos. Coisas que queremos conquistar, a um curto ou a um longo prazo.
+                            <span class="tw-flex tw-text-justify">Todos temos objetivos. Coisas que queremos conquistar, a um curto ou a um longo prazo.
                                 Entretanto, para alcançar é preciso poupar. Use a opção "Cofre" para ler mais sobre.
                                 Para os Objetivos, nossa sugestão é a de destinar 20% dos ganhos mensais. Atualmente,
-                                você destinou <span class="tw-text-green-600">{{ porcentagem(objetivo) }}</span> aos
+                                você destinou {{porcentagem(objetivo) }} aos
                                 seus
                                 objetivos. Não se esqueça de poupar mensalmente😉. </span>
                         </div>

@@ -14,9 +14,9 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function ($table) {
-            $table->float('saldo')->default(0.00);
-            $table->float('cofre')->default(0.00);
-            $table->float('cofreMeta')->default(0.00);
+            $table->double('saldo',12,2)->default(0.00);
+            $table->double('cofre',12,2)->default(0.00);
+            $table->double('cofreMeta',12,2)->default(0.00);
             $table->string('usuario')->unique();
             $table->string('foto')->default('/images/user.png');
         });

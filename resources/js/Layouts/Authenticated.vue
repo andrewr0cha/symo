@@ -28,19 +28,54 @@ const showingNavigationDropdown = ref(false);
               <!-- Navigation Links -->
               <div class="
                   tw-hidden tw-space-x-8
-                  sm:tw-my-px sm:tw-ml-10 sm:tw-flex
+                  sm:tw-my-px sm:tw-ml-5 md:tw-ml-10 sm:tw-flex
                 ">
-                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                  <img src="/images/casa-nova.png" />
+                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')" @mouseover="gif='casa'"
+                  @mouseleave="gif=''" @click="soltarGif('casa')">
+                  <img src="/images/casa.gif" style="max-height:40px" v-show="gif=='casa'" />
+                  <img src="/images/casa1.png" style="max-width:40px" v-show="gif!='casa'" />
                 </BreezeNavLink>
               </div>
               <div class="
                   tw-hidden tw-space-x-8
-                  sm:tw-my-px sm:tw-ml-10 sm:tw-flex
+                  sm:tw-my-px sm:tw-ml-1.5 md:tw-ml-8 sm:tw-flex
                 ">
-                <BreezeNavLink :href="route('consultas')" :active="route().current('consultas')">
-                  <img src="/images/documento.png" />
+                <BreezeNavLink :href="route('consultas')" :active="route().current('consultas')"
+                  @mouseover="gif='anotação'" @mouseleave="gif=''" @click="soltarGif('anotação')">
+                  <img src="/images/anotação.gif" style="max-height:40px" v-show="gif=='anotação'" />
+                  <img src="/images/anotação.png" style="max-width:40px" v-show="gif!='anotação'" />
                 </BreezeNavLink>
+              </div>
+              <div class="
+                  tw-hidden tw-space-x-8
+                  sm:tw-my-px sm:tw-ml-1.5 md:tw-ml-8 sm:tw-flex
+                ">
+                <BreezeNavLink :href="route('fluxo')" :active="route().current('fluxo')"
+                  @mouseover="gif='computadorgrafico'" @mouseleave="gif=''" @click="soltarGif('computadorgrafico')">
+                  <img src="/images/computadorgrafico.gif" style="max-height:40px" v-show="gif=='computadorgrafico'" />
+                  <img src="/images/computadorgrafico.png" style="max-width:40px" v-show="gif!='computadorgrafico'" />
+                </BreezeNavLink>
+              </div>
+              <div class="
+                  tw-hidden tw-space-x-8
+                  sm:tw-my-px sm:tw-ml-1.5 md:tw-ml-8 sm:tw-flex
+                ">
+                <BreezeNavLink :href="route('simulacao')" :active="route().current('simulacao')"
+                  @mouseover="gif='apresentacao'" @mouseleave="gif=''" @click="soltarGif('apresentacao')">
+                  <img src="/images/apresentacao.gif" style="max-height:40px" v-show="gif=='apresentacao'" />
+                  <img src="/images/apresentacao.png" style="max-width:40px" v-show="gif!='apresentacao'" />
+                </BreezeNavLink>
+              </div>
+              <div class="
+                  tw-hidden tw-space-x-8
+                  sm:tw-my-px sm:tw-ml-1.5 md:tw-ml-8 sm:tw-flex
+                ">
+                <BreezeNavLink :href="route('grupo')" :active="route().current('grupo')" @mouseover="gif='porcofofo'"
+                  @mouseleave="gif=''" @click="soltarGif('porcofofo')">
+                  <img src="/images/porcofofo.gif" style="max-height:40px" v-show="gif=='porcofofo'" />
+                  <img src="/images/porcofofo.png" style="max-width:40px" v-show="gif!='porcofofo'" />
+                </BreezeNavLink>
+
               </div>
             </div>
 
@@ -48,10 +83,12 @@ const showingNavigationDropdown = ref(false);
               <!-- Settings Dropdown -->
               <div class="
                   tw-hidden tw-space-x-8
-                  sm:tw-my-px sm:tw-ml-10 sm:tw-flex tw-h-full
+                  sm:tw-my-px sm:tw-ml-1.5 md:tw-ml-8 sm:tw-flex tw-h-full
                 ">
-                <BreezeNavLink :href="route('usuario')" :active="route().current('usuario')">
-                  <img src="/images/documento.png" />
+                <BreezeNavLink :href="route('usuario')" :active="route().current('usuario')" @mouseover="gif='perfil'"
+                  @mouseleave="gif=''" @click="soltarGif('perfil')">
+                  <img src="/images/perfil.gif" style="max-width:40px" v-show="gif=='perfil'" />
+                  <img src="/images/perfil.png" style="max-width:40px" v-show="gif!='perfil'" />
                 </BreezeNavLink>
               </div>
               <div class="tw-ml-3 tw-relative">
@@ -144,6 +181,18 @@ const showingNavigationDropdown = ref(false);
             <BreezeResponsiveNavLink :href="route('metas')" :active="route().current('metas')">
               Metas
             </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink :href="route('fluxo')" :active="route().current('fluxo')">
+              Fluxo
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink :href="route('simulacao')" :active="route().current('simulacao')">
+              Simulação
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink :href="route('usuario')" :active="route().current('usuario')">
+              Perfil
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink :href="route('grupo')" :active="route().current('grupo')">
+              Grupo
+            </BreezeResponsiveNavLink>
           </div>
 
           <!-- Responsive Settings Options -->
@@ -180,3 +229,19 @@ const showingNavigationDropdown = ref(false);
     </div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    soltarGif(value) {
+      if (this.gif != '') this.gif = '';
+      else this.gif = value;
+    },
+  },
+
+  data() {
+    return {
+      gif: ''
+    }
+  },
+};
+</script>

@@ -21,7 +21,7 @@ createInertiaApp({
                 },
                 config: {
                     brand: {
-                        primary: '#9787ff',
+                        primary: '#33cccc',
                     },
                 },
             })
@@ -30,4 +30,4 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({ color: '#33cccc' });

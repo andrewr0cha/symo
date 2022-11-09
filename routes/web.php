@@ -24,11 +24,21 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/grupo', function () {
+    return Inertia::render('Grupo');
+})->name('grupo');
+
 Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->middleware(['auth', 'verified'])->name('consultas');
 
-Route::get('/previsoes', 'App\Http\Controllers\PrevisoesController@index')->middleware(['auth', 'verified'])->name('previsoes');
+Route::get('/fluxo', 'App\Http\Controllers\FluxoController@index')->middleware(['auth', 'verified'])->name('fluxo');
+
+Route::get('/simulacao', 'App\Http\Controllers\SimulacaoController@index')->middleware(['auth', 'verified'])->name('simulacao');
+
+Route::post('/simulacao/excluir', 'App\Http\Controllers\SimulacaoController@excluir')->middleware(['auth', 'verified'])->name('excluir.simulacao');
+
+Route::post('/simulacao/salvar', 'App\Http\Controllers\SimulacaoController@salvar')->middleware(['auth', 'verified'])->name('salvar.simulacao');
 
 Route::get('/agendamentos', 'App\Http\Controllers\AgendamentosController@index')->middleware(['auth', 'verified'])->name('agendamentos');
 
