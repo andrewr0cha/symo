@@ -78,7 +78,7 @@
             },
             "require": {
                 "ext-json": "*",
-                "php": "^7.1 || ^8.0"
+                "php": "^7.1 || ^8.1"
             },
             "require-dev": {
                 "php-coveralls/php-coveralls": "^2.2",
@@ -137,7 +137,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2 || ^8.0"
+                "php": "^7.2 || ^8.1"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^8.2",
@@ -228,7 +228,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "php": "^7.1 || ^8.1"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^9.0",
