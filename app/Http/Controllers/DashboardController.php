@@ -93,9 +93,9 @@ class DashboardController extends Controller
             if ($meta->valor_guardado > 0) {
                 $user = User::where('id', auth()->user()->id)->first();
                 $user->saldo += $meta->valor_guardado;
-                $user->cofre -= $meta->valor_guardado;
+                $user->cofreMeta -= $meta->valor_guardado;
                 $user->save();
-                $saida = Saida::where('id_usuario', auth()->user()->id)->where('valor', $meta->valor_guardado)->first();
+                $saida = Saida::where('id_usuario', auth()->user()->id)->where('valor', $meta->valor_guardado)->where('descricao','Posto no COfre para Meta Específica')->first();
                 $saida->delete();
             }
             $meta->delete();

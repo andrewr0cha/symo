@@ -127,7 +127,7 @@ class ConsultasController extends Controller
                 } else {
                     $req->valor = $req->valor - $saida->valor;
                     $saida->delete();
-                    $saida = Saida::where('id_usuario', $id)->where('cofre', true)->orderBy('created_at', 'desc')->first();
+                    $saida = Saida::where('id_usuario', $id)->where('cofre', true)->where('descricao','Posto no Cofre')->orderBy('created_at', 'desc')->first();
                 }
             }
         }
