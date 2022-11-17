@@ -28,6 +28,8 @@ Route::get('/grupo', function () {
     return Inertia::render('Grupo');
 })->name('grupo');
 
+Route::get('/download1', 'App\Http\Controllers\GrupoController@download');
+
 Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/consultas/{id?}', 'App\Http\Controllers\ConsultasController@index')->middleware(['auth', 'verified'])->name('consultas');

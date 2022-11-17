@@ -1435,6 +1435,9 @@ select:focus {
   .sm\:tw-mb-2 {
     margin-bottom: 0.5rem;
   }
+  .sm\:tw-mt-0 {
+    margin-top: 0px;
+  }
   .sm\:tw-block {
     display: block;
   }
@@ -1488,6 +1491,9 @@ select:focus {
   }
   .sm\:tw-max-w-7xl {
     max-width: 80rem;
+  }
+  .sm\:tw-flex-row {
+    flex-direction: row;
   }
   .sm\:tw-items-center {
     align-items: center;

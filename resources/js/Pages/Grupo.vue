@@ -19,10 +19,19 @@
             saídas, bem como formas de gerar e apresentar dados acerca da vida financeira do usuário a partir dos dados
             inseridos por ele no site.
           </div>
-          <div class="tw-w-full tw-flex tw-inline-flex tw-mt-6 tw-items-center">
-            <div class="tw-bg-white borda tw-p-3  " style="width:65px; height:65px"> <img src="/images/o-email.gif"
-                style="max-width:40px"></div>
-            <div class="tw-ml-2"> projetosymo@gmail.com </div>
+          <div class="tw-w-full tw-flex tw-flex-col sm:tw-flex-row sm:tw-inline-flex tw-mt-6 ">
+            <div class="tw-flex tw-inline-flex tw-items-center tw-mx-auto">
+              <div class="tw-bg-white borda tw-p-3  " style="width:65px; height:65px"> <img src="/images/o-email.gif"
+                  style="max-width:40px"></div>
+              <div class="tw-ml-2"> projetosymo@gmail.com </div>
+            </div>
+            <a href="/download1" class="tw-mx-auto tw-mt-3 sm:tw-mt-0">
+              <div class="tw-flex tw-inline-flex tw-items-center">
+                <div class="tw-bg-white borda tw-p-3 tw-mr-2  q" style="width:65px; height:65px"> <img
+                    src="/images/download.gif" style="max-width:40px"></div>
+                Baixar Help
+              </div>
+            </a>
           </div>
         </div>
         <div class="tw-w-1/2 tw-hidden md:tw-flex ">
