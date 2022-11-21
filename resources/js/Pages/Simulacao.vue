@@ -3,17 +3,18 @@
   <Head title="Simulação" />
   <BreezeAuthenticatedLayout>
     <div class="tw-text-center tw-w-full tw-bg-neutral-800 tw-pb-2">
-      <div class="tw-mx-auto tw-my-4 tw-w-11/12 tw-flex tw-inline-flex tw-border-double tw-border-4 tw-border-cyan-600 tw-p-2">
+      <div
+        class="tw-mx-auto tw-my-4 tw-w-11/12 tw-flex tw-inline-flex tw-border-double tw-border-4 tw-border-cyan-600 tw-p-2">
         <div class="tw-w-1/2 md:tw-w-1/3 tw-flex tw-items-center">
           <div class="tw-w-full md:tw-w-2/3  tw-text-white ">
             <q-select bg-color="white" label-color="primary" color="black" outlined bottom-slots bordeless rounded
               v-model="model" :options="meses" label="Mês" dense @update:model-value="troca(model)" class="tw-w-full" />
 
             <q-btn color="primary" label="Salvar" no-caps @click="salvar" class="hover:tw-cursor-pointer" />
-            <div v-if="pos==-1" class="tw-mt-4 tw-w-full tw-text-center">Selecione um mês para ver a
+            <div v-if="pos == -1" class="tw-mt-4 tw-w-full tw-text-center">Selecione um mês para ver a
               lista.
             </div>
-            <div v-else-if="dados1[pos]==0" class="tw-mt-4 tw-w-full tw-text-center">Não há dados para o mês
+            <div v-else-if="dados1[pos] == 0" class="tw-mt-4 tw-w-full tw-text-center">Não há dados para o mês
               selecionado.
             </div>
           </div>
@@ -36,7 +37,7 @@
                     <div class="tw-w-4/12">
                     </div>
                     <div class="tw-w-7/12">
-                      <div v-if="item.tipo=='entrada'" class="tw-text-green-600">
+                      <div v-if="item.tipo == 'entrada'" class="tw-text-green-600">
                         +R$ {{ valorFormatado(item.valor) }}
                       </div>
                       <div v-else class="tw-text-red-600">
@@ -51,14 +52,14 @@
               </div>
             </q-scroll-area>
             <div class="tw-justify-center tw-mt-2 tw-flex tw-inline-flex">
-              <div v-if="datas!=''&&apagando==false" class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
+              <div v-if="datas != '' && apagando == false" class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
                 <q-btn color="primary" icon="add_circle_outline" @click="modal = true" no-caps
                   class="hover:tw-cursor-pointer tw-mr-2" />
-                <q-btn color="primary" icon="remove_circle_outline" @click="apagando=true" no-caps
+                <q-btn color="primary" icon="remove_circle_outline" @click="apagando = true" no-caps
                   class="hover:tw-cursor-pointer" />
               </div>
-              <div v-if="apagando==true" class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
-                <q-btn color="primary" label="Cancelar" no-caps @click="{apagando=false;listaExclusao=[]}"
+              <div v-if="apagando == true" class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
+                <q-btn color="primary" label="Cancelar" no-caps @click="{ apagando=false; listaExclusao=[] }"
                   class="hover:tw-cursor-pointer tw-mr-2" />
                 <q-btn color="primary" label="Apagar" no-caps @click="apagar" class="hover:tw-cursor-pointer" />
               </div>
@@ -71,9 +72,9 @@
               class="tw-bg-white tw-mx-auto tw-h-28 tw-w-28 md:tw-h-40 md:tw-w-40 tw-p-2 borda tw-flex tw-items-center ">
               <div>
                 <div class="tw-text-lg tw-text-black">O saldo do mês é:</div>
-                <div v-if="diferenca<0" class="tw-text-lg tw-text-red-600">R$
-                  {{valorFormatado(diferenca*(-1))}} </div>
-                <div v-else class="tw-text-lg tw-text-green-600">R$ {{valorFormatado(diferenca)}} </div>
+                <div v-if="diferenca < 0" class="tw-text-lg tw-text-red-600">R$
+                  {{ valorFormatado(diferenca * (-1)) }} </div>
+                <div v-else class="tw-text-lg tw-text-green-600">R$ {{ valorFormatado(diferenca) }} </div>
               </div>
             </div>
 
@@ -95,7 +96,7 @@
               <img src="/images/entrada.png" class="tw-mx-auto" />
             </div>
             <div class="tw-w-2/12 sm:tw-w-1/12">
-              <q-btn icon="close" flat round dense v-close-popup @click="{nome='';valor='';}" />
+              <q-btn icon="close" flat round dense v-close-popup @click="{ nome=''; valor=''; }" />
             </div>
           </div>
         </q-card-section>
@@ -120,8 +121,8 @@
     <DialogBaixo v-model="formNulo" :value="'Preencha todos os campos obrigatórios. (Marcados com *)'" :icon="'error'">
     </DialogBaixo>
     <DialogBaixo v-model="formInvalido" :value="'Insira um valor válido no campo Valor do formulário.'" :icon="'error'"
-        class="tw-hidden sm:tw-flex">
-      </DialogBaixo>
+      class="tw-hidden sm:tw-flex">
+    </DialogBaixo>
   </BreezeAuthenticatedLayout>
 </template>
   
@@ -184,11 +185,11 @@ export default {
     },
 
     lancar() {
-      var valor= this.valor.replace(".", "").replace(",", ".");
+      var valor = this.valor.replace(".", "").replace(",", ".");
       if (this.nome == "" || this.valor == "") {
         this.formNulo = true;
-      }  else if(Number(valor)>99999999){
-        this.formInvalido=true;
+      } else if (Number(valor) > 99999999) {
+        this.formInvalido = true;
       } else {
         var a = ({
           id: null,
@@ -243,7 +244,7 @@ export default {
       diferenca: 0,
       formNulo: false,
       formInvalido: null,
-      dados1: [[], php, [], [], [], [], [], [], [], [], [], [], []],
+      dados1: [[], [], [], [], [], [], [], [], [], [], [], [], []],
       listaExclusao: [],
       apagando: false,
       chartDataLinha: {
