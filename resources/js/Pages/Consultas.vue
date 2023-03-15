@@ -4,31 +4,27 @@
     <!--saldo e categorias-->
     <div class="tw-w-11/12 tw-mx-auto sm:tw-flex tw-mt-4 border tw-bg-black">
       <!--saldo-->
-      <div class="
-                                                            tw-w-full    
-                                                            sm:tw-w-1/3
-                                                                tw-bg-black
-                                                                tw-h-28 
-                                                                tw-flex tw-inline-flex tw-items-center
-                                                                tw-justify-center
-                                                                borda-invisivel tw-overflow-x-auto scrollbar
-                                                              ">
-        <div class="tw-w-28 tw-flex tw-flex-col">
-          <div class="
-                                                                      round
-                                                                      tw-w-20 tw-h-20 tw-ml-4
-                                                                      sm:tw-w-24 sm:tw-h-24
-                                                                      tw-flex tw-items-center tw-justify-center tw-text-center sm:tw-border-2 sm:tw-border-white
-                                                                    hover:tw-cursor-pointer" @click="modalCofre = true">
+      <div
+        class="tw-w-full sm:tw-w-1/3 tw-bg-black tw-h-28 tw-flex tw-inline-flex tw-items-center tw-justify-center borda-invisivel tw-overflow-x-auto scrollbar">
+        <div class="tw-w-24 tw-flex tw-flex-col tw-items-center">
+          <div
+            class="round tw-w-16 tw-h-16 tw-ml-4 md:tw-w-20 md:tw-h-20 lg:tw-w-24 lg:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center sm:tw-border-2 sm:tw-border-white hover:tw-cursor-pointer"
+            @click="modalCofre = true">
 
             <div><img src="/images/bolsa-de-dinheiro.png" class="tw-mx-auto" />
               Cofre</div>
           </div>
         </div>
-        <div class="
-                                                                tw-flex
-                                                                tw-flex-col
-                                                                tw-mx-2 tw-w-28">
+        <div class="tw-w-24 tw-flex tw-flex-col tw-items-center">
+          <div
+            class="round tw-w-16 tw-h-16 tw-ml-1 md:tw-ml-4 md:tw-w-20 md:tw-h-20 lg:tw-w-24 lg:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center sm:tw-border-2 sm:tw-border-white hover:tw-cursor-pointer"
+            @click="modalCofre = true">
+
+            <div><img src="/images/bolsa-de-dinheiro.png" class="tw-mx-auto" />
+              Cofre</div>
+          </div>
+        </div>
+        <div class="tw-flex tw-flex-col tw-mx-2 tw-w-20">
           <img src="/images/dinheiro.png" class="imagem tw-mx-auto" />
           <div class="tw-flex tw-inline-flex tw-items-center tw-mx-auto">
             <span class="tw-text-white tw-hidden sm:tw-flex">Carteira</span>
@@ -42,84 +38,45 @@
       <div class="tw-h-28 tw-w-full sm:tw-w-2/3 tw-bg-white borda-invisivel">
         <div class="tw-w-full tw-h-28 tw-flex tw-inline-flex">
           <!--custos-->
-          <div class="
-                                                                    tw-w-28
-                                                                    sm:tw-w-32
-                                                                    tw-ml-2 tw-flex tw-items-center tw-justify-center
-                                                                    hover:tw-cursor-pointer
-                                                                  "
+          <div class="tw-w-28 sm:tw-w-32 tw-ml-2 tw-flex tw-items-center tw-justify-center hover:tw-cursor-pointer"
             @click="atualizarDataSetor(porcentagens[0], porcentagens[1], porcentagens[2], porcentagens[3], porcentagens[4],)">
-            <div class="
-                                                                      round
-                                                                      tw-w-20 tw-h-20
-                                                                      sm:tw-w-24 sm:tw-h-24
-                                                                      tw-flex tw-items-center tw-justify-center tw-text-center
-                                                                    ">
+            <div
+              class="round tw-w-20 tw-h-20 sm:tw-w-24 sm:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center">
               Meus Gastos
             </div>
           </div>
           <!--categorias-->
           <div class="tw-flex tw-inline-flex tw-overflow-x-auto scrollbar">
-            <div class="
-                                                                      tw-w-60
-                                                                      tw-mr-2
-                                                                      tw-ml-2
-                                                                      tw-flex
-                                                                      tw-flex-col
-                                                                      tw-items-center
-                                                                      tw-justify-center
-                                                                      hover:tw-cursor-pointer tw-text-center
-                                                                    "
+            <div
+              class="tw-w-60 tw-mr-2 tw-ml-2 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center"
               @click="atualizarDataBarra(porcentagens[0], porcentagensGerais[0], 'Essencial')">
               <img src="/images/essencial.png" class="imagem" />
               Essencial<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[0]) }}
             </div>
-            <div class="
-                                                                      tw-w-60
-                                                                      tw-mr-2
-                                                                      tw-flex
-                                                                      tw-flex-col
-                                                                      tw-items-center
-                                                                      tw-justify-center
-                                                                      hover:tw-cursor-pointer tw-text-center
-                                                                    " @click="modalObjetivos = true">
+            <div
+              class="tw-w-60 tw-mr-2 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center"
+              @click="modalObjetivos = true">
               <img src="/images/objetivos.png" class="imagem" />
               Objetivos<br>
               {{ metasConcluidas }}/{{ metas }}
             </div>
-            <div class="
-                                                                      tw-w-60
-                                                                      tw-mr-2
-                                                                      tw-flex
-                                                                      tw-flex-col
-                                                                      tw-items-center
-                                                                      tw-justify-center
-                                                                      hover:tw-cursor-pointer tw-text-center
-                                                                    "
+            <div
+              class="tw-w-60 tw-mr-2 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center"
               @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Aposentadoria')">
               <img src="/images/aposentadoria.png" class="imagem" />
               Aposentadoria<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[1]) }}
             </div>
-            <div class="
-                                                                      tw-w-60
-                                                                      tw-mr-2
-                                                                      tw-flex
-                                                                      tw-flex-col
-                                                                      tw-items-center
-                                                                      tw-justify-center
-                                                                      hover:tw-cursor-pointer tw-text-center
-                                                                    "
+            <div
+              class="tw-w-60 tw-mr-2 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center"
               @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Educação')">
               <img src="/images/educacao.png" class="imagem" />
               Educação<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[2]) }}
             </div>
-            <div class="
-                                                                      tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
-                                                                      hover:tw-cursor-pointer tw-text-center tw-mr-2
-                                                                    "
+            <div
+              class="tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center tw-mr-2"
               @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Lazer')">
               <img src="/images/lazer1.png" class="imagem" />
               Lazer<br>
@@ -148,13 +105,7 @@
                 <div class="tw-w-11/12 tw-text-left tw-text-xl tw-pl-2 pb-2">
                   {{ item.nome }}
                 </div>
-                <div class="
-                                                                          tw-w-full
-                                                                          tw-flex
-                                                                          tw-inline-flex
-                                                                          tw-items-center
-                                                                          tw-justify-left
-                                                                        ">
+                <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-left">
                   <div class="tw-w-7/12">
                     {{ item.descricao }}
                   </div>
@@ -172,9 +123,8 @@
             </div>
           </div>
           <div v-else class="tw-flex tw-h-96">
-            <span class="
-                                                                      tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center
-                                                                    ">Ainda não existem entradas em sua conta.</span>
+            <span class="tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center">Ainda não existem entradas em sua
+              conta.</span>
           </div>
         </q-scroll-area>
         <div class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
@@ -209,13 +159,7 @@
                 <div class="tw-w-11/12 tw-text-left tw-text-xl tw-pl-2 pb-2">
                   {{ item.nome }}
                 </div>
-                <div class="
-                                                                          tw-w-full
-                                                                          tw-flex
-                                                                          tw-inline-flex
-                                                                          tw-items-center
-                                                                          tw-justify-left
-                                                                        ">
+                <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-left">
                   <div class="tw-w-2/12">
                     {{ categoriasSaida[item.id_categoria - 1] }}
                   </div>
@@ -236,9 +180,8 @@
             </div>
           </div>
           <div v-else class="tw-flex tw-h-96">
-            <span class="
-                                                                      tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center
-                                                                    ">Ainda não existem saídas em sua conta.</span>
+            <span class="tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center">Ainda não existem saídas em sua
+              conta.</span>
           </div>
         </q-scroll-area>
         <div v-if="!apagarSaida" class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
