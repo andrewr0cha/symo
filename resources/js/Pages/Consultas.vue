@@ -1,35 +1,34 @@
 <template>
-
   <Head title="Consultas" />
   <BreezeAuthenticatedLayout>
     <!--saldo e categorias-->
     <div class="tw-w-11/12 tw-mx-auto sm:tw-flex tw-mt-4 border tw-bg-black">
       <!--saldo-->
       <div class="
-      tw-w-full    
-      sm:tw-w-1/3
-          tw-bg-black
-          tw-h-28 
-          tw-flex tw-inline-flex tw-items-center
-          tw-justify-center
-          borda-invisivel tw-overflow-x-auto scrollbar
-        ">
+                                                            tw-w-full    
+                                                            sm:tw-w-1/3
+                                                                tw-bg-black
+                                                                tw-h-28 
+                                                                tw-flex tw-inline-flex tw-items-center
+                                                                tw-justify-center
+                                                                borda-invisivel tw-overflow-x-auto scrollbar
+                                                              ">
         <div class="tw-w-28 tw-flex tw-flex-col">
           <div class="
-                round
-                tw-w-20 tw-h-20 tw-ml-4
-                sm:tw-w-24 sm:tw-h-24
-                tw-flex tw-items-center tw-justify-center tw-text-center sm:tw-border-2 sm:tw-border-white
-              hover:tw-cursor-pointer" @click="modalCofre = true">
+                                                                      round
+                                                                      tw-w-20 tw-h-20 tw-ml-4
+                                                                      sm:tw-w-24 sm:tw-h-24
+                                                                      tw-flex tw-items-center tw-justify-center tw-text-center sm:tw-border-2 sm:tw-border-white
+                                                                    hover:tw-cursor-pointer" @click="modalCofre = true">
 
             <div><img src="/images/bolsa-de-dinheiro.png" class="tw-mx-auto" />
               Cofre</div>
           </div>
         </div>
         <div class="
-          tw-flex
-          tw-flex-col
-          tw-mx-2 tw-w-28">
+                                                                tw-flex
+                                                                tw-flex-col
+                                                                tw-mx-2 tw-w-28">
           <img src="/images/dinheiro.png" class="imagem tw-mx-auto" />
           <div class="tw-flex tw-inline-flex tw-items-center tw-mx-auto">
             <span class="tw-text-white tw-hidden sm:tw-flex">Carteira</span>
@@ -44,80 +43,84 @@
         <div class="tw-w-full tw-h-28 tw-flex tw-inline-flex">
           <!--custos-->
           <div class="
-              tw-w-28
-              sm:tw-w-32
-              tw-ml-2 tw-flex tw-items-center tw-justify-center
-              hover:tw-cursor-pointer
-            "
+                                                                    tw-w-28
+                                                                    sm:tw-w-32
+                                                                    tw-ml-2 tw-flex tw-items-center tw-justify-center
+                                                                    hover:tw-cursor-pointer
+                                                                  "
             @click="atualizarDataSetor(porcentagens[0], porcentagens[1], porcentagens[2], porcentagens[3], porcentagens[4],)">
             <div class="
-                round
-                tw-w-20 tw-h-20
-                sm:tw-w-24 sm:tw-h-24
-                tw-flex tw-items-center tw-justify-center tw-text-center
-              ">
+                                                                      round
+                                                                      tw-w-20 tw-h-20
+                                                                      sm:tw-w-24 sm:tw-h-24
+                                                                      tw-flex tw-items-center tw-justify-center tw-text-center
+                                                                    ">
               Meus Gastos
             </div>
           </div>
           <!--categorias-->
           <div class="tw-flex tw-inline-flex tw-overflow-x-auto scrollbar">
             <div class="
-                tw-w-60
-                tw-mr-2
-                tw-ml-2
-                tw-flex
-                tw-flex-col
-                tw-items-center
-                tw-justify-center
-                hover:tw-cursor-pointer tw-text-center
-              " @click="atualizarDataBarra(porcentagens[0], porcentagensGerais[0], 'Essencial')">
+                                                                      tw-w-60
+                                                                      tw-mr-2
+                                                                      tw-ml-2
+                                                                      tw-flex
+                                                                      tw-flex-col
+                                                                      tw-items-center
+                                                                      tw-justify-center
+                                                                      hover:tw-cursor-pointer tw-text-center
+                                                                    "
+              @click="atualizarDataBarra(porcentagens[0], porcentagensGerais[0], 'Essencial')">
               <img src="/images/essencial.png" class="imagem" />
               Essencial<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[0]) }}
             </div>
             <div class="
-                tw-w-60
-                tw-mr-2
-                tw-flex
-                tw-flex-col
-                tw-items-center
-                tw-justify-center
-                hover:tw-cursor-pointer tw-text-center
-              " @click="modalObjetivos = true">
+                                                                      tw-w-60
+                                                                      tw-mr-2
+                                                                      tw-flex
+                                                                      tw-flex-col
+                                                                      tw-items-center
+                                                                      tw-justify-center
+                                                                      hover:tw-cursor-pointer tw-text-center
+                                                                    " @click="modalObjetivos = true">
               <img src="/images/objetivos.png" class="imagem" />
               Objetivos<br>
               {{ metasConcluidas }}/{{ metas }}
             </div>
             <div class="
-                tw-w-60
-                tw-mr-2
-                tw-flex
-                tw-flex-col
-                tw-items-center
-                tw-justify-center
-                hover:tw-cursor-pointer tw-text-center
-              " @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Aposentadoria')">
+                                                                      tw-w-60
+                                                                      tw-mr-2
+                                                                      tw-flex
+                                                                      tw-flex-col
+                                                                      tw-items-center
+                                                                      tw-justify-center
+                                                                      hover:tw-cursor-pointer tw-text-center
+                                                                    "
+              @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Aposentadoria')">
               <img src="/images/aposentadoria.png" class="imagem" />
               Aposentadoria<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[1]) }}
             </div>
             <div class="
-                tw-w-60
-                tw-mr-2
-                tw-flex
-                tw-flex-col
-                tw-items-center
-                tw-justify-center
-                hover:tw-cursor-pointer tw-text-center
-              " @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Educação')">
+                                                                      tw-w-60
+                                                                      tw-mr-2
+                                                                      tw-flex
+                                                                      tw-flex-col
+                                                                      tw-items-center
+                                                                      tw-justify-center
+                                                                      hover:tw-cursor-pointer tw-text-center
+                                                                    "
+              @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Educação')">
               <img src="/images/educacao.png" class="imagem" />
               Educação<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[2]) }}
             </div>
             <div class="
-                tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
-                hover:tw-cursor-pointer tw-text-center tw-mr-2
-              " @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Lazer')">
+                                                                      tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center
+                                                                      hover:tw-cursor-pointer tw-text-center tw-mr-2
+                                                                    "
+              @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Lazer')">
               <img src="/images/lazer1.png" class="imagem" />
               Lazer<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[3]) }}
@@ -146,12 +149,12 @@
                   {{ item.nome }}
                 </div>
                 <div class="
-                    tw-w-full
-                    tw-flex
-                    tw-inline-flex
-                    tw-items-center
-                    tw-justify-left
-                  ">
+                                                                          tw-w-full
+                                                                          tw-flex
+                                                                          tw-inline-flex
+                                                                          tw-items-center
+                                                                          tw-justify-left
+                                                                        ">
                   <div class="tw-w-7/12">
                     {{ item.descricao }}
                   </div>
@@ -161,7 +164,7 @@
                     </div>
                     {{ dataFormatada(item.data) }}
                   </div>
-                  <div v-if="apagarEntrada&&item.cofre==false" class="tw-w-1/12>">
+                  <div v-if="apagarEntrada && item.cofre == false" class="tw-w-1/12>">
                     <input type="checkbox" @click="adicionaItem(item.id)" />
                   </div>
                 </div>
@@ -170,8 +173,8 @@
           </div>
           <div v-else class="tw-flex tw-h-96">
             <span class="
-                tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center
-              ">Ainda não existem entradas em sua conta.</span>
+                                                                      tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center
+                                                                    ">Ainda não existem entradas em sua conta.</span>
           </div>
         </q-scroll-area>
         <div class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
@@ -207,12 +210,12 @@
                   {{ item.nome }}
                 </div>
                 <div class="
-                    tw-w-full
-                    tw-flex
-                    tw-inline-flex
-                    tw-items-center
-                    tw-justify-left
-                  ">
+                                                                          tw-w-full
+                                                                          tw-flex
+                                                                          tw-inline-flex
+                                                                          tw-items-center
+                                                                          tw-justify-left
+                                                                        ">
                   <div class="tw-w-2/12">
                     {{ categoriasSaida[item.id_categoria - 1] }}
                   </div>
@@ -225,7 +228,7 @@
                     </div>
                     {{ dataFormatada(item.data) }}
                   </div>
-                  <div v-if="apagarSaida&&item.cofre==false" class="tw-w-1/12>">
+                  <div v-if="apagarSaida && item.cofre == false" class="tw-w-1/12>">
                     <input type="checkbox" class="hover:tw-cursor-pointer" @click="adicionaItem(item.id)" />
                   </div>
                 </div>
@@ -234,8 +237,8 @@
           </div>
           <div v-else class="tw-flex tw-h-96">
             <span class="
-                tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center
-              ">Ainda não existem saídas em sua conta.</span>
+                                                                      tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center
+                                                                    ">Ainda não existem saídas em sua conta.</span>
           </div>
         </q-scroll-area>
         <div v-if="!apagarSaida" class="tw-text-left tw-mt-2 tw-flex tw-inline-flex">
@@ -276,13 +279,34 @@
               <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
                 outlined label="Valor*" min="0.01" step="0.01" />
               <q-input outlined v-model="form.descricao" label="Descrição" />
+              <div class="tw-flex tw-inline-flex tw-items-center"><q-btn color="primary" label="Data*"
+                  @click="(modalData = true), (form.dataES = dayjs().format('YYYY-MM-DD'))" no-caps />
+                <div v-if="form.dataES != '' && form.dataES != null">
+                  <span class="tw-ml-2">Data selecionada: {{ dataFormatada(form.dataES) }}</span>
+                </div>
+              </div>
             </div>
+
           </div>
         </q-card-section>
         <div class="tw-w-full tw-text-center tw-mb-2">
           <button type="button" @click="lancarEntrada">
             <span class="material-icons md-36">task_alt</span>
           </button>
+        </div>
+      </q-card>
+    </q-dialog>
+    <!--escolher uma data-->
+    <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded class="tw-hidden sm:tw-flex">
+      <q-card style="width: 400px; max-width: 60vw">
+        <q-card-section>
+          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+            <q-date v-model="form.dataES" today-btn flat mask="YYYY-MM-DD"
+              :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro', 'Dezembro'], daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'], days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'] }" />
+          </div>
+        </q-card-section>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <q-btn v-close-popup color="primary" label="OK" />
         </div>
       </q-card>
     </q-dialog>
@@ -310,6 +334,12 @@
                 outlined label="Valor*" min="0.01" step="0.01" />
               <q-select outlined v-model="form.id_categoria" :options="categoriasSaida" label="Categoria*" />
               <q-input outlined v-model="form.descricao" label="Descrição" />
+              <div class="tw-flex tw-inline-flex tw-items-center"><q-btn color="primary" label="Data*"
+                  @click="(modalData = true), (form.dataES = dayjs().format('YYYY-MM-DD'))" no-caps />
+                <div v-if="form.dataES != '' && form.dataES != null">
+                  <span class="tw-ml-2">Data selecionada: {{ dataFormatada(form.dataES) }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </q-card-section>
@@ -349,8 +379,7 @@
               </div>
             </div>
             <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
-              <q-btn @click="guardarCofre($page.props.auth.user.saldo)" icon="task_alt" color="primary"
-                label="Guardar" />
+              <q-btn @click="guardarCofre($page.props.auth.user.saldo)" icon="task_alt" color="primary" label="Guardar" />
             </div>
           </div>
         </q-carousel-slide>
@@ -373,15 +402,14 @@
               <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
                 <div class="q-gutter-y-md">
                   <span class="tw-text-lg">Cofre: R${{
-                  valorFormatado($page.props.auth.user.cofre) }}</span>
+                    valorFormatado($page.props.auth.user.cofre) }}</span>
                   <q-input v-model="form.valor" mask="###.###,##" reverse-fill-mask hint="Preencha duas casas decimais"
                     outlined label="Valor*" min="0.01" step="0.01" />
                 </div>
               </div>
             </div>
             <div class="tw-w-full tw-text-center tw-mb-2 tw-mt-4">
-              <q-btn @click="retirarCofre($page.props.auth.user.cofre)" icon="task_alt" color="primary"
-                label="Retirar" />
+              <q-btn @click="retirarCofre($page.props.auth.user.cofre)" icon="task_alt" color="primary" label="Retirar" />
             </div>
           </div>
         </q-carousel-slide>
@@ -394,9 +422,9 @@
     <DialogBaixo v-model="saldoInsuficiente" :value="'O seu saldo não é suficiente para essa ação.'" :icon="'error'">
     </DialogBaixo>
     <!--valor muito alto-->
-      <DialogBaixo v-model="formInvalido" :value="'Insira um valor válido no campo Valor do formulário.'" :icon="'error'"
-        class="tw-hidden sm:tw-flex">
-      </DialogBaixo>
+    <DialogBaixo v-model="formInvalido" :value="'Insira um valor válido no campo Valor do formulário.'" :icon="'error'"
+      class="tw-hidden sm:tw-flex">
+    </DialogBaixo>
     <!--modal categorias-->
     <ModalCategoria v-model="modalCategorias" :chartData="chartData" :diferenca="diferenca" :categoria="categoria"
       :temEntrada="porcentagens[5]" />
@@ -485,7 +513,8 @@ const modalInfoSaidas = ref(false);
 const modalFiltroEntrada = ref(false);
 const modalFiltroSaida = ref(false);
 const modalInfoCofre = ref(false);
-defineExpose({ modalEntradas, modalSaidas, modalCategorias, modalInfoCofre, modalCustos, modalCofre, modalObjetivos, modalInfoEntradas, modalInfoSaidas, modalFiltroEntrada, modalFiltroSaida });
+const modalData = ref(false);
+defineExpose({ modalEntradas, modalData, modalSaidas, modalCategorias, modalInfoCofre, modalCustos, modalCofre, modalObjetivos, modalInfoEntradas, modalInfoSaidas, modalFiltroEntrada, modalFiltroSaida });
 </script>
 
 <script>
@@ -519,11 +548,11 @@ export default {
     },
 
     lancarEntrada() {
-      var valor= this.form.valor.replace(".", "").replace(",", ".");
-      if (this.form.nome == "" || this.form.valor == "") {
+      var valor = this.form.valor.replace(".", "").replace(",", ".");
+      if (this.form.nome == "" || this.form.valor == "" || this.form.dataES == "" || this.form.dataES == null) {
         this.formNulo = true;
-      } else if(Number(valor)>99999999){
-        this.formInvalido=true;
+      } else if (Number(valor) > 99999999) {
+        this.formInvalido = true;
       } else {
         this.form.valor = valor;
         this.form.post(route("adicionar.entrada", { id: this.id }), {
@@ -538,15 +567,17 @@ export default {
     },
 
     lancarSaida() {
-      var valor= this.form.valor.replace(".", "").replace(",", ".");
+      var valor = this.form.valor.replace(".", "").replace(",", ".");
       if (
         this.form.nome == "" ||
         this.form.valor == "" ||
-        this.form.id_categoria == ""
+        this.form.id_categoria == "" ||
+        this.form.dataES == "" ||
+        this.form.dataES == null
       ) {
         this.formNulo = true;
-      }  else if(Number(valor)>99999999){
-        this.formInvalido=true;
+      } else if (Number(valor) > 99999999) {
+        this.formInvalido = true;
       } else {
         this.form.valor = valor;
         this.form.post(route("adicionar.saida", { id: this.id }), {
@@ -640,6 +671,12 @@ export default {
     },
 
     atualizarDataSetor(i, j, k, l, m) {
+      let total = i + j + k + l + m;
+      i = i * 100 / total;
+      j = j * 100 / total;
+      k = k * 100 / total;
+      l = l * 100 / total;
+      m = m * 100 / total;
       this.chartData = {
         labels: ['Essencial', 'Aposentadoria', 'Educação', 'Lazer', 'Objetivos'],
         datasets: [
@@ -687,6 +724,7 @@ export default {
         id_categoria: ref(null),
         valor: "",
         descricao: "",
+        dataES: "",
       }),
       formNulo: false,
       formInvalido: null,

@@ -47,7 +47,7 @@ class ConsultasController extends Controller
         $entrada->valor = $req->valor;
         $entrada->descricao = $req->descricao;
         $entrada->id_usuario = $id;
-        $entrada->data = date("Y-m-d H:i:s");
+        $entrada->data = $req->dataES;
         $entrada->save();
         $user = User::where('id', $id)->first();
         $user->saldo = $user->saldo + $entrada->valor;
@@ -70,7 +70,7 @@ class ConsultasController extends Controller
         $saida->id_usuario = $id;
         $categoria = Categoria::where('nome', 'like', $req->id_categoria)->first();
         $saida->id_categoria = $categoria->id;
-        $saida->data = date("Y-m-d H:i:s");
+        $saida->data = $req->dataES;
         $saida->save();
         $user = User::where('id', $id)->first();
         $user->saldo = $user->saldo - $saida->valor;
@@ -127,7 +127,7 @@ class ConsultasController extends Controller
                 } else {
                     $req->valor = $req->valor - $saida->valor;
                     $saida->delete();
-                    $saida = Saida::where('id_usuario', $id)->where('cofre', true)->where('descricao','Posto no Cofre')->orderBy('created_at', 'desc')->first();
+                    $saida = Saida::where('id_usuario', $id)->where('cofre', true)->where('descricao', 'Posto no Cofre')->orderBy('created_at', 'desc')->first();
                 }
             }
         }
@@ -166,10 +166,10 @@ class ConsultasController extends Controller
     public function filtrarEntrada(Request $req)
     {
         $id = auth()->user()->id;
-        $dataInicial=new Carbon($req->dataInicial);
-        $dataInicial= $dataInicial->subDay(1, 'day')->format('Y-m-d');
-        $dataFinal=new Carbon($req->dataFinal);
-        $dataFinal= $dataFinal->add(1, 'day')->format('Y-m-d');
+        $dataInicial = new Carbon($req->dataInicial);
+        $dataInicial = $dataInicial->subDay(1, 'day')->format('Y-m-d');
+        $dataFinal = new Carbon($req->dataFinal);
+        $dataFinal = $dataFinal->add(1, 'day')->format('Y-m-d');
         $entradas = Entrada::where('id_usuario', '=', $id)->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
         $saidas = Saida::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
@@ -188,11 +188,11 @@ class ConsultasController extends Controller
         $id = auth()->user()->id;
         $entradas = Entrada::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
-        
-        $dataInicial=new Carbon($req->dataInicial);
-        $dataInicial= $dataInicial->subDay(1, 'day')->format('Y-m-d');
-        $dataFinal=new Carbon($req->dataFinal);
-        $dataFinal= $dataFinal->add(1, 'day')->format('Y-m-d');
+
+        $dataInicial = new Carbon($req->dataInicial);
+        $dataInicial = $dataInicial->subDay(1, 'day')->format('Y-m-d');
+        $dataFinal = new Carbon($req->dataFinal);
+        $dataFinal = $dataFinal->add(1, 'day')->format('Y-m-d');
         $saidas = Saida::where('id_usuario', '=', $id)->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
         if ($saidas == null) $saidas = 0;
         /*$categoriasEntrada = Categoria::where('id_tipo',2)->get()->pluck('nome');
