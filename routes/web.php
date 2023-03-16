@@ -52,6 +52,12 @@ Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@
 
 Route::post('/adicionar/cofre', 'App\Http\Controllers\ConsultasController@adicionarCofre')->middleware(['auth', 'verified'])->name('guardar');
 
+Route::post('/adicionar/cartao', 'App\Http\Controllers\ConsultasController@adicionarCartao')->middleware(['auth', 'verified'])->name('adicionar.cartao');
+
+Route::post('/recarregar/cartao', 'App\Http\Controllers\ConsultasController@recarregarCartao')->middleware(['auth', 'verified'])->name('recarregar.cartao');
+
+Route::post('/retirar/cartao', 'App\Http\Controllers\ConsultasController@retirarCartao')->middleware(['auth', 'verified'])->name('retirar.cartao');
+
 Route::post('/remover/cofre', 'App\Http\Controllers\ConsultasController@removerCofre')->middleware(['auth', 'verified'])->name('remover');
 
 Route::post('/adicionar/agendamento/{id?}', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('adicionar.agendamento');

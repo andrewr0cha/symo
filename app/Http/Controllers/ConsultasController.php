@@ -10,6 +10,7 @@ use App\Models\Entrada;
 use App\Models\Saida;
 use App\Models\Meta;
 use App\Models\Categoria;
+use App\Models\Cartaos;
 
 class ConsultasController extends Controller
 {
@@ -31,8 +32,8 @@ class ConsultasController extends Controller
         $metasConcluidas = $metasConcluidas == null ? $metasConcluidas = 0 : $metasConcluidas->count();
         $metas = Meta::where('id_usuario', $id)->get();
         $metas = $metas == null ? $metas = 0 : $metas->count();
-
-        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida, 'id' => $id, 'gastosMensais' => $gastosMensais, 'metasConcluidas' => $metasConcluidas, 'metas' => $metas]);
+        $cartoes = $this->cartoes();
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida, 'id' => $id, 'gastosMensais' => $gastosMensais, 'metasConcluidas' => $metasConcluidas, 'metas' => $metas, 'cartoes' => $cartoes]);
     }
 
     public function adicionarEntrada(Request $req, $id = null)
@@ -75,6 +76,53 @@ class ConsultasController extends Controller
         $user = User::where('id', $id)->first();
         $user->saldo = $user->saldo - $saida->valor;
         $user->save();
+        return redirect()->route('consultas', $id);
+    }
+
+    public function adicionarCartao(Request $req, $id = null)
+    {
+        if ($id == null) $id = auth()->user()->id;
+        $req->validate([
+            'nome' => 'required|string|max:255',
+            'valor' => 'required',
+        ]);
+        $cartao = new Cartaos();
+        $cartao->nome = $req->nome;
+        $cartao->valor = $req->valorRecarga;
+        $cartao->id_usuario = $id;
+        $cartao->save();
+        $user = User::where('id', $id)->first();
+        $user->saldo = $user->saldo - $cartao->valor;
+        $user->save();
+        return redirect()->route('consultas', $id);
+    }
+
+    public function recarregarCartao(Request $req, $id = null)
+    {
+        if ($id == null) $id = auth()->user()->id;
+        $cartao = Cartaos::where('id', $req->id)->first();
+        $cartao->valor += $req->valorRecarga;
+        $cartao->ultima_recarga = Carbon::now();
+        $cartao->save();
+        $saida = new Saida();
+        $saida->nome = "Recarga de ônibus";
+        $saida->valor = $req->valorRecarga;
+        $saida->id_usuario = $id;
+        $saida->id_categoria = 1;
+        $saida->data = $cartao->ultima_recarga;
+        $saida->save();
+        $user = User::where('id', $id)->first();
+        $user->saldo = $user->saldo - $req->valorRecarga;
+        $user->save();
+        return redirect()->route('consultas', $id);
+    }
+
+    public function retirarCartao(Request $req, $id = null)
+    {
+        if ($id == null) $id = auth()->user()->id;
+        $cartao = Cartaos::where('id', $req->id)->first();
+        $cartao->valor -= $req->valorRetirada * $req->numeroPassagens;
+        $cartao->save();
         return redirect()->route('consultas', $id);
     }
 
@@ -274,5 +322,12 @@ class ConsultasController extends Controller
         $ultimo = $data->endOfMonth()->format('Y-m-d');
         $gastos = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->sum('valor');
         return $gastos;
+    }
+
+    private function cartoes()
+    {
+        $cartoes = Cartaos::where('id_usuario', auth()->user()->id)->get();
+        $cartoes = count($cartoes) > 0 ? $cartoes : null;
+        return $cartoes;
     }
 }

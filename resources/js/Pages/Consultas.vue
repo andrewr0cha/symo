@@ -17,11 +17,12 @@
         </div>
         <div class="tw-w-24 tw-flex tw-flex-col tw-items-center">
           <div
-            class="round tw-w-16 tw-h-16 tw-ml-1 md:tw-ml-4 md:tw-w-20 md:tw-h-20 lg:tw-w-24 lg:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center sm:tw-border-2 sm:tw-border-white hover:tw-cursor-pointer"
-            @click="modalCofre = true">
+            class="tw-w-16 tw-h-16 tw-ml-1 md:tw-ml-4 md:tw-w-20 md:tw-h-20 lg:tw-w-24 lg:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center hover:tw-cursor-pointer"
+            @click="modalCartoes = true">
 
-            <div><img src="/images/bolsa-de-dinheiro.png" class="tw-mx-auto" />
-              Cofre</div>
+            <div><img src="/images/cartao.png" class="tw-mx-auto" />
+              <span class="tw-text-white">Cartões</span>
+            </div>
           </div>
         </div>
         <div class="tw-flex tw-flex-col tw-mx-2 tw-w-20">
@@ -199,6 +200,117 @@
         </div>
       </div>
     </div>
+    <!--modal cartao-->
+    <q-dialog v-model="modalCartoes" transition-show="scale" transition-hide="scale" rounded>
+      <q-card style="width: 500px; max-width: 80vw">
+        <q-card-section>
+          <div class="tw-w-full sm:tw-w-10/12 tw-mx-auto">
+            <div v-if="cartoes == null" class="tw-w-full tw-mb-2">
+              <span class="tw-text-lg tw-flex tw-text-center">Você ainda não tem cartões cadastrados. Use o botão
+                abaixo para criar um.</span>
+            </div>
+            <div v-else class="tw-mb-2 tw-w-full">
+              <q-scroll-area style="height: 335px">
+                <span class="tw-text-lg">Seus cartões</span>
+                <div class="tw-flex tw-flex-wrap">
+                  <div v-for="item in cartoes" :key="item.id" class="tw-mb-2 tw-w-1/2 tw-cursor-pointer"
+                    @click="recargaCartao(item)">
+                    <q-card class="tw-flex tw-flex-col tw-mx-1">
+                      <div class="tw-w-full tw-pl-2">{{ item.nome }}</div>
+                      <div class="tw-w-full tw-pl-2"> {{ valorFormatado(item.valor) }}</div>
+                      <div class="tw-w-full tw-pl-2" v-if="item.ultima_recarga != null"> Recarga em:{{
+                        dataFormatada(item.ultima_recarga) }}</div>
+                    </q-card>
+                  </div>
+                </div>
+              </q-scroll-area>
+
+            </div>
+            <div class="tw-text-center">
+              <q-btn color="primary" label="Novo" @click="modalNovoCartao = true" no-caps />
+            </div>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!--modal novo cartao-->
+    <q-dialog v-model="modalNovoCartao" transition-show="scale" transition-hide="scale" rounded>
+      <q-card style="width: 500px; max-width: 80vw">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="tw-flex tw-inline-flex tw-w-full tw-my-4 tw-items-center">
+            <div class="tw-w-2/12 sm:tw-w-1/12">
+              <q-btn icon="help_outline" flat round dense @click="modalInfoEntradas = true" />
+            </div>
+            <div class="tw-w-8/12 sm:tw-w-10/12">
+              <img src="/images/entrada.png" class="tw-mx-auto" />
+            </div>
+            <div class="tw-w-2/12 sm:tw-w-1/12">
+              <q-btn icon="close" flat round dense v-close-popup @click="form.reset()" />
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+            <div class="q-gutter-y-md">
+              <q-input outlined v-model="formCartao.nome" label="Título*" />
+              <q-input v-model="formCartao.valorRecarga" mask="###.###,##" reverse-fill-mask
+                hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
+            </div>
+          </div>
+        </q-card-section>
+        <div class="tw-w-full tw-text-center tw-mb-2">
+          <button type="button" @click="novoCartao($page.props.auth.user.saldo)">
+            <span class="material-icons md-36">task_alt</span>
+          </button>
+        </div>
+      </q-card>
+    </q-dialog>
+    <!--modal recarga cartao-->
+    <q-dialog v-model="modalRecarga" transition-show="scale" transition-hide="scale" rounded>
+      <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
+        control-color="primary" navigation height="340px">
+        <q-carousel-slide :name="1" style="width:300px; max-width:85vw">
+          <div style="width: 200px; max-width: 80vw" class="tw-mx-auto tw-h-5/6 tw-flex tw-items-center">
+            <div>
+              <div class="tw-w-full tw-mt-2">
+                <div class="q-gutter-y-md">
+                  <span class="tw-text-lg ">{{ formCartao.nome }}</span>
+                  <q-input v-model="formCartao.valorRecarga" mask="###.###,##" reverse-fill-mask
+                    hint="Preencha duas casas decimais" outlined label="Recarga*" min="0.01" step="0.01" />
+                </div>
+              </div>
+
+              <div class="tw-w-full tw-text-center tw-mt-2">
+                <button type="button" @click="recarga($page.props.auth.user.saldo)">
+                  <span class="material-icons md-36">task_alt</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" style="width:300px; max-width:85vw">
+          <div style="width: 200px; max-width: 80vw" class="tw-mx-auto tw-flex tw-items-center">
+            <div>
+              <div class="tw-w-full tw-mt-2">
+                <div class="q-gutter-y-md">
+                  <span class="tw-text-lg ">{{ formCartao.nome }}</span>
+                  <q-input v-model="formCartao.numeroPassagens" hint="Número de passagens para retirada" outlined
+                    label="Passagens*" min="1" step="1" />
+                  <q-input v-model="formCartao.valorRetirada" mask="###.###,##" reverse-fill-mask
+                    hint="Preencha duas casas decimais" outlined label="Valor*" min="0.01" step="0.01" />
+                </div>
+              </div>
+
+              <div class="tw-w-full tw-text-center tw-mt-2">
+                <button type="button" @click="retirada()">
+                  <span class="material-icons md-36">task_alt</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
+    </q-dialog>
     <!--modal entradas-->
     <q-dialog v-model="modalEntradas" persistent transition-show="scale" transition-hide="scale" rounded>
       <q-card style="width: 500px; max-width: 80vw">
@@ -442,10 +554,10 @@ import ModalInfoSaidas from "@/Components/ModalInfoSaidas.vue";
 import ModalInfoEntradas from "@/Components/ModalInfoEntradas.vue";
 import ModalInfoCofre from "@/Components/ModalInfoCofre.vue";
 import { ref } from "vue";
-import { Bar, Pie } from 'vue-chartjs';
+/*import { Bar, Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Legend, ArcElement, Tooltip, BarElement, CategoryScale, LinearScale, Chart } from 'chart.js'
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, ArcElement, BarElement, LinearScale);
-const modalEntradas = ref(false);
+*/const modalEntradas = ref(false);
 const modalSaidas = ref(false);
 const modalCategorias = ref(false);
 const modalCustos = ref(false);
@@ -457,7 +569,10 @@ const modalFiltroEntrada = ref(false);
 const modalFiltroSaida = ref(false);
 const modalInfoCofre = ref(false);
 const modalData = ref(false);
-defineExpose({ modalEntradas, modalData, modalSaidas, modalCategorias, modalInfoCofre, modalCustos, modalCofre, modalObjetivos, modalInfoEntradas, modalInfoSaidas, modalFiltroEntrada, modalFiltroSaida });
+const modalCartoes = ref(false);
+const modalNovoCartao = ref(false);
+const modalRecarga = ref(false);
+defineExpose({ modalRecarga, modalNovoCartao, modalCartoes, modalEntradas, modalData, modalSaidas, modalCategorias, modalInfoCofre, modalCustos, modalCofre, modalObjetivos, modalInfoEntradas, modalInfoSaidas, modalFiltroEntrada, modalFiltroSaida });
 </script>
 
 <script>
@@ -473,6 +588,7 @@ export default {
     gastosMensais: Number,
     metas: Number,
     metasConcluidas: Number,
+    cartoes: Object,
   },
   methods: {
     dataFormatada(object) {
@@ -504,6 +620,86 @@ export default {
           onSuccess: () => {
             this.modalEntradas = false;
             this.form.reset();
+          },
+        });
+      }
+    },
+
+    novoCartao(value) {
+      var valor = this.formCartao.valorRecarga.replace(".", "").replace(",", ".");
+      if (this.formCartao.nome == "" || this.formCartao.valorRecarga == "") {
+        this.formNulo = true;
+      } else if (Number(valor) > 99999999 || Number(valor) == 0) {
+        this.formInvalido = true;
+      } else if (Number(valor) > value) {
+        this.saldoInsuficiente = true;
+        this.formCartao.reset();
+      }
+      else {
+        this.formCartao.valorRecarga = valor;
+        this.formCartao.post(route("adicionar.cartao", { id: this.id }), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalNovoCartao = false;
+            this.modalCartoes = false;
+            this.formCartao.reset();
+          },
+        });
+      }
+    },
+
+    recargaCartao(item) {
+      this.formCartao.nome = item.nome;
+      this.formCartao.valor = item.valor;
+      this.formCartao.id = item.id;
+      this.modalRecarga = true;
+    },
+
+    recarga(value) {
+      var valor = this.formCartao.valorRecarga.replace(".", "").replace(",", ".");
+      if (this.formCartao.valorRecarga == "") {
+        this.formNulo = true;
+      } else if (Number(valor) > 99999999 || Number(valor) == 0) {
+        this.formInvalido = true;
+      } else if (Number(valor) > value) {
+        this.saldoInsuficiente = true;
+        this.formCartao.reset();
+      }
+      else {
+        this.formCartao.valorRecarga = Number(valor);
+        this.formCartao.post(route("recarregar.cartao", { id: this.id }), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalRecarga = false;
+            this.modalCartoes = false;
+            this.formCartao.reset();
+          },
+        });
+      }
+    },
+
+    retirada() {
+      var valorRetirada = this.formCartao.valorRetirada.replace(".", "").replace(",", ".");
+      var valor = this.formCartao.valor;
+      if (this.formCartao.valorRetirada == "") {
+        this.formNulo = true;
+      } else if (Number(valorRetirada) > 99999999 || Number(valorRetirada) == 0 || this.formCartao.numeroPassagens <= 0) {
+        this.formInvalido = true;
+      } else if (Number(valorRetirada) * this.formCartao.numeroPassagens > Number(valor)) {
+        this.saldoInsuficiente = true;
+        this.formCartao.reset();
+      }
+      else {
+        this.formCartao.valorRetirada = valorRetirada;
+        this.formCartao.post(route("retirar.cartao", { id: this.id }), {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.modalRecarga = false;
+            this.modalCartoes = false;
+            this.formCartao.reset();
           },
         });
       }
@@ -685,6 +881,14 @@ export default {
       formData: this.$inertia.form({
         dataInicial: null,
         dataFinal: null,
+      }),
+      formCartao: this.$inertia.form({
+        id: null,
+        nome: null,
+        valor: '',
+        valorRecarga: '',
+        numeroPassagens: null,
+        valorRetirada: ''
       }),
     };
   },

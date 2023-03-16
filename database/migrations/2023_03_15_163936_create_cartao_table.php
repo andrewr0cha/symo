@@ -13,7 +13,7 @@ class CreateCartaoTable extends Migration
      */
     public function up()
     {
-        Schema::create('cartao', function (Blueprint $table) {
+        Schema::create('cartaos', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 100);
             $table->double('valor', 9, 2)->default(0.00);
@@ -31,6 +31,6 @@ class CreateCartaoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cartao');
+        Schema::dropIfExists('cartaos');
     }
 }
