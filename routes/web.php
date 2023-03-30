@@ -52,12 +52,6 @@ Route::post('/adicionar/saida/{id?}', 'App\Http\Controllers\ConsultasController@
 
 Route::post('/adicionar/cofre', 'App\Http\Controllers\ConsultasController@adicionarCofre')->middleware(['auth', 'verified'])->name('guardar');
 
-Route::post('/adicionar/cartao', 'App\Http\Controllers\ConsultasController@adicionarCartao')->middleware(['auth', 'verified'])->name('adicionar.cartao');
-
-Route::post('/recarregar/cartao', 'App\Http\Controllers\ConsultasController@recarregarCartao')->middleware(['auth', 'verified'])->name('recarregar.cartao');
-
-Route::post('/retirar/cartao', 'App\Http\Controllers\ConsultasController@retirarCartao')->middleware(['auth', 'verified'])->name('retirar.cartao');
-
 Route::post('/remover/cofre', 'App\Http\Controllers\ConsultasController@removerCofre')->middleware(['auth', 'verified'])->name('remover');
 
 Route::post('/adicionar/agendamento/{id?}', 'App\Http\Controllers\DashboardController@adicionarAgendamento')->middleware(['auth', 'verified'])->name('adicionar.agendamento');
@@ -96,9 +90,19 @@ Route::get('/filtrar/entrada', 'App\Http\Controllers\ConsultasController@index')
 
 Route::get('/filtrar/saida', 'App\Http\Controllers\ConsultasController@index');
 
-Route::get('/editar/usuario', 'App\Http\Controllers\EditarController@usuario')->middleware(['auth', 'verified'])->name('usuario');;
+Route::get('/editar/usuario', 'App\Http\Controllers\EditarController@usuario')->middleware(['auth', 'verified'])->name('usuario');
 
-Route::post('/alterar/usuario', 'App\Http\Controllers\EditarController@alterarUsuario')->middleware(['auth', 'verified'])->name('alterar.usuario');;
+Route::post('/alterar/usuario', 'App\Http\Controllers\EditarController@alterarUsuario')->middleware(['auth', 'verified'])->name('alterar.usuario');
+
+Route::get('/cartao', 'App\Http\Controllers\CartaoController@index')->middleware(['auth', 'verified'])->name('cartao');
+
+Route::post('/cartao/adicionar', 'App\Http\Controllers\CartaoController@adicionarCartao')->middleware(['auth', 'verified'])->name('adicionar.cartao');
+
+Route::post('/cartao/recarregar', 'App\Http\Controllers\CartaoController@recarregarCartao')->middleware(['auth', 'verified'])->name('recarregar.cartao');
+
+Route::post('/cartao/retirar', 'App\Http\Controllers\CartaoController@retirarCartao')->middleware(['auth', 'verified'])->name('retirar.cartao');
+
+Route::post('/excluir/cartao', 'App\Http\Controllers\CartaoController@excluirCartao')->middleware(['auth', 'verified'])->name('excluir.cartao');
 
 /*function () {
     return Inertia::render('Consultas');
