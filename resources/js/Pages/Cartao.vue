@@ -13,7 +13,8 @@
                         <div class="tw-flex tw-flex-wrap">
                             <div v-for="item in cartoes" :key="item.id" class="tw-mb-2 tw-w-1/2 tw-cursor-pointer">
                                 <q-card class="tw-flex tw-flex-col tw-mx-1">
-                                    <div class="tw-w-full tw-pl-2" @click="recargaCartao(item)">{{ item.nome }}</div>
+                                    <div class="tw-w-full tw-pl-2" @click="recargaCartao(item)">{{ item.nome }}
+                                    </div>
                                     <div class="tw-w-full tw-pl-2" @click="recargaCartao(item)"> {{
                                         valorFormatado(item.valor) }}</div>
                                     <div class="tw-w-full tw-flex tw-inline-flex">
@@ -43,7 +44,7 @@
             </div>
         </div>
     </BreezeAuthenticatedLayout>
-    <!--modal cartao-->
+    <!--modal cartao
     <q-dialog v-model="modalCartoes" transition-show="scale" transition-hide="scale" rounded>
         <q-card style="width: 500px; max-width: 80vw">
             <q-card-section>
@@ -75,7 +76,7 @@
                 </div>
             </q-card-section>
         </q-card>
-    </q-dialog>
+    </q-dialog>-->
     <!--modal novo cartao-->
     <q-dialog v-model="modalNovoCartao" transition-show="scale" transition-hide="scale" rounded>
         <q-card style="width: 500px; max-width: 80vw">
@@ -152,6 +153,22 @@
                     </div>
                 </div>
             </q-carousel-slide>
+            <q-carousel-slide :name="3" style="width:300px; max-width:85vw">
+                <div style=" max-width: 95vw" class="tw-mx-auto tw-flex tw-items-center">
+                    <div class="tw-w-full tw-mt-2">
+                        <q-scroll-area style="height: 270px">
+                            <q-card v-for="viagem in viagem" :key="viagem.id" class="tw-w-full  tw-mb-2">
+                                <div class="tw-pl-2 tw-text-lg tw-full">{{ formCartao.nome }}</div>
+                                <div class="tw-flex tw-inline-flex tw-w-full">
+                                    <div class="tw-w-2/3 tw-pl-2">Data: {{ dataFormatada(viagem.data) }}</div>
+                                    <div class="tw-w-1/3">Valor: {{ valorFormatado(viagem.valor) }}</div>
+                                </div>
+                            </q-card>
+                        </q-scroll-area>
+                    </div>
+                </div>
+
+            </q-carousel-slide>
         </q-carousel>
     </q-dialog>
     <!--form nulo-->
@@ -185,7 +202,7 @@ export default {
     methods: {
         dataFormatada(object) {
             const data = dayjs(object);
-            return data.format("DD/MM/YYYY");
+            return data.format("DD/MM/YYYY HH:MM");
         },
 
         valorFormatado(value) {
@@ -221,6 +238,7 @@ export default {
             this.formCartao.nome = item.nome;
             this.formCartao.valor = item.valor;
             this.formCartao.id = item.id;
+            this.viagem = item.viagem;
             this.modalRecarga = true;
         },
 
@@ -295,6 +313,7 @@ export default {
             formInvalido: null,
             excluindo: false,
             listaExclusao: [],
+            viagem: [],
             formCartao: this.$inertia.form({
                 id: null,
                 nome: null,

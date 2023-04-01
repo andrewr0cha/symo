@@ -68,6 +68,7 @@ class CartaoController extends Controller
         $viagem->valor = $req->valorRetirada * $req->numeroPassagens;
         $viagem->id_cartao = $cartao->id;
         $viagem->data = Carbon::now();
+        $viagem->save();
         return redirect()->route('cartao', $id);
     }
 
@@ -86,8 +87,10 @@ class CartaoController extends Controller
 
     private function cartoes()
     {
-        $cartoes = Cartaos::where('id_usuario', auth()->user()->id)->get();
+        $user = User::find(auth()->user()->id);
+        $cartoes = $user->cartao()->with('viagem')->get();
         $cartoes = count($cartoes) > 0 ? $cartoes : null;
+        //dd($cartoes);
         return $cartoes;
     }
 }

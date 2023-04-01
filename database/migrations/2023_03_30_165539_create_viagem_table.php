@@ -13,11 +13,11 @@ class CreateViagemTable extends Migration
      */
     public function up()
     {
-        Schema::create('viagem', function (Blueprint $table) {
+        Schema::create('viagems', function (Blueprint $table) {
             $table->id();
             $table->double('valor', 9, 2)->default(0.00);
-            $table->bigInteger('id_cartao')->unsigned();
-            $table->foreign('id_cartao')->references('id')->on('cartaos');
+            $table->bigInteger('cartaos_id')->unsigned();
+            $table->foreign('cartaos_id')->references('id')->on('cartaos');
             $table->datetime('data')->nullable()->default(null);
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateViagemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('viagem');
+        Schema::dropIfExists('viagems');
     }
 }

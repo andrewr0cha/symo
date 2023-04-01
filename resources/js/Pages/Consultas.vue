@@ -15,16 +15,6 @@
               Cofre</div>
           </div>
         </div>
-        <div class="tw-w-24 tw-flex tw-flex-col tw-items-center">
-          <div
-            class="tw-w-16 tw-h-16 tw-ml-1 md:tw-ml-4 md:tw-w-20 md:tw-h-20 lg:tw-w-24 lg:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center hover:tw-cursor-pointer"
-            @click="modalCartoes = true">
-
-            <div><img src="/images/cartao.png" class="tw-mx-auto" />
-              <span class="tw-text-white">Cartões</span>
-            </div>
-          </div>
-        </div>
         <div class="tw-flex tw-flex-col tw-mx-2 tw-w-20">
           <img src="/images/dinheiro.png" class="imagem tw-mx-auto" />
           <div class="tw-flex tw-inline-flex tw-items-center tw-mx-auto">
@@ -242,10 +232,10 @@
       </q-card>
     </q-dialog>
     <!--escolher uma data-->
-    <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded class="tw-hidden sm:tw-flex">
-      <q-card style="width: 400px; max-width: 60vw">
+    <q-dialog v-model="modalData" transition-show="scale" transition-hide="scale" rounded>
+      <q-card style="width: 400px; max-width: 100vw">
         <q-card-section>
-          <div class="tw-w-9/12 sm:tw-w-9/12 tw-mx-auto">
+          <div class="tw-w-full tw-flex tw-justify-center">
             <q-date v-model="form.dataES" today-btn flat mask="YYYY-MM-DD"
               :locale="{ monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro', 'Dezembro'], daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'], days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'] }" />
           </div>

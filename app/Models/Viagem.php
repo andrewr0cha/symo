@@ -11,4 +11,11 @@ class Viagem extends Model
     protected $fillable = [
         'valor', 'id_cartao', 'data'
     ];
+
+    protected $table = 'viagems';
+
+    public function cartao()
+    {
+        return $this->belongsTo(Cartaos::class);
+    }
 }

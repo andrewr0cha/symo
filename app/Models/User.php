@@ -37,4 +37,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $table = 'users';
+
+    public function cartao()
+    {
+        return $this->hasMany(Cartaos::class);
+    }
 }

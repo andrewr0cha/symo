@@ -11,4 +11,16 @@ class Cartaos extends Model
     protected $fillable = [
         'nome', 'valor', 'ultima_recarga'
     ];
+
+    protected $table = 'cartaos';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function viagem()
+    {
+        return $this->hasMany(Viagem::class);
+    }
 }

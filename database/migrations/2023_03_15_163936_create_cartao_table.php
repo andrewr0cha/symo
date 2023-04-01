@@ -17,8 +17,8 @@ class CreateCartaoTable extends Migration
             $table->id();
             $table->string('nome', 100);
             $table->double('valor', 9, 2)->default(0.00);
-            $table->bigInteger('id_usuario')->unsigned();
-            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->datetime('ultima_recarga')->nullable()->default(null);
             $table->timestamps();
         });
