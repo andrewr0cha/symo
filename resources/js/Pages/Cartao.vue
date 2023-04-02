@@ -157,13 +157,19 @@
                 <div style=" max-width: 95vw" class="tw-mx-auto tw-flex tw-items-center">
                     <div class="tw-w-full tw-mt-2">
                         <q-scroll-area style="height: 270px">
-                            <q-card v-for="viagem in viagem" :key="viagem.id" class="tw-w-full  tw-mb-2">
-                                <div class="tw-pl-2 tw-text-lg tw-full">{{ formCartao.nome }}</div>
-                                <div class="tw-flex tw-inline-flex tw-w-full">
-                                    <div class="tw-w-2/3 tw-pl-2">Data: {{ dataFormatada(viagem.data) }}</div>
-                                    <div class="tw-w-1/3">Valor: {{ valorFormatado(viagem.valor) }}</div>
-                                </div>
-                            </q-card>
+                            <div v-if="viagem != null">
+                                <q-card v-for="viagem in viagem" :key="viagem.id" class="tw-w-full  tw-mb-2">
+                                    <div class="tw-pl-2 tw-text-lg tw-full">{{ formCartao.nome }}</div>
+                                    <div class="tw-flex tw-inline-flex tw-w-full">
+                                        <div class="tw-w-2/3 tw-pl-2">Data: {{ dataFormatada(viagem.data) }}</div>
+                                        <div class="tw-w-1/3">Valor: {{ valorFormatado(viagem.valor) }}</div>
+                                    </div>
+                                </q-card>
+                            </div>
+                            <div v-else style="height:270px;" class="tw-flex tw-items-center">
+                                <span class="tw-text-center tw-flex tw-text-lg">Parece que este cartão ainda não tem
+                                    viagens.</span>
+                            </div>
                         </q-scroll-area>
                     </div>
                 </div>
@@ -238,7 +244,7 @@ export default {
             this.formCartao.nome = item.nome;
             this.formCartao.valor = item.valor;
             this.formCartao.id = item.id;
-            this.viagem = item.viagem;
+            this.viagem = item.viagem.length > 0 ? item.viagem : null;
             this.modalRecarga = true;
         },
 

@@ -66,7 +66,7 @@ class CartaoController extends Controller
         $cartao->save();
         $viagem = new Viagem();
         $viagem->valor = $req->valorRetirada * $req->numeroPassagens;
-        $viagem->id_cartao = $cartao->id;
+        $viagem->cartaos_id = $cartao->id;
         $viagem->data = Carbon::now();
         $viagem->save();
         return redirect()->route('cartao', $id);
@@ -90,7 +90,9 @@ class CartaoController extends Controller
         $user = User::find(auth()->user()->id);
         $cartoes = $user->cartao()->with('viagem')->get();
         $cartoes = count($cartoes) > 0 ? $cartoes : null;
-        //dd($cartoes);
+
+        foreach ($cartoes as $cartao)
+            $cartao->viagem = count($cartao->viagem) == 0 ?  null : $cartao->viagem;
         return $cartoes;
     }
 }
