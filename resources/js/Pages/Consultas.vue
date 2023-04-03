@@ -30,7 +30,7 @@
         <div class="tw-w-full tw-h-28 tw-flex tw-inline-flex">
           <!--custos-->
           <div class="tw-w-28 sm:tw-w-32 tw-ml-2 tw-flex tw-items-center tw-justify-center hover:tw-cursor-pointer"
-            @click="atualizarDataSetor(porcentagens[0], porcentagens[1], porcentagens[2], porcentagens[3], porcentagens[4],)">
+            @click="atualizarDataSetor(porcentagens[0], porcentagens[1], porcentagens[2], porcentagens[3], porcentagens[4],), modalCustos = true">
             <div
               class="round tw-w-20 tw-h-20 sm:tw-w-24 sm:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center">
               Meus Gastos
@@ -40,7 +40,7 @@
           <div class="tw-flex tw-inline-flex tw-overflow-x-auto scrollbar">
             <div
               class="tw-w-60 tw-mr-2 tw-ml-2 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center"
-              @click="atualizarDataBarra(porcentagens[0], porcentagensGerais[0], 'Essencial')">
+              @click="atualizarDataBarra(porcentagens[0], porcentagensGerais[0], 'Essencial'), modalCategorias = true">
               <img src="/images/essencial.png" class="imagem" />
               Essencial<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[0]) }}
@@ -54,21 +54,21 @@
             </div>
             <div
               class="tw-w-60 tw-mr-2 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center"
-              @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Aposentadoria')">
+              @click="atualizarDataBarra(porcentagens[1], porcentagensGerais[1], 'Aposentadoria'), modalCategorias = true">
               <img src="/images/aposentadoria.png" class="imagem" />
               Aposentadoria<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[1]) }}
             </div>
             <div
               class="tw-w-60 tw-mr-2 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center"
-              @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Educação')">
+              @click="atualizarDataBarra(porcentagens[2], porcentagensGerais[2], 'Educação'), modalCategorias = true">
               <img src="/images/educacao.png" class="imagem" />
               Educação<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[2]) }}
             </div>
             <div
               class="tw-w-60 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-cursor-pointer tw-text-center tw-mr-2"
-              @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Lazer')">
+              @click="atualizarDataBarra(porcentagens[3], porcentagensGerais[3], 'Lazer'), modalCategorias = true">
               <img src="/images/lazer1.png" class="imagem" />
               Lazer<br>
               {{ porcentagens[5] == false ? "0,00%" : porcentagem(porcentagens[3]) }}
@@ -608,7 +608,7 @@ export default {
         this.diferenca = i - j;
       this.categoria = c;
       this.categoriaValor = i;
-      this.modalCategorias = true;
+      //this.modalCategorias = true;
     },
 
     atualizarDataSetor(i, j, k, l, m) {
@@ -626,8 +626,8 @@ export default {
             data: [i, j, k, l, m]
           }
         ]
-      },
-        this.modalCustos = true;
+      }
+      //this.modalCustos = ref(true);
     },
 
     filtrarEntradas() {

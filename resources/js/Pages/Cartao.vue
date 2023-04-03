@@ -13,12 +13,13 @@
                         <div class="tw-flex tw-flex-wrap">
                             <div v-for="item in cartoes" :key="item.id" class="tw-mb-2 tw-w-1/2 tw-cursor-pointer">
                                 <q-card class="tw-flex tw-flex-col tw-mx-1">
-                                    <div class="tw-w-full tw-pl-2" @click="recargaCartao(item)">{{ item.nome }}
+                                    <div class="tw-w-full tw-pl-2" @click="recargaCartao(item), modalRecarga = true">{{
+                                        item.nome }}
                                     </div>
-                                    <div class="tw-w-full tw-pl-2" @click="recargaCartao(item)"> {{
+                                    <div class="tw-w-full tw-pl-2" @click="recargaCartao(item), modalRecarga = true"> {{
                                         valorFormatado(item.valor) }}</div>
                                     <div class="tw-w-full tw-flex tw-inline-flex">
-                                        <div class="tw-w-5/6 tw-pl-2" @click="recargaCartao(item)"
+                                        <div class="tw-w-5/6 tw-pl-2" @click="recargaCartao(item), modalRecarga = true"
                                             v-if="item.ultima_recarga != null"> Recarga em: {{
                                                 dataFormatada(item.ultima_recarga) }}</div>
                                         <div class="tw-w-1/6 tw-pl-2" v-if="excluindo">
@@ -245,7 +246,7 @@ export default {
             this.formCartao.valor = item.valor;
             this.formCartao.id = item.id;
             this.viagem = item.viagem.length > 0 ? item.viagem : null;
-            this.modalRecarga = true;
+            //this.modalRecarga = true;
         },
 
         recarga(value) {
@@ -289,8 +290,8 @@ export default {
                     preserveState: true,
                     preserveScroll: true,
                     onSuccess: () => {
-                        this.modalRecarga = false;
-                        this.modalCartoes = false;
+                        this.modalRecarga = ref(false);
+                        this.modalCartoes = ref(false);
                         this.formCartao.reset();
                     },
                 });
