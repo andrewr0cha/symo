@@ -90,9 +90,10 @@ class CartaoController extends Controller
         $user = User::find(auth()->user()->id);
         $cartoes = $user->cartao()->with('viagem')->get();
         $cartoes = count($cartoes) > 0 ? $cartoes : null;
-
-        foreach ($cartoes as $cartao)
-            $cartao->viagem = count($cartao->viagem) == 0 ?  null : $cartao->viagem;
+        if($cartoes){
+            foreach ($cartoes as $cartao)
+                $cartao->viagem = count($cartao->viagem) == 0 ?  null : $cartao->viagem;
+        }
         return $cartoes;
     }
 }

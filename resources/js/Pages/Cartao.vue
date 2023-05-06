@@ -3,8 +3,9 @@
     <BreezeAuthenticatedLayout>
         <div class="tw-w-11/12 tw-mx-auto">
             <div class="tw-w-full sm:tw-w-10/12 tw-mx-auto">
-                <div v-if="cartoes == 0" class="tw-w-full tw-mb-2">
-                    <span class="tw-text-lg tw-flex tw-text-center">Você ainda não tem cartões cadastrados. Use o botão
+                <div v-if="cartoes == 0" class="tw-w-full tw-flex tw-text-center tw-mb-2">
+                    <span class="tw-text-lg tw-flex tw-text-center tw-mx-auto">Você ainda não tem cartões cadastrados. Use o
+                        botão
                         abaixo para criar um.</span>
                 </div>
                 <div v-else class="tw-mb-2 tw-w-full">
@@ -209,7 +210,7 @@ export default {
     methods: {
         dataFormatada(object) {
             const data = dayjs(object);
-            return data.format("DD/MM/YYYY HH:MM");
+            return data.format("DD/MM/YYYY HH:mm");
         },
 
         valorFormatado(value) {
