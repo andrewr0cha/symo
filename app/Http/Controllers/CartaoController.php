@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Cartaos;
 use App\Models\Viagem;
+use App\Models\Saida;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
