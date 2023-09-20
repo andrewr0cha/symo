@@ -89,7 +89,7 @@ class CartaoController extends Controller
     private function cartoes()
     {
         $user = User::find(auth()->user()->id);
-        $cartoes = $user->cartao()->with('viagem')->get();
+        $cartoes = $user->cartao()->with(['viagem' => function ($q){$q->orderBy('data', 'desc');}])->get();
         $cartoes = count($cartoes) > 0 ? $cartoes : null;
         if($cartoes){
             foreach ($cartoes as $cartao)
