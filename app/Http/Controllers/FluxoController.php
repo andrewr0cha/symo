@@ -28,14 +28,14 @@ class FluxoController extends Controller
 
     private function calcularDados($hoje, $amanha, $semana, $mes, $ano)
     {
-        $diarioEntrada = Entrada::where('data', '>', $hoje)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
-        $diarioSaida = Saida::where('data', '>', $hoje)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
-        $semanalEntrada = Entrada::where('data', '>', $semana)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
-        $semanalSaida = Saida::where('data', '>', $semana)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
-        $mensalEntrada = Entrada::where('data', '>', $mes)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
-        $mensalSaida = Saida::where('data', '>', $mes)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
-        $anualEntrada = Entrada::where('data', '>', $ano)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
-        $anualSaida = Saida::where('data', '>', $ano)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $diarioEntrada = Entrada::where('data', '>', $hoje)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $diarioSaida = Saida::where('data', '>', $hoje)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $semanalEntrada = Entrada::where('data', '>', $semana)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $semanalSaida = Saida::where('data', '>', $semana)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $mensalEntrada = Entrada::where('data', '>', $mes)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $mensalSaida = Saida::where('data', '>', $mes)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $anualEntrada = Entrada::where('data', '>', $ano)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
+        $anualSaida = Saida::where('data', '>', $ano)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->sum('valor');
 
         $dados = [
             $entrada = [$diarioEntrada, $semanalEntrada, $mensalEntrada, $anualEntrada],
@@ -46,7 +46,7 @@ class FluxoController extends Controller
 
     private function listarAnual($ano, $amanha)
     {
-        $entrada = Entrada::where('data', '>', $ano)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->orderBy('data', 'asc')->get();
+        $entrada = Entrada::where('data', '>', $ano)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->orderBy('data', 'asc')->get();
         $entradaAnual = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,];
         $i = 0;
         $j = 0;
@@ -106,7 +106,7 @@ class FluxoController extends Controller
             }
         }
 
-        $saida = Saida::where('data', '>', $ano)->where('data', '<', $amanha)->where('id_usuario', auth()->user()->id)->where('cofre',false)->orderBy('data', 'asc')->get();
+        $saida = Saida::where('data', '>', $ano)->where('data', '<', $amanha)->where('user_id', auth()->user()->id)->where('cofre',false)->orderBy('data', 'asc')->get();
         $saidaAnual = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,];
         if (count($saida) > 0) {
 

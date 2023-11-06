@@ -11,4 +11,11 @@ class Simulacao extends Model
     protected $fillable = [
         'nome', 'valor', 'id_usuario', 'data', 'tipo'
     ];
+
+    protected $table = 'simulacaos';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

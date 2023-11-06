@@ -11,4 +11,11 @@ class Agendamento extends Model
     protected $fillable = [
         'nome', 'descricao', 'data'
     ];
+
+    protected $table = 'agendamentos';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

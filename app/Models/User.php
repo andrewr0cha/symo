@@ -44,4 +44,29 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cartaos::class);
     }
+
+    public function saida()
+    {
+        return $this->hasMany(Saida::class);
+    }
+    
+    public function entrada()
+    {
+        return $this->hasMany(Entrada::class);
+    }
+
+    public function meta()
+    {
+        return $this->hasMany(Meta::class);
+    }
+
+    public function agendamento()
+    {
+        return $this->hasMany(Agendamento::class);
+    }
+
+    public function simulacao()
+    {
+        return $this->hasMany(Simulacao::class);
+    }
 }

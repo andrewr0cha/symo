@@ -17,8 +17,8 @@ class CreateAgendamentosTable extends Migration
             $table->id();
             $table->string('nome', 100);
             $table->text('descricao')->nullable();
-            $table->bigInteger('id_usuario')->unsigned();;
-            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->bigInteger('user_id')->unsigned();;
+            $table->foreign('user_id')->references('id')->on('users');
             $table->datetime('data');
             $table->timestamps();
         });

@@ -104,6 +104,8 @@ Route::post('/cartao/retirar', 'App\Http\Controllers\CartaoController@retirarCar
 
 Route::post('/excluir/cartao', 'App\Http\Controllers\CartaoController@excluirCartao')->middleware(['auth', 'verified'])->name('excluir.cartao');
 
+Route::get('/trabalho','App\Http\Controllers\TrabalhoController@index')->name('trabalho');
+
 /*function () {
     return Inertia::render('Consultas');
 }*/

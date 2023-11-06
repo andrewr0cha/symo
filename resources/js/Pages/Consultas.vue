@@ -34,6 +34,7 @@
             <div
               class="round tw-w-20 tw-h-20 sm:tw-w-24 sm:tw-h-24 tw-flex tw-items-center tw-justify-center tw-text-center">
               Meus Gastos
+              R$ {{ valorFormatado(gastosMensais) }}
             </div>
           </div>
           <!--categorias-->
@@ -152,7 +153,7 @@
                 </div>
                 <div class="tw-w-full tw-flex tw-inline-flex tw-items-center tw-justify-left">
                   <div class="tw-w-2/12">
-                    {{ categoriasSaida[item.id_categoria - 1] }}
+                    {{ categoriasSaida[item.categorias_id - 1] }}
                   </div>
                   <div class="tw-w-5/12">
                     {{ item.descricao }}

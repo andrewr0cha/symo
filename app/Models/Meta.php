@@ -11,4 +11,11 @@ class Meta extends Model
     protected $fillable = [
         'nome', 'descricao', 'valor', 'status', 'duracao'
     ];
+
+    protected $table = 'metas';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

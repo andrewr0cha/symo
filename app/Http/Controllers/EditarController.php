@@ -40,7 +40,7 @@ class EditarController extends Controller
         $user->email = $req->email;
         $user->name = $req->name;
         $user->foto = $req->foto;
-        $user->save();
+        $user->update();
         return redirect()->route('dashboard');
     }
 }

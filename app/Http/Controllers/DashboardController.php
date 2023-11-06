@@ -17,14 +17,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $agendamentos = Agendamento::where('id_usuario', auth()->user()->id)->orderBy('id', 'desc')->get();
+        $user=User::find(auth()->user()->id);
+        $agendamentos=$user->agendamento()->orderBy('id', 'desc')->get();
         if ($agendamentos == null) $agendamentos = 0;
         else $atributosCalendario = $this->atributosCalendario($agendamentos);
         $data = new DateTime();
         //dd($data->format('Y-m-d'));
         $data = $data->format('Y-m-d');
-        $agendamentosDia = Agendamento::where('id_usuario', auth()->user()->id)->where('data', $data)->orderBy('id', 'desc')->get();
-
+        $agendamentosDia = $user->agendamento()->where('data', $data)->orderBy('id', 'desc')->get();
         if (count($agendamentosDia) >= 1) {
             $metasDia = $agendamentosDia;
             $metas = true;
@@ -32,13 +32,13 @@ class DashboardController extends Controller
             $metasDia = 0;
             $metas = false;
         };
-        $curtoPrazo = Meta::where('id_usuario', auth()->user()->id)->where('duracao', 'Curto')->orderBy('id', 'desc')->get();
+        $curtoPrazo = $user->meta()->where('duracao', 'Curto')->orderBy('id', 'desc')->get();
         if ($curtoPrazo == null) $curtoPrazo = 0;
-        $medioPrazo = Meta::where('id_usuario', auth()->user()->id)->where('duracao', 'Médio')->orderBy('id', 'desc')->get();
+        $medioPrazo = $user->meta()->where('duracao', 'Médio')->orderBy('id', 'desc')->get();
         if ($medioPrazo == null) $medioPrazo = 0;
-        $longoPrazo = Meta::where('id_usuario', auth()->user()->id)->where('duracao', 'Longo')->orderBy('id', 'desc')->get();
+        $longoPrazo = $user->meta()->where('duracao', 'Longo')->orderBy('id', 'desc')->get();
         if ($longoPrazo == null) $longoPrazo = 0;
-        $gastosMensais = $this->somarGastos();
+        $gastosMensais = $this->somarGastos($user);
         $dicas = $this->sorteiaDicas();
         return Inertia::render('Dashboard', ['agendamentos' => $agendamentos, 'curtoPrazo' => $curtoPrazo, 'medioPrazo' => $medioPrazo, 'longoPrazo' => $longoPrazo, 'atributosCalendario' => $atributosCalendario, 'gastosMensais' => $gastosMensais, 'metasDia' => $metasDia, 'metas' => $metas, 'dicas' => $dicas]);
     }
@@ -51,15 +51,14 @@ class DashboardController extends Controller
             $agendamento->nome = $req->nome;
             $agendamento->descricao = $req->descricao;
             $agendamento->data = $req->dataAgendamento;
-            $agendamento->id_usuario = auth()->user()->id;
+            $agendamento->user_id= auth()->user()->id;
             $agendamento->save();
         } else {
             $agendamento = Agendamento::find($id);
             $agendamento->nome = $req->nome;
             $agendamento->descricao = $req->descricao;
             $agendamento->data = $req->dataAgendamento;
-            $agendamento->id_usuario = auth()->user()->id;
-            $agendamento->save();
+            $agendamento->update();
         }
         return redirect()->route('dashboard');
     }
@@ -67,7 +66,7 @@ class DashboardController extends Controller
     public function excluirAgendamento(Request $req)
     {
         foreach ($req->lista as $id) {
-            $agendamento = Agendamento::where('id', $id)->first(); //sempre finalizar com first, get ou paginate porque senão nçao traz
+            $agendamento = Agendamento::find($id); //sempre finalizar com first, get ou paginate porque senão nçao traz
             $agendamento->delete();
         }
         return redirect()->route('dashboard');
@@ -81,7 +80,7 @@ class DashboardController extends Controller
         $meta->descricao = $req->descricao ?? "";
         $meta->duracao = $req->duracao;
         $meta->status = "Em andamento";
-        $meta->id_usuario = auth()->user()->id;
+        $meta->user_id = auth()->user()->id;
         $meta->save();
         return redirect()->route('dashboard');
     }
@@ -89,14 +88,12 @@ class DashboardController extends Controller
     public function excluirMeta(Request $req)
     {
         foreach ($req->lista as $id) {
-            $meta = Meta::where('id', $id)->first(); //sempre finalizar com first, get ou paginate porque senão nçao traz
+            $meta = Meta::find($id); //sempre finalizar com first, get ou paginate porque senão nçao traz
             if ($meta->valor_guardado > 0) {
-                $user = User::where('id', auth()->user()->id)->first();
+                $user = User::find(auth()->user()->id);
                 $user->saldo += $meta->valor_guardado;
                 $user->cofreMeta -= $meta->valor_guardado;
-                $user->save();
-                $saida = Saida::where('id_usuario', auth()->user()->id)->where('valor', $meta->valor_guardado)->where('descricao','Posto no COfre para Meta Específica')->first();
-                $saida->delete();
+                $user->update();
             }
             $meta->delete();
         }
@@ -106,7 +103,7 @@ class DashboardController extends Controller
     public function concluirMeta(Request $req)
     {
         foreach ($req->lista as $id) {
-            $meta = Meta::where('id', $id)->first();
+            $meta = Meta::find($id)->first();
             $meta->status = "Concluída";
             $meta->update();
         }
@@ -118,7 +115,7 @@ class DashboardController extends Controller
         $meta = Meta::find($req->id);
         $meta->valor_guardado += $req->valor;
         $meta->save();
-        $user = User::where('id', auth()->user()->id)->first();
+        $user = User::find(auth()->user()->id);
         $user->cofreMeta += $req->valor;
         $user->saldo -= $req->valor;
         $user->save();
@@ -128,7 +125,7 @@ class DashboardController extends Controller
         $saida->valor = $req->valor;
         $saida->descricao = 'Posto no Cofre para Meta Específica';
         $saida->data = date("Y-m-d H:i:s");
-        $saida->id_usuario = auth()->user()->id;
+        $saida->user_id = auth()->user()->id;
         $saida->cofre = true;
         $saida->save();
         return redirect()->route('dashboard');
@@ -139,7 +136,7 @@ class DashboardController extends Controller
         $meta = Meta::find($req->id);
         $meta->valor_guardado -= $req->valor;
         $meta->save();
-        $user = User::where('id', auth()->user()->id)->first();
+        $user = User::find(auth()->user()->id);
         $user->cofreMeta -= $req->valor;
         $user->saldo += $req->valor;
         $user->save();
@@ -148,27 +145,9 @@ class DashboardController extends Controller
         $entrada->valor = $req->valor;
         $entrada->descricao = 'Retirado do Cofre de uma Meta Específica';
         $entrada->data = date("Y-m-d H:i:s");
-        $entrada->id_usuario = auth()->user()->id;
+        $entrada->user_id = auth()->user()->id;
         $entrada->cofre = true;
         $entrada->save();
-        $user->save();
-
-        $saida = Saida::where('id_usuario', auth()->user()->id)->where('descricao', 'LIKE', 'Posto no Cofre para Meta Específica')->orderBy('created_at', 'desc')->first();
-        if ($req->valor >= $saida->valor) {
-            while ($req->valor >= $saida->valor) {
-                if ($req->valor == $saida->valor) {
-                    $saida->delete();
-                    break;
-                } else {
-                    $req->valor = $req->valor - $saida->valor;
-                    $saida->delete();
-                    $saida = Saida::where('id_usuario', auth()->user()->id)->where('cofre', true)->orderBy('created_at', 'desc')->first();
-                }
-            }
-        }
-        $saida->valor -= $req->valor;
-        if ($saida->valor == 0) $saida->delete();
-        else $saida->save();
         return redirect()->route('dashboard');
     }
 
@@ -184,12 +163,12 @@ class DashboardController extends Controller
         return $atributos;
     }
 
-    private function somarGastos()
+    private function somarGastos($user)
     {
         $data = Carbon::now();
         $primeiro = $data->startOfMonth()->format('Y-m-d');
         $ultimo = $data->endOfMonth()->format('Y-m-d');
-        $gastos = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->sum('valor');
+        $gastos = $user->saida()->whereBetween('created_at', [$primeiro, $ultimo])->sum('valor');
         return $gastos;
     }
 

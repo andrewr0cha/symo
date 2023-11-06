@@ -18,11 +18,11 @@ class CreateSaidasTable extends Migration
             $table->string('nome', 100);
             $table->text('descricao')->nullable();
             $table->double('valor', 9, 2)->default(0.00);
-            $table->bigInteger('id_usuario')->unsigned();;
-            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->bigInteger('user_id')->unsigned();;
+            $table->foreign('user_id')->references('id')->on('users');
             $table->boolean('cofre')->default(false);
-            $table->bigInteger('id_categoria')->unsigned();;
-            $table->foreign('id_categoria')->references('id')->on('categorias');
+            $table->bigInteger('categorias_id')->unsigned();;
+            $table->foreign('categorias_id')->references('id')->on('categorias');
             $table->datetime('data');
             $table->timestamps();
         });

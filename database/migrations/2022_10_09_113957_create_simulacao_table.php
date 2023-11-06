@@ -18,8 +18,8 @@ class CreateSimulacaoTable extends Migration
             $table->string('nome', 100);
             $table->double('valor', 9, 2)->default(0.00);
             $table->enum('tipo', ['entrada', 'saida']);
-            $table->bigInteger('id_usuario')->unsigned();
-            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->datetime('data');
             $table->timestamps();
         });

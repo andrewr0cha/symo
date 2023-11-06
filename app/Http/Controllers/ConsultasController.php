@@ -15,21 +15,18 @@ class ConsultasController extends Controller
 {
     public function index($id = null)
     {
-        if ($id == null) $id = auth()->user()->id;
-        $entradas = Entrada::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
+        $user = User::find(auth()->user()->id);
+        $entradas = $user->entrada()->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
-        $saidas = Saida::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
+        $saidas = $user->saida()->orderBy('data', 'desc')->get();
         if ($saidas == null) $saidas = 0;
-        /*$categoriasEntrada = Categoria::where('id_tipo',2)->get()->pluck('nome');
-        $categoriasEntrada=$categoriasEntrada->toArray();*/
-        $categoriasSaida = Categoria::where('id', '<', 5)->get()->pluck('nome');
-        $categoriasSaida = $categoriasSaida->toArray();
-        $porcentagens = $this->somarCategorias();
+        $categoriasSaida = ['Essencial','Aposentadoria','Educação','Lazer'];
+        $porcentagens = $this->somarCategorias($user);
         $porcentagensGerais = $this->somarCategoriasGerais();
-        $gastosMensais = $this->somarGastos();
-        $metasConcluidas = Meta::where('id_usuario', $id)->where('status', 'like', 'Concluída')->get();
+        $gastosMensais = $this->somarGastos($user);
+        $metasConcluidas = $user->meta()->where('status', 'like', 'Concluída')->get();
         $metasConcluidas = $metasConcluidas == null ? $metasConcluidas = 0 : $metasConcluidas->count();
-        $metas = Meta::where('id_usuario', $id)->get();
+        $metas = $user->meta()->get();
         $metas = $metas == null ? $metas = 0 : $metas->count();
 
         return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida, 'id' => $id, 'gastosMensais' => $gastosMensais, 'metasConcluidas' => $metasConcluidas, 'metas' => $metas]);
@@ -46,7 +43,7 @@ class ConsultasController extends Controller
         $entrada->nome = $req->nome;
         $entrada->valor = $req->valor;
         $entrada->descricao = $req->descricao;
-        $entrada->id_usuario = $id;
+        $entrada->user_id = $id;
         $entrada->data = $req->dataES;
         $entrada->save();
         $user = User::where('id', $id)->first();
@@ -67,12 +64,27 @@ class ConsultasController extends Controller
         $saida->nome = $req->nome;
         $saida->valor = $req->valor;
         $saida->descricao = $req->descricao;
-        $saida->id_usuario = $id;
-        $categoria = Categoria::where('nome', 'like', $req->id_categoria)->first();
-        $saida->id_categoria = $categoria->id;
+        $saida->user_id = $id;
+        switch($req->id_categoria){
+            case 'Essencial':
+                $saida->categorias_id=1;
+                break;
+            case 'Aposentadoria':
+                $saida->categorias_id=2;
+                break;
+            case 'Educação':
+                $saida->categorias_id=3;
+                break;
+            case 'Lazer':
+                $saida->categorias_id=4;
+                break;
+            case 'Objetivos':
+                $saida->categorias_id=5; 
+                break;
+        }
         $saida->data = $req->dataES;
         $saida->save();
-        $user = User::where('id', $id)->first();
+        $user = User::find($id);
         $user->saldo = $user->saldo - $saida->valor;
         $user->save();
         return redirect()->route('consultas', $id);
@@ -86,7 +98,7 @@ class ConsultasController extends Controller
         $req->validate([
             'valor' => 'required',
         ]);
-        $user = User::where('id', $id)->first();
+        $user = User::find($id);
         $user->cofre = $user->cofre + $req->valor;
         $user->saldo = $user->saldo - $req->valor;
         $user->save();
@@ -96,7 +108,7 @@ class ConsultasController extends Controller
         $saida->valor = $req->valor;
         $saida->descricao = 'Posto no Cofre';
         $saida->data = date("Y-m-d H:i:s");
-        $saida->id_usuario = $id;
+        $saida->user_id = $id;
         $saida->cofre = true;
         $saida->save();
         return redirect()->route('consultas', $id);
@@ -108,43 +120,27 @@ class ConsultasController extends Controller
         $req->validate([
             'valor' => 'required',
         ]);
-        $user = User::where('id', $id)->first();
+        $user = User::find($id);
         $user->cofre = $user->cofre - $req->valor;
+        $user->saldo = $user->saldo + $req->valor;
+        $user->save();
         $entrada = new Entrada();
         $entrada->nome = 'Dinheiro Resgatado';
         $entrada->valor = $req->valor;
         $entrada->descricao = 'Resgate do Cofre';
         $entrada->data = date("Y-m-d H:i:s");
-        $entrada->id_usuario = $id;
+        $entrada->user_id = $id;
         $entrada->cofre = true;
         $entrada->save();
-        $user->saldo = $user->saldo + $req->valor;
-        $user->save();
-        $saida = Saida::where('id_usuario', $id)->where('cofre', true)->orderBy('created_at', 'desc')->first();
-        if ($req->valor >= $saida->valor) {
-            while ($req->valor >= $saida->valor) {
-                if ($req->valor == $saida->valor) {
-                    $saida->delete();
-                    break;
-                } else {
-                    $req->valor = $req->valor - $saida->valor;
-                    $saida->delete();
-                    $saida = Saida::where('id_usuario', $id)->where('cofre', true)->where('descricao', 'Posto no Cofre')->orderBy('created_at', 'desc')->first();
-                }
-            }
-        }
-        $saida->valor = $saida->valor - $req->valor;
-        if ($saida->valor == 0) $saida->delete();
-        else $saida->save();
         return redirect()->route('consultas', $id);
     }
 
     public function excluirSaida(Request $req)
     {
         $id_usuario = auth()->user()->id;
-        $user = User::where('id', $id_usuario)->first();
+        $user = User::find($id_usuario);
         foreach ($req->listaExclusao as $id) {
-            $saida = Saida::where('id', $id)->first(); //sempre finalizar com first, get ou paginate porque senão nçao traz
+            $saida = Saida::find($id); //sempre finalizar com first, get ou paginate porque senão nçao traz
             $user->saldo = $user->saldo + $saida->valor;
             $user->save();
             $saida->delete();
@@ -155,9 +151,9 @@ class ConsultasController extends Controller
     public function excluirEntrada(Request $req)
     {
         $id_usuario = auth()->user()->id;
-        $user = User::where('id', $id_usuario)->first();
+        $user = User::find($id_usuario);
         foreach ($req->listaExclusao as $id) {
-            $entrada = Entrada::where('id', $id)->first(); //sempre finalizar com first, get ou paginate porque senão nçao traz
+            $entrada = Entrada::find($id); //sempre finalizar com first, get ou paginate porque senão nçao traz
             $user->saldo = $user->saldo - $entrada->valor;
             $user->save();
             $entrada->delete();
@@ -167,58 +163,50 @@ class ConsultasController extends Controller
 
     public function filtrarEntrada(Request $req)
     {
-        $id = auth()->user()->id;
+        $user = User::find(auth()->user()->id);
         $dataInicial = new Carbon($req->dataInicial);
         $dataInicial = $dataInicial->subDay(1, 'day')->format('Y-m-d');
         $dataFinal = new Carbon($req->dataFinal);
         $dataFinal = $dataFinal->add(1, 'day')->format('Y-m-d');
-        $entradas = Entrada::where('id_usuario', '=', $id)->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
+        $entradas = $user->entrada()->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
-        $saidas = Saida::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
+        $saidas =$user->saida()->orderBy('data', 'desc')->get();
         if ($saidas == null) $saidas = 0;
-        /*$categoriasEntrada = Categoria::where('id_tipo',2)->get()->pluck('nome');
-        $categoriasEntrada=$categoriasEntrada->toArray();*/
-        $categoriasSaida = Categoria::where('id_tipo', 1)->get()->pluck('nome');
-        $categoriasSaida = $categoriasSaida->toArray();
-        $porcentagens = $this->somarCategorias();
+        $categoriasSaida = ['Essencial','Aposentadoria','Educação','Lazer'];
+        $porcentagens = $this->somarCategorias($user);
         $porcentagensGerais = $this->somarCategoriasGerais();
-        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida, 'id' => $id]);
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida]);
     }
 
     public function filtrarSaida(Request $req)
     {
-        $id = auth()->user()->id;
-        $entradas = Entrada::where('id_usuario', '=', $id)->orderBy('data', 'desc')->get();
+        $user = User::find(auth()->user()->id);
+        $entradas = $user->entrada()->orderBy('data', 'desc')->get();
         if ($entradas == null) $entradas = 0;
-
         $dataInicial = new Carbon($req->dataInicial);
         $dataInicial = $dataInicial->subDay(1, 'day')->format('Y-m-d');
         $dataFinal = new Carbon($req->dataFinal);
         $dataFinal = $dataFinal->add(1, 'day')->format('Y-m-d');
-        $saidas = Saida::where('id_usuario', '=', $id)->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
+        $saidas = $user->entrada()->whereBetween('data', [$dataInicial, $dataFinal])->orderBy('data', 'desc')->get();
         if ($saidas == null) $saidas = 0;
-        /*$categoriasEntrada = Categoria::where('id_tipo',2)->get()->pluck('nome');
-        $categoriasEntrada=$categoriasEntrada->toArray();*/
-        $categoriasSaida = Categoria::where('id_tipo', 1)->get()->pluck('nome');
-        $categoriasSaida = $categoriasSaida->toArray();
-        $porcentagens = $this->somarCategorias();
+        $categoriasSaida = ['Essencial','Aposentadoria','Educação','Lazer'];
+        $porcentagens = $this->somarCategorias($user);
         $porcentagensGerais = $this->somarCategoriasGerais();
-        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida, 'id' => $id]);
+        return Inertia::render('Consultas', ['entradas' => $entradas, 'saidas' => $saidas, 'porcentagens' => $porcentagens, 'porcentagensGerais' => $porcentagensGerais, 'categoriasSaida' => $categoriasSaida]);
     }
 
-    private function somarCategorias()
+    private function somarCategorias($user)
     {
         $data = Carbon::now();
         $primeiro = $data->startOfMonth()->format('Y-m-d');
         $ultimo = $data->endOfMonth()->format('Y-m-d');
-        $total = Entrada::whereBetween('data', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->where('cofre', false)->sum('valor');
-
-        $essencial = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 1)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $aposentadoria = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 2)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $educacao = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 3)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $gosto = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 4)->where('id_usuario', auth()->user()->id)->sum('valor');
-        $objetivos = Saida::whereBetween('data', [$primeiro, $ultimo])->where('id_categoria', 5)->where('id_usuario', auth()->user()->id)->sum('valor');
-
+        $total = $user->entrada()->whereBetween('data', [$primeiro, $ultimo])->where('cofre', false)->sum('valor');
+        $essencial=$user->saida()->whereBetween('data', [$primeiro, $ultimo])->where('categorias_id', 1)->sum('valor');
+        $aposentadoria = $user->saida()->whereBetween('data', [$primeiro, $ultimo])->where('categorias_id', 2)->sum('valor');
+        $educacao = $user->saida()->whereBetween('data', [$primeiro, $ultimo])->where('categorias_id', 3)->sum('valor');
+        $gosto = $user->saida()->whereBetween('data', [$primeiro, $ultimo])->where('categorias_id', 4)->sum('valor');
+        $objetivos = $user->saida()->whereBetween('data', [$primeiro, $ultimo])->where('categorias_id', 5)->sum('valor');
+        
         if ($total == 0) {
             $temEntrada = false;
             $porcentagens = [
@@ -255,10 +243,10 @@ class ConsultasController extends Controller
         $ultimo = $data->endOfMonth()->format('Y-m-d');
         $total = Entrada::whereBetween('created_at', [$primeiro, $ultimo])->sum('valor');
         if ($total == 0) $total = 1;
-        $essencial = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 1)->sum('valor');
-        $aposentadoria = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 3)->sum('valor');
-        $educacao = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 4)->sum('valor');
-        $gosto = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_categoria', 5)->sum('valor');
+        $essencial = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('categorias_id', 1)->sum('valor');
+        $aposentadoria = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('categorias_id', 3)->sum('valor');
+        $educacao = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('categorias_id', 4)->sum('valor');
+        $gosto = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('categorias_id', 5)->sum('valor');
         $porcentagens =
             [
                 ($essencial / $total) * 100,
@@ -269,12 +257,12 @@ class ConsultasController extends Controller
         return $porcentagens;
     }
 
-    private function somarGastos()
+    private function somarGastos($user)
     {
         $data = Carbon::now();
         $primeiro = $data->startOfMonth()->format('Y-m-d');
         $ultimo = $data->endOfMonth()->format('Y-m-d');
-        $gastos = Saida::whereBetween('created_at', [$primeiro, $ultimo])->where('id_usuario', auth()->user()->id)->sum('valor');
+        $gastos=$user->saida()->whereBetween('created_at', [$primeiro, $ultimo])->sum('valor');
         return $gastos;
     }
 }

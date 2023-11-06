@@ -11,4 +11,11 @@ class Entrada extends Model
     protected $fillable = [
         'nome', 'valor', 'id_usuario', 'descricao', 'data'
     ];
+
+    protected $table = 'entradas';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

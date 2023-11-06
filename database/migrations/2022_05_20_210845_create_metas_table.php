@@ -22,8 +22,8 @@ class CreateMetasTable extends Migration
             $table->enum('duracao', ['Curto', 'Médio', 'Longo']);
             
             $table->double('valor_guardado', 9, 2)->default(0.00);
-            $table->bigInteger('id_usuario')->unsigned();;
-            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->bigInteger('user_id')->unsigned();;
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

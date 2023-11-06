@@ -88,7 +88,7 @@ class CartaoController extends Controller
 
     private function cartoes()
     {
-        $user = User::find(auth()->user()->id);
+        $user = User::find(auth()->user()->id); 
         $cartoes = $user->cartao()->with('viagem')->get();
         $cartoes = count($cartoes) > 0 ? $cartoes : null;
         if($cartoes){

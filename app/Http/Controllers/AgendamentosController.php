@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Agendamento;
+use App\Models\User;
 use DateTime;
 
 class AgendamentosController extends Controller
 {
     public function index(){
-        $agendamentos=Agendamento::where('id_usuario', auth()->user()->id)->orderBy('id', 'desc')->get();
+        $user=User::find(auth()->user()->id);
+        $agendamentos=$user()->agendamento()->orderBy('id', 'desc')->get();
         if($agendamentos==null) $agendamentos=0;
         else $atributosCalendario=$this->atributosCalendario($agendamentos);
         return Inertia::render('Agendamentos', ['agendamentos' => $agendamentos,'atributosCalendario'=>$atributosCalendario]);
@@ -21,7 +23,7 @@ class AgendamentosController extends Controller
         $agendamento->nome=$req->nome;
         $agendamento->descricao=$req->descricao;
         $agendamento->data=$req->dataAgendamento;
-        $agendamento->id_usuario=auth()->user()->id;
+        $agendamento->user_id=auth()->user()->id;
         $agendamento->save();
         return redirect()->route('agendamentos');
     }

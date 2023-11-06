@@ -11,4 +11,16 @@ class Saida extends Model
     protected $fillable = [
         'nome', 'valor', 'id_usuario', 'descricao', 'data'
     ];
+
+    protected $table = 'saidas';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
 }
