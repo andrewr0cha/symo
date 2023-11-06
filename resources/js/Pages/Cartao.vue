@@ -210,7 +210,7 @@ export default {
     methods: {
         dataFormatada(object) {
             const data = dayjs(object);
-            return data.format("DD/MM/YYYY HH:mm");
+            return data.format("DD/MM/YYYY HH:m");
         },
 
         valorFormatado(value) {
