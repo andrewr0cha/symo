@@ -75,7 +75,7 @@ class SimulacaoController extends Controller
         $data = Carbon::now();
         $mes = $data->format('Y-m') . '-01';;
         $ano = $data->addYear()->format('Y-m') . '-01';
-        $dados = Simulacao::where('data', '>=', $mes)->where('data', '<=', $ano)->where('id_usuario', auth()->user()->id)->orderBy('data', 'asc')->get();
+        $dados = Simulacao::where('data', '>=', $mes)->where('data', '<=', $ano)->where('user_id', auth()->user()->id)->orderBy('data', 'asc')->get();
         $lista = [[], [], [], [], [], [], [], [], [], [], [], [], [],];
         $i = 0;
         $j = 0;
@@ -142,7 +142,7 @@ class SimulacaoController extends Controller
         $data = Carbon::now();
         $mes = $data->format('Y-m') . '-01';;
         $ano = $data->addYear()->format('Y-m') . '-01';
-        $entrada = Simulacao::where('data', '>=', $mes)->where('data', '<=', $ano)->where('id_usuario', auth()->user()->id)->where('tipo', '=', 'entrada')->orderBy('data', 'asc')->get();
+        $entrada = Simulacao::where('data', '>=', $mes)->where('data', '<=', $ano)->where('user_id', auth()->user()->id)->where('tipo', '=', 'entrada')->orderBy('data', 'asc')->get();
         $entradaAnual = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,];
         $i = 0;
         $j = 0;
@@ -205,7 +205,7 @@ class SimulacaoController extends Controller
         $data = Carbon::now();
         $mes = $data->format('Y-m') . '-01';;
         $ano = $data->addYear()->format('Y-m') . '-01';
-        $saida = Simulacao::where('data', '>=', $mes)->where('data', '<=', $ano)->where('id_usuario', auth()->user()->id)->where('tipo', '=', 'saida')->orderBy('data', 'asc')->get();
+        $saida = Simulacao::where('data', '>=', $mes)->where('data', '<=', $ano)->where('user_id', auth()->user()->id)->where('tipo', '=', 'saida')->orderBy('data', 'asc')->get();
 
         $saidaAnual = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,];
         $i = 0;
