@@ -31,7 +31,7 @@ class CartaoController extends Controller
         $cartao = new Cartaos();
         $cartao->nome = $req->nome;
         $cartao->valor = $req->valorRecarga;
-        $cartao->id_usuario = $id;
+        $cartao->user_id = $id;
         $cartao->save();
         $user = User::where('id', $id)->first();
         $user->saldo = $user->saldo - $cartao->valor;
@@ -49,8 +49,8 @@ class CartaoController extends Controller
         $saida = new Saida();
         $saida->nome = "Recarga de ônibus";
         $saida->valor = $req->valorRecarga;
-        $saida->id_usuario = $id;
-        $saida->id_categoria = 1;
+        $saida->user_ud= $id;
+        $saida->categorias_id = 1;
         $saida->data = $cartao->ultima_recarga;
         $saida->save();
         $user = User::where('id', $id)->first();
