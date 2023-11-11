@@ -9,6 +9,7 @@ use DateTime;
 class TrabalhoController extends Controller
 {
     public function index(){
-        return Inertia::render('Trabalho');
+        $chartData=0;
+        return Inertia::render('Trabalho',['dados'=>$chartData]);
     }
 }
