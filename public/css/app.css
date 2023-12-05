@@ -706,6 +706,9 @@ select {
 .tw-mr-1 {
   margin-right: 0.25rem;
 }
+.tw-mb-6 {
+  margin-bottom: 1.5rem;
+}
 .tw-block {
   display: block;
 }
