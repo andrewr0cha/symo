@@ -387,7 +387,7 @@ export default {
                 ],
             },
             chartDataCrescente10PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -427,7 +427,7 @@ export default {
                 ],
             },
             chartDataDecrescente10PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -467,7 +467,7 @@ export default {
                 ],
             },
             chartDataQuase10PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -548,7 +548,7 @@ export default {
                 ],
             },
             chartDataCrescente100PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -588,7 +588,7 @@ export default {
                 ],
             },
             chartDataDecrescente100PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -628,7 +628,7 @@ export default {
                 ],
             },
             chartDataQuase100PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -669,7 +669,7 @@ export default {
             },
 
             chartDataAleatorio1000PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -709,7 +709,7 @@ export default {
                 ],
             },
             chartDataCrescente1000PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -749,7 +749,7 @@ export default {
                 ],
             },
             chartDataDecrescente1000PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
@@ -789,7 +789,7 @@ export default {
                 ],
             },
             chartDataQuase1000PosicoesTempo: {
-                labels: ['Tempo de Execução'],
+                labels: ['Tempo de Execução (ns)'],
                 datasets: [
                     {
                         label: ['Selection'],
